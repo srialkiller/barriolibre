@@ -32,29 +32,20 @@
 ## 1. Jerarquía de documentos
 
 ```
-docs/README.md                 ← Índice del estudio (3 disciplinas)
+docs/README.md                 ← Índice por dominio
+agents/README.md               ← Estudio virtual (routing)
+decisions/                     ← ADRs
+lore/                          ← Coherencia del mundo
         │
-        ├── GAME_IDENTITY.md           ← ADN gameplay (norte — leer en diseño)
+        ├── docs/game/GAME_IDENTITY.md     ← ADN gameplay
         │
-        ├── GAME_ART_BIBLE.md          ← ESTE DOCUMENTO (constitución arte)
+        ├── docs/art/GAME_ART_BIBLE.md     ← ESTE DOCUMENTO
         │
-        ├── Equipo 1 — ART ────────────
-        │     ART_STYLE_GUIDE.md       → CÓMO se ve
-        │     VISUAL_LANGUAGE.md       → QUÉ formas y personalidad
-        │     ASSET_REVIEW_GUIDE.md    → QA, scoring, familias
-        │     ASSET_PIPELINE.md        → CÓMO se produce e integra
-        │
-        ├── Equipo 2 — WORLD ──────────
-        │     NEIGHBORHOOD_DESIGN_GUIDE.md → CÓMO son los barrios
-        │
-        └── Equipo 3 — GAMEPLAY ───────
-              ARTE de piezas → VISUAL_LANGUAGE; sistemas → guías abajo
-              GAMEPLAY_GUIDE.md        → Loops, ECS, controles
-              RACE_DESIGN_GUIDE.md     → Circuitos, carreras
-              VEHICLE_DESIGN_GUIDE.md  → Slots, stats, compatibilidades
-              ECONOMY_GUIDE.md         → Recursos, craft, comercio
-              CLAN_SYSTEM_GUIDE.md     → Clanes, eventos cooperativos
-              PROGRESSION_GUIDE.md     → Desbloqueos, curva, metas
+        ├── docs/art/                  ← Equipo ART
+        ├── docs/world/                ← Equipo WORLD
+        ├── docs/game/                 ← Equipo GAMEPLAY (diseño)
+        ├── docs/systems/              ← Equipo GAMEPLAY (sistemas)
+        └── docs/production/           ← Pipeline assets
 ```
 
 | Documento | Pregunta que responde | Equipo |

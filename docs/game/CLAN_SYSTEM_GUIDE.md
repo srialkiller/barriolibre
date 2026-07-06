@@ -3,7 +3,7 @@
 
 **Equipo:** GAMEPLAY (Equipo 3)  
 **ADN:** [GAME_IDENTITY.md](./GAME_IDENTITY.md) — pilar "Pertenencia"  
-**Relacionado:** [ECONOMY_GUIDE.md](./ECONOMY_GUIDE.md), [PROGRESSION_GUIDE.md](./PROGRESSION_GUIDE.md), [RACE_DESIGN_GUIDE.md](./RACE_DESIGN_GUIDE.md)  
+**Relacionado:** [ECONOMY_GUIDE.md](../systems/ECONOMY_GUIDE.md), [PROGRESSION_GUIDE.md](./PROGRESSION_GUIDE.md), [RACE_DESIGN_GUIDE.md](./RACE_DESIGN_GUIDE.md)  
 **Versión:** 1.0
 
 ---
@@ -93,7 +93,7 @@ La bandera del clan es visible en carreras y en el hub del clan — refuerza per
 
 ## 5. Economía del clan
 
-Ver [ECONOMY_GUIDE.md §9](./ECONOMY_GUIDE.md#9-clanes-y-economía).
+Ver [ECONOMY_GUIDE.md §9](../systems/ECONOMY_GUIDE.md#9-clanes-y-economía).
 
 | Mecánica | Descripción |
 |---|---|

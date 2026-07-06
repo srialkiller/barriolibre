@@ -222,21 +222,24 @@ Antes de aprobar **cualquier** idea (feature, misión, pieza, circuito, UI, econ
 ## 8. Relación con otros documentos
 
 ```
-GAME_IDENTITY.md          ← ESTE DOCUMENTO (ADN — norte del gameplay)
+docs/game/GAME_IDENTITY.md          ← ESTE DOCUMENTO
         │
-        ├── GAMEPLAY_GUIDE.md       → Cómo se juega (loops)
-        ├── VEHICLE_DESIGN_GUIDE.md → Sistemas del vehículo
-        ├── ECONOMY_GUIDE.md        → Recursos, craft, comercio
-        ├── RACE_DESIGN_GUIDE.md    → Carreras y circuitos
-        ├── CLAN_SYSTEM_GUIDE.md    → Comunidad y clanes
-        └── PROGRESSION_GUIDE.md    → Metas a largo plazo
+        ├── docs/game/GAMEPLAY_GUIDE.md
+        ├── docs/game/RACE_DESIGN_GUIDE.md
+        ├── docs/game/CLAN_SYSTEM_GUIDE.md
+        ├── docs/game/PROGRESSION_GUIDE.md
+        ├── docs/systems/VEHICLE_DESIGN_GUIDE.md
+        ├── docs/systems/ECONOMY_GUIDE.md
+        ├── lore/                          ← Coherencia del mundo
+        └── agents/creative_director.md      ← Filtro operativo
 ```
 
-| Documento de otro equipo | Relación con identidad |
+| Documento | Relación con identidad |
 |---|---|
-| ART_STYLE_GUIDE | Visualiza el ADN — barrio cuidado, reciclaje limpio |
-| NEIGHBORHOOD_DESIGN | Materializa exploración — callejones, atajos, POIs |
-| GAME_ART_BIBLE | Constitución de producción — no contradice identidad |
+| docs/art/ART_STYLE_GUIDE | Visualiza el ADN — barrio cuidado, reciclaje limpio |
+| docs/world/NEIGHBORHOOD_DESIGN | Materializa exploración — callejones, atajos, POIs |
+| docs/art/GAME_ART_BIBLE | Constitución de producción — no contradice identidad |
+| lore/ | Responde "por qué" del mundo sin contradecir pilares |
 
 **Precedencia para gameplay:**
 

@@ -5,7 +5,7 @@
 **Ubicación:** `docs/ASSET_PIPELINE.md`  
 **Motor:** Rust + Bevy Engine  
 **Herramientas:** Agent Sprite Forge (`generate2dsprite`, `generate2dmap`)  
-**Complementa:** [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md), [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md)  
+**Complementa:** [ART_STYLE_GUIDE.md](../art/ART_STYLE_GUIDE.md), [VISUAL_LANGUAGE.md](../art/VISUAL_LANGUAGE.md)  
 **Versión:** 1.0  
 **Estado:** Estándar obligatorio para producción, organización e integración de assets
 
@@ -53,12 +53,12 @@
 
 | Documento | Contenido | Cuándo consultar |
 |---|---|---|
-| [GAME_ART_BIBLE.md](./GAME_ART_BIBLE.md) | Constitución, invariantes | Siempre primero |
-| [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md) | Cámara, luz, color, materiales, escala | Todo prompt de generación |
-| [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md) | Formas, siluetas, composición | Diseño visual |
-| [ASSET_REVIEW_GUIDE.md](./ASSET_REVIEW_GUIDE.md) | QA, scoring A/B/C/REJECT | Antes de integrar |
+| [GAME_ART_BIBLE.md](../art/GAME_ART_BIBLE.md) | Constitución, invariantes | Siempre primero |
+| [ART_STYLE_GUIDE.md](../art/ART_STYLE_GUIDE.md) | Cámara, luz, color, materiales, escala | Todo prompt de generación |
+| [VISUAL_LANGUAGE.md](../art/VISUAL_LANGUAGE.md) | Formas, siluetas, composición | Diseño visual |
+| [ASSET_REVIEW_GUIDE.md](../art/ASSET_REVIEW_GUIDE.md) | QA, scoring A/B/C/REJECT | Antes de integrar |
 | [ASSET_PIPELINE.md](./ASSET_PIPELINE.md) | Nombres, carpetas, pivotes, Bevy | Producción e integración |
-| [NEIGHBORHOOD_DESIGN_GUIDE.md](./NEIGHBORHOOD_DESIGN_GUIDE.md) | Layout de barrios | Mapas y POIs |
+| [NEIGHBORHOOD_DESIGN_GUIDE.md](../world/NEIGHBORHOOD_DESIGN_GUIDE.md) | Layout de barrios | Mapas y POIs |
 
 ### 1.3 Principios del pipeline
 

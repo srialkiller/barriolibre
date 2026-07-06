@@ -1,171 +1,102 @@
-# Carreras de Barrio — Documentación del Proyecto
+# Carreras de Barrio — Documentación
 
-**Motor:** Rust + Bevy Engine  
-**Género:** Carreras infantiles 2.5D isométricas en barrio latinoamericano  
-**Pipeline de assets:** Agent Sprite Forge
+Guías técnicas del juego, organizadas por dominio para consumo automático por agentes.
+
+**Estudio virtual:** [`../agents/`](../agents/README.md)  
+**Decisiones:** [`../decisions/`](../decisions/README.md)  
+**Lore:** [`../lore/`](../lore/README.md)
 
 ---
 
 ## Norte del proyecto
 
-Antes de cualquier decisión de diseño, leer **[GAME_IDENTITY.md](./GAME_IDENTITY.md)** — el ADN del juego.
-
 ```
-GAME_IDENTITY.md     ← ¿Por qué existe este juego? (filtro de ideas)
-GAME_ART_BIBLE.md    ← Constitución artística y de producción
-```
-
-Si una idea no refuerza la identidad → probablemente no pertenece al juego.
-
----
-
-## Estructura por disciplinas — 3 equipos
-
-El proyecto se organiza por **disciplinas**, no por cantidad de documentos.
-
-```
-                    ┌─────────────────────┐
-                    │   GAME_IDENTITY     │  ← ADN gameplay (norte)
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-       ┌──────▼──────┐  ┌──────▼──────┐  ┌──────▼──────┐
-       │  EQUIPO 1   │  │  EQUIPO 2   │  │  EQUIPO 3   │
-       │    ART      │  │   WORLD     │  │  GAMEPLAY   │
-       │  ✅ Listo   │  │ 🟡 Casi     │  │ 🔴 En curso │
-       └─────────────┘  └─────────────┘  └─────────────┘
+docs/game/GAME_IDENTITY.md    ← ADN — filtro de toda idea
+docs/art/GAME_ART_BIBLE.md    ← Constitución artística
+agents/creative_director.md   ← Evalúa coherencia antes de ejecutar
 ```
 
 ---
 
-### Equipo 1 — ART ✅ Terminado
+## Estructura
 
-**Misión:** Definir cómo se ve el juego y validar cada asset.
+```
+docs/
+├── game/           ← Loops, identidad, carreras, clanes, progresión
+├── art/            ← Estilo visual, QA, biblia de arte
+├── world/          ← Barrios, POIs, layout
+├── systems/        ← Vehículo (stats), economía
+└── production/     ← Pipeline de assets, integración
+```
+
+---
+
+## game/
 
 | Documento | Rol |
 |---|---|
-| [GAME_ART_BIBLE.md](./GAME_ART_BIBLE.md) | Constitución, invariantes, protocolo pre-generación |
-| [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md) | Cámara, luz, escala, paleta, materiales |
-| [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md) | Formas, siluetas, composición, reciclado creativo |
-| [ASSET_PIPELINE.md](./ASSET_PIPELINE.md) | Nombres, carpetas, pivotes, flujos, Bevy |
-| [ASSET_REVIEW_GUIDE.md](./ASSET_REVIEW_GUIDE.md) | QA visual, scoring, familias de assets |
+| [GAME_IDENTITY.md](./game/GAME_IDENTITY.md) | ADN del juego |
+| [GAMEPLAY_GUIDE.md](./game/GAMEPLAY_GUIDE.md) | Core/Micro/Race loops |
+| [RACE_DESIGN_GUIDE.md](./game/RACE_DESIGN_GUIDE.md) | Circuitos, atajos, rivales |
+| [CLAN_SYSTEM_GUIDE.md](./game/CLAN_SYSTEM_GUIDE.md) | Clanes cooperativos |
+| [PROGRESSION_GUIDE.md](./game/PROGRESSION_GUIDE.md) | Desbloqueos, curva |
 
----
-
-### Equipo 2 — WORLD 🟡 Casi terminado
-
-**Misión:** Definir cómo se construyen los barrios jugables.
+## art/
 
 | Documento | Rol |
 |---|---|
-| [NEIGHBORHOOD_DESIGN_GUIDE.md](./NEIGHBORHOOD_DESIGN_GUIDE.md) | Anatomía del barrio, POIs, calles, topografía |
+| [GAME_ART_BIBLE.md](./art/GAME_ART_BIBLE.md) | Constitución arte |
+| [ART_STYLE_GUIDE.md](./art/ART_STYLE_GUIDE.md) | Cámara, paleta, luz |
+| [VISUAL_LANGUAGE.md](./art/VISUAL_LANGUAGE.md) | Formas, siluetas |
+| [ASSET_REVIEW_GUIDE.md](./art/ASSET_REVIEW_GUIDE.md) | QA visual, scoring |
 
-**Pendiente:** primer barrio jugable, tutorial map, circuito 1 (Fase Mundos).
+## world/
+
+| Documento | Rol |
+|---|---|
+| [NEIGHBORHOOD_DESIGN_GUIDE.md](./world/NEIGHBORHOOD_DESIGN_GUIDE.md) | Anatomía del barrio |
+
+## systems/
+
+| Documento | Rol |
+|---|---|
+| [VEHICLE_DESIGN_GUIDE.md](./systems/VEHICLE_DESIGN_GUIDE.md) | Slots, stats, compatibilidades |
+| [ECONOMY_GUIDE.md](./systems/ECONOMY_GUIDE.md) | Materiales, chapitas, craft |
+
+## production/
+
+| Documento | Rol |
+|---|---|
+| [ASSET_PIPELINE.md](./production/ASSET_PIPELINE.md) | Naming, carpetas, Bevy |
 
 ---
 
-### Equipo 3 — GAMEPLAY 🔴 En construcción
+## Routing: tarea → agente → docs
 
-**Misión:** Definir la experiencia jugable — loops, sistemas, economía, progresión.
-
-| Documento | Rol | Estado |
+| Tarea | Agente | READ FIRST |
 |---|---|---|
-| [GAME_IDENTITY.md](./GAME_IDENTITY.md) | ADN, pilares, filtro de decisiones | ✅ |
-| [GAMEPLAY_GUIDE.md](./GAMEPLAY_GUIDE.md) | Core/Micro/Race loops, controles, ECS | ✅ |
-| [VEHICLE_DESIGN_GUIDE.md](./VEHICLE_DESIGN_GUIDE.md) | Slots, stats, compatibilidades (sistemas) | ✅ |
-| [ECONOMY_GUIDE.md](./ECONOMY_GUIDE.md) | Materiales, chapitas, craft, comercio | ✅ |
-| [RACE_DESIGN_GUIDE.md](./RACE_DESIGN_GUIDE.md) | Circuitos, atajos, rivales, FX | ✅ |
-| [CLAN_SYSTEM_GUIDE.md](./CLAN_SYSTEM_GUIDE.md) | Clanes, eventos, economía cooperativa | ✅ |
-| [PROGRESSION_GUIDE.md](./PROGRESSION_GUIDE.md) | Desbloqueos, curva, metas largas | ✅ |
+| ¿Idea encaja? | `agents/creative_director.md` | `game/GAME_IDENTITY` + `lore/` |
+| Generar asset | `agents/art_director.md` | `art/GAME_ART_BIBLE` + `art/ART_STYLE` + `production/ASSET_PIPELINE` |
+| QA asset | `agents/qa_director.md` | `art/ASSET_REVIEW` + pack manifest |
+| Diseñar barrio | `agents/world_designer.md` | `world/NEIGHBORHOOD` + `lore/` |
+| Balance gameplay | `agents/game_designer.md` | `game/GAME_IDENTITY` + `game/GAMEPLAY` |
+| Stats vehículo | `agents/vehicle_designer.md` | `systems/VEHICLE_DESIGN` |
+| Economía | `agents/economy_designer.md` | `systems/ECONOMY` |
+| Circuito | `agents/race_designer.md` | `game/RACE_DESIGN` + `world/NEIGHBORHOOD` |
+| Implementar | `agents/technical_director.md` | `decisions/` + `production/ASSET_PIPELINE` |
 
-> **Nota:** GAMEPLAY_GUIDE ≠ GDD. Las guías definen reglas y loops; el GDD (futuro) integrará todo en visión de producto.
-
----
-
-## Roadmap por fases
-
-### FASE PREPRODUCCIÓN — casi terminada
-
-| Entregable | Estado |
-|---|---|
-| Art Style | ✅ |
-| Visual Language | ✅ |
-| Asset Pipeline | ✅ |
-| Asset QA | ✅ |
-| Neighborhood Design | ✅ |
-
-### FASE GAME DESIGN — en curso
-
-| Documento | Estado |
-|---|---|
-| GAME_IDENTITY | ✅ |
-| GAMEPLAY_GUIDE | ✅ |
-| VEHICLE_DESIGN_GUIDE | ✅ |
-| ECONOMY_GUIDE | ✅ |
-| RACE_DESIGN_GUIDE | ✅ |
-| CLAN_SYSTEM_GUIDE | ✅ |
-| PROGRESSION_GUIDE | ✅ |
-
-### FASE PRODUCCIÓN — pausada
-
-Producción de assets **detenida temporalmente** hasta consolidar game design.
-
-| Pack | Estado |
-|---|---|
-| Environment Base (tiles) | ✅ 155/155 |
-| Props Pack | ⬜ |
-| Garage Pack | ⬜ |
-| Building Pack | ⬜ |
-| Character Pack | ⬜ |
-| Vehicle Parts Pack | ⬜ |
-| Effects Pack | ⬜ |
-
-### FASE MUNDOS — futuro
-
-| Entregable | Estado |
-|---|---|
-| generate2dmap | ⬜ |
-| Primer barrio jugable | ⬜ |
-| Tutorial | ⬜ |
-| Circuito 1 | ⬜ |
+Ver tabla completa en [`../agents/README.md`](../agents/README.md).
 
 ---
 
-## Flujo entre disciplinas
+## Precedencia
 
 ```
-WORLD      →  define POIs, calles, layout del barrio
-ART        →  valida assets con ASSET_REVIEW (cuando se produzca)
-GAMEPLAY   →  define loops, sistemas, economía, progresión
-             ↓
-         Integración Bevy (futuro)
+GAME_IDENTITY  >  GAME_ART_BIBLE  >  guía de dominio  >  ADR  >  agente  >  prompt
 ```
-
-## Lectura obligatoria por tarea
-
-| Tarea | Documentos mínimos |
-|---|---|
-| Evaluar una idea nueva | **GAME_IDENTITY** |
-| Generar cualquier asset | GAME_ART_BIBLE + ART_STYLE + VISUAL_LANGUAGE + ASSET_PIPELINE |
-| Aprobar/rechazar asset | ASSET_REVIEW_GUIDE + ART_STYLE_GUIDE |
-| Diseñar un barrio | NEIGHBORHOOD_DESIGN + GAME_IDENTITY |
-| Diseñar una carrera | RACE_DESIGN + GAMEPLAY + GAME_IDENTITY |
-| Diseñar sistema vehículo | VEHICLE_DESIGN + ECONOMY + GAME_IDENTITY |
-| Balancear recompensas | ECONOMY + PROGRESSION + GAMEPLAY |
-| Mecánica de clan | CLAN_SYSTEM + ECONOMY + GAME_IDENTITY |
-
-## Precedencia de documentos
-
-```
-GAME_IDENTITY   >  GAME_ART_BIBLE  >  guía de disciplina  >  prompt  >  criterio agente
-```
-
-Si hay conflicto → **detenerse y preguntar**. No improvisar.
 
 ## Historial
 
-| Versión | Fecha | Cambios |
-|---|---|---|
-| 1.0 | 2026-07-06 | Estructura de 5 equipos, reorganización en `/docs` |
-| 2.0 | 2026-07-06 | Reorganización a 3 disciplinas; GAME_IDENTITY como norte; Fase Game Design completa |
+| Versión | Cambios |
+|---|---|
+| 3.0 | Docs por dominio (`game/`, `art/`, etc.) + integración con `/agents` |

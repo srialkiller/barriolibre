@@ -2,7 +2,7 @@
 ## Carreras de Barrio — Guía de Diseño de Barrios
 
 **Equipo:** WORLD DESIGN (Equipo 3)  
-**Complementa:** [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md), [ASSET_REVIEW_GUIDE.md](./ASSET_REVIEW_GUIDE.md), [RACE_DESIGN_GUIDE.md](./RACE_DESIGN_GUIDE.md)  
+**Complementa:** [ART_STYLE_GUIDE.md](../art/ART_STYLE_GUIDE.md), [ASSET_REVIEW_GUIDE.md](../art/ASSET_REVIEW_GUIDE.md), [RACE_DESIGN_GUIDE.md](../game/RACE_DESIGN_GUIDE.md)  
 **Versión:** 1.0  
 **Estado:** Obligatorio antes de diseñar cualquier mapa o layout de barrio
 
@@ -114,7 +114,7 @@ Ancho típico en tiles: vereda(1) + cordón(0.5) + calzada(2–3) + cordón(0.5)
 
 ### 3.3 Vocabulario topológico (tiles disponibles)
 
-Usar la familia ROAD de [ASSET_REVIEW_GUIDE §4](./ASSET_REVIEW_GUIDE.md#4-familia-road-calles):
+Usar la familia ROAD de [ASSET_REVIEW_GUIDE §4](../art/ASSET_REVIEW_GUIDE.md#4-familia-road-calles):
 
 - **Rectas:** `road_straight_h`, `road_straight_v`
 - **Curvas:** `road_corner_ne/nw/se/sw`

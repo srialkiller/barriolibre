@@ -2,7 +2,7 @@
 ## Carreras de Barrio — Guía de Revisión y Calidad de Assets
 
 **Equipo:** ART (Equipo 1) + PRODUCTION (Equipo 2)  
-**Complementa:** [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md), [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md), [ASSET_PIPELINE.md](./ASSET_PIPELINE.md)  
+**Complementa:** [ART_STYLE_GUIDE.md](./ART_STYLE_GUIDE.md), [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md), [ASSET_PIPELINE.md](../production/ASSET_PIPELINE.md)  
 **Versión:** 1.0  
 **Estado:** Obligatorio antes de marcar cualquier asset como `qc_pass` o `integrated`
 

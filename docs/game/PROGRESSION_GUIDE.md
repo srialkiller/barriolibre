@@ -3,7 +3,7 @@
 
 **Equipo:** GAMEPLAY (Equipo 3)  
 **ADN:** [GAME_IDENTITY.md](./GAME_IDENTITY.md)  
-**Relacionado:** [GAMEPLAY_GUIDE.md](./GAMEPLAY_GUIDE.md), [ECONOMY_GUIDE.md](./ECONOMY_GUIDE.md), [VEHICLE_DESIGN_GUIDE.md](./VEHICLE_DESIGN_GUIDE.md), [CLAN_SYSTEM_GUIDE.md](./CLAN_SYSTEM_GUIDE.md)  
+**Relacionado:** [GAMEPLAY_GUIDE.md](./GAMEPLAY_GUIDE.md), [ECONOMY_GUIDE.md](../systems/ECONOMY_GUIDE.md), [VEHICLE_DESIGN_GUIDE.md](../systems/VEHICLE_DESIGN_GUIDE.md), [CLAN_SYSTEM_GUIDE.md](./CLAN_SYSTEM_GUIDE.md)  
 **Versión:** 1.0
 
 ---
@@ -92,7 +92,7 @@ Desbloqueo: mapa del barrio + primer POI
 
 ## 4. Desbloqueos por reputación
 
-Ver rangos en [ECONOMY_GUIDE §6](./ECONOMY_GUIDE.md#6-reputación).
+Ver rangos en [ECONOMY_GUIDE §6](../systems/ECONOMY_GUIDE.md#6-reputación).
 
 | Rango | Rep | Desbloqueo clave |
 |---|---|---|
@@ -116,7 +116,7 @@ Ver rangos en [ECONOMY_GUIDE §6](./ECONOMY_GUIDE.md#6-reputación).
 | Tier large craft | Leyenda + 1× motor_viejo |
 | Builds preset "El Rayo" etc. | Blueprint en taller NPC o rep |
 
-Ver [VEHICLE_DESIGN_GUIDE §6](./VEHICLE_DESIGN_GUIDE.md#6-tiers).
+Ver [VEHICLE_DESIGN_GUIDE §6](../systems/VEHICLE_DESIGN_GUIDE.md#6-tiers).
 
 ---
 
@@ -132,7 +132,7 @@ Ver [VEHICLE_DESIGN_GUIDE §6](./VEHICLE_DESIGN_GUIDE.md#6-tiers).
 | Circuito 2 (plaza→taller) | Vecino |
 | Barrio 2 | Ídolo (fase mundos futura) |
 
-POIs mapeados en [NEIGHBORHOOD_DESIGN_GUIDE.md](./NEIGHBORHOOD_DESIGN_GUIDE.md).
+POIs mapeados en [NEIGHBORHOOD_DESIGN_GUIDE.md](../world/NEIGHBORHOOD_DESIGN_GUIDE.md).
 
 ---
 

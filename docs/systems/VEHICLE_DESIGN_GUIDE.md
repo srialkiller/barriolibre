@@ -2,8 +2,8 @@
 ## Carreras de Barrio — Guía de Sistemas de Vehículo
 
 **Equipo:** GAMEPLAY (Equipo 3) — sistemas, no arte  
-**ADN:** [GAME_IDENTITY.md](./GAME_IDENTITY.md)  
-**Arte visual de piezas:** [VISUAL_LANGUAGE.md](./VISUAL_LANGUAGE.md) + [ASSET_PIPELINE.md](./ASSET_PIPELINE.md)  
+**ADN:** [GAME_IDENTITY.md](../game/GAME_IDENTITY.md)  
+**Arte visual de piezas:** [VISUAL_LANGUAGE.md](../art/VISUAL_LANGUAGE.md) + [ASSET_PIPELINE.md](../production/ASSET_PIPELINE.md)  
 **Versión:** 2.0
 
 ---
@@ -240,7 +240,7 @@ mass_final         = peso_total
 | **Medium** | Reputación barrio 1 + chapitas | Balanceado |
 | **Large** | Reputación barrio 2 + clan | Estable, rectas, peso |
 
-Ver desbloqueos en [PROGRESSION_GUIDE.md](./PROGRESSION_GUIDE.md).
+Ver desbloqueos en [PROGRESSION_GUIDE.md](../game/PROGRESSION_GUIDE.md).
 
 ---
 

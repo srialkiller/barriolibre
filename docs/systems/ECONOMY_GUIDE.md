@@ -2,7 +2,7 @@
 ## Carreras de Barrio — Guía de Economía
 
 **Equipo:** GAMEPLAY (Equipo 3)  
-**ADN:** [GAME_IDENTITY.md](./GAME_IDENTITY.md)  
+**ADN:** [GAME_IDENTITY.md](../game/GAME_IDENTITY.md)  
 **Versión:** 2.0
 
 ---
@@ -152,7 +152,7 @@ Tres tracks independientes:
 | Leyenda del barrio | 400 | Tier large, eventos |
 | Ídolo | 800 | Barrio secreto, especiales |
 
-Ver [PROGRESSION_GUIDE.md](./PROGRESSION_GUIDE.md).
+Ver [PROGRESSION_GUIDE.md](../game/PROGRESSION_GUIDE.md).
 
 ---
 
@@ -216,7 +216,7 @@ Anti-inflación: precios reset semanal.
 | **Torneo** | Entry fee 25 chapitas → premio pool |
 | **Intercambio** | Miembros intercambian piezas/materiales |
 
-Ver [CLAN_SYSTEM_GUIDE.md](./CLAN_SYSTEM_GUIDE.md).
+Ver [CLAN_SYSTEM_GUIDE.md](../game/CLAN_SYSTEM_GUIDE.md).
 
 ---
 
