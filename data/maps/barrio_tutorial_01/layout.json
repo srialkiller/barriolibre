@@ -1,0 +1,28 @@
+{
+  "barrio_id": "barrio_tutorial_01",
+  "display_name": "Barrio Tutorial",
+  "size": [16, 16],
+  "tile_size_pixels": [256, 128],
+  "projection": "isometric_2_1",
+  "layers": {
+    "ground": [
+      ["grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_02", "road_straight_h_02", "road_straight_h_02", "road_straight_h_02", "road_straight_h_02", "road_straight_h_02", "road_straight_h_02", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_03", "road_corner_ne_01", "road_straight_v_01", "road_straight_v_01", "road_corner_nw_01", "road_straight_h_03", "road_straight_h_03", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_03", "road_straight_v_02", "grass_clean_04", "grass_clean_04", "road_straight_v_02", "road_straight_h_03", "road_straight_h_03", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_03", "road_straight_v_02", "grass_clean_04", "grass_clean_04", "road_straight_v_02", "road_straight_h_03", "road_straight_h_03", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_03", "road_corner_se_01", "road_straight_v_01", "road_straight_v_01", "road_corner_sw_01", "road_straight_h_03", "road_straight_h_03", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "road_straight_h_01", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "sidewalk_straight_01", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_03", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_02", "grass_clean_01"],
+      ["grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01", "grass_clean_01"]
+    ],
+    "markings": [],
+    "overlay": []
+  }
+}

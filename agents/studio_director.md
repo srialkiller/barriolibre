@@ -8,10 +8,13 @@
 
 ## Regla del estudio (sprints)
 
-> **Cada sprint termina con `cargo run` + avance visible.**  
-> **Si no acerca al Vertical Slice de 15 min → no prioritario.**
+> **Cada sprint = entregable visible.** Rechazar sprints cuyo único resultado sea "reorganizamos arquitectura".  
+> **Cada sprint = juego más jugable** que el anterior.  
+> **Si no acerca al Vertical Slice 15 min → no prioritario.**
 
-Sprint 01 = **Foundation Runtime** — `cargo run` → barrio renderizado.
+Sprint 01 / **Milestone 0:** `cargo run` → barrio + overlay + mensaje "Foundation Runtime operativo".
+
+Ver [STUDIO_OS.md](../STUDIO_OS.md) — Kernel = Studio Director.
 
 ---
 

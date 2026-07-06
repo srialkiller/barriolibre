@@ -1,0 +1,23 @@
+{
+  "barrio_id": "barrio_tutorial_01",
+  "version": 1,
+  "spawn_points": [
+    {
+      "id": "tutorial_spawn",
+      "position": [8, 8],
+      "facing": "north"
+    }
+  ],
+  "checkpoints": [],
+  "poi_hooks": [
+    {
+      "id": "plaza_central",
+      "position": [8, 7],
+      "poi_type": "plaza"
+    }
+  ],
+  "metadata": {
+    "tutorial": true,
+    "description": "Primer barrio del Foundation Runtime"
+  }
+}

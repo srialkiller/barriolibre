@@ -1,9 +1,7 @@
 # Sprint 01 — Foundation Runtime
 
-**Generated:** 2026-07-06 by Studio Director  
-**Release branch:** `release/vertical-slice`  
-**Feature branch:** `feature/bevy-foundation-runtime`  
-**Regla del estudio:** Todo sprint termina con `cargo run` mostrando **avance visible**.
+**Status:** 🔴 **LAUNCHED** — 2026-07-06  
+**Milestone:** [M0 — Foundation Runtime](../milestones/MILESTONE_0_FOUNDATION_RUNTIME.md)
 
 ---
 
@@ -19,14 +17,22 @@
 > **No es crear un Cargo.toml.**  
 > Es construir el **runtime** sobre el que vivirá el juego.
 
-### Resultado esperado
+### Resultado esperado (Milestone 0)
 
 ```bash
 cargo run
 ```
 
-→ Ventana Bevy con **primer barrio renderizado** (tiles isométricos).  
-Gameplay opcional en Sprint 01 — **el runtime es obligatorio**.
+| # | Visible |
+|---|---|
+| 1 | Ventana Bevy |
+| 2 | Cámara isométrica 2:1 |
+| 3 | Barrio desde `layout.json` |
+| 4 | Tiles ENVIRONMENT_BASE_PACK_01 |
+| 5 | F3 overlay: FPS, GameState, assets count |
+| 6 | Mensaje: *Foundation Runtime operativo* |
+
+Gameplay/jugador **no requerido** en M0.
 
 ---
 

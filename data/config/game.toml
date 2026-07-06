@@ -1,0 +1,9 @@
+title = "Carreras de Barrio"
+default_map = "barrio_tutorial_01"
+manifest_path = "data/tilesets/environment_base_pack_01_manifest.json"
+generated_path = "data/tilesets/environment_base_pack_01_generated.json"
+mods_directory = "mods"
+window_width = 1280
+window_height = 720
+dev_hot_reload = false
+load_full_pack = false
