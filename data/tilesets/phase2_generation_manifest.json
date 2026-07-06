@@ -1,0 +1,467 @@
+[
+  {
+    "raw_name": "phase2_road_straight_v_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_straight_v_02",
+      "road_straight_v_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_straight_v_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_corner_ne_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_corner_ne_02",
+      "road_corner_ne_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_corner_ne_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_corner_nw_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_corner_nw_02",
+      "road_corner_nw_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_corner_nw_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_corner_se_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_corner_se_02",
+      "road_corner_se_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_corner_se_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_corner_sw_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_corner_sw_02",
+      "road_corner_sw_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_corner_sw_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_tjunction_n_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_tjunction_n_02",
+      "road_tjunction_n_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_tjunction_n_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_tjunction_s_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_tjunction_s_02",
+      "road_tjunction_s_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_tjunction_s_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_tjunction_e_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_tjunction_e_01",
+      "road_tjunction_e_02",
+      "road_tjunction_e_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_tjunction_e_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_tjunction_w_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_tjunction_w_01",
+      "road_tjunction_w_02",
+      "road_tjunction_w_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_tjunction_w_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_cross_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_cross_02",
+      "road_cross_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_cross_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_deadend_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_deadend_02",
+      "road_deadend_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_deadend_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_narrow_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_narrow_02",
+      "road_narrow_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_narrow_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_wide_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_wide_02",
+      "road_wide_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_wide_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_damaged_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_damaged_02",
+      "road_damaged_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_damaged_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_road_patched_raw.png",
+    "category": "roads",
+    "tile_ids": [
+      "road_patched_02",
+      "road_patched_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_road_patched_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_sidewalk_corner_raw.png",
+    "category": "sidewalks",
+    "tile_ids": [
+      "sidewalk_corner_01",
+      "sidewalk_corner_02",
+      "sidewalk_corner_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_sidewalk_corner_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_sidewalk_inner_corner_raw.png",
+    "category": "sidewalks",
+    "tile_ids": [
+      "sidewalk_inner_corner_01",
+      "sidewalk_inner_corner_02",
+      "sidewalk_inner_corner_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_sidewalk_inner_corner_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_sidewalk_outer_corner_raw.png",
+    "category": "sidewalks",
+    "tile_ids": [
+      "sidewalk_outer_corner_01",
+      "sidewalk_outer_corner_02",
+      "sidewalk_outer_corner_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_sidewalk_outer_corner_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_sidewalk_crossing_raw.png",
+    "category": "sidewalks",
+    "tile_ids": [
+      "sidewalk_crossing_01",
+      "sidewalk_crossing_02",
+      "sidewalk_crossing_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_sidewalk_crossing_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_sidewalk_ramp_raw.png",
+    "category": "sidewalks",
+    "tile_ids": [
+      "sidewalk_ramp_01",
+      "sidewalk_ramp_02",
+      "sidewalk_ramp_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_sidewalk_ramp_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_curb_straight_raw.png",
+    "category": "curbs",
+    "tile_ids": [
+      "curb_straight_02",
+      "curb_straight_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_curb_straight_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_curb_corner_raw.png",
+    "category": "curbs",
+    "tile_ids": [
+      "curb_corner_01",
+      "curb_corner_02",
+      "curb_corner_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_curb_corner_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_curb_ramp_raw.png",
+    "category": "curbs",
+    "tile_ids": [
+      "curb_ramp_01",
+      "curb_ramp_02",
+      "curb_ramp_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_curb_ramp_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_dirt_soft_raw.png",
+    "category": "terrain",
+    "tile_ids": [
+      "dirt_soft_01",
+      "dirt_soft_02",
+      "dirt_soft_03",
+      "dirt_soft_04",
+      "dirt_soft_05"
+    ],
+    "rows": 2,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_dirt_soft_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_concrete_old_raw.png",
+    "category": "terrain",
+    "tile_ids": [
+      "concrete_old_01",
+      "concrete_old_02",
+      "concrete_old_03",
+      "concrete_old_04",
+      "concrete_old_05"
+    ],
+    "rows": 2,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_concrete_old_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_manhole_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_manhole_02",
+      "marking_manhole_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_manhole_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_storm_drain_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_storm_drain_01",
+      "marking_storm_drain_02",
+      "marking_storm_drain_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_storm_drain_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_crack_small_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_crack_small_01",
+      "marking_crack_small_02",
+      "marking_crack_small_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_crack_small_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_crack_large_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_crack_large_01",
+      "marking_crack_large_02",
+      "marking_crack_large_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_crack_large_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_repair_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_repair_asphalt_01",
+      "marking_repair_asphalt_02",
+      "marking_repair_asphalt_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_repair_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_paint_straight_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_paint_straight_02",
+      "marking_paint_straight_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_paint_straight_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_paint_stop_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_paint_stop_01",
+      "marking_paint_stop_02",
+      "marking_paint_stop_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_paint_stop_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_paint_crosswalk_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_paint_crosswalk_01",
+      "marking_paint_crosswalk_02",
+      "marking_paint_crosswalk_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_paint_crosswalk_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_marking_paint_arrow_raw.png",
+    "category": "markings",
+    "tile_ids": [
+      "marking_paint_arrow_01",
+      "marking_paint_arrow_02",
+      "marking_paint_arrow_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_marking_paint_arrow_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_road_dirt_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_road_dirt_02",
+      "transition_road_dirt_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_road_dirt_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_road_grass_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_road_grass_02",
+      "transition_road_grass_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_road_grass_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_sidewalk_grass_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_sidewalk_grass_01",
+      "transition_sidewalk_grass_02",
+      "transition_sidewalk_grass_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_sidewalk_grass_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_concrete_grass_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_concrete_grass_01",
+      "transition_concrete_grass_02",
+      "transition_concrete_grass_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_concrete_grass_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_concrete_dirt_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_concrete_dirt_01",
+      "transition_concrete_dirt_02",
+      "transition_concrete_dirt_03"
+    ],
+    "rows": 1,
+    "cols": 3,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_concrete_dirt_raw.prompt.txt"
+  },
+  {
+    "raw_name": "phase2_transition_grass_dirt_raw.png",
+    "category": "transitions",
+    "tile_ids": [
+      "transition_grass_dirt_02",
+      "transition_grass_dirt_03"
+    ],
+    "rows": 1,
+    "cols": 2,
+    "prompt_file": "assets\\environment\\_prompts_phase2\\phase2_transition_grass_dirt_raw.prompt.txt"
+  }
+]

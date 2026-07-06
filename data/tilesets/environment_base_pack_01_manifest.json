@@ -1,0 +1,117 @@
+{
+  "pack_id": "environment_base_pack_01",
+  "version": "1.0.0",
+  "description": "Official modular isometric terrain tile library for Carreras de Barrio",
+  "engine": "bevy",
+  "projection": "isometric_2_1",
+  "tile_size_pixels": [256, 128],
+  "tile_size_units": [1.0, 0.5],
+  "pivot": [0.5, 0.5],
+  "variants_per_tile": { "default": 3, "terrain": 5 },
+  "base_path": "assets/environment",
+  "categories": {
+    "roads": {
+      "path": "roads",
+      "prefix": "road_",
+      "tiles": [
+        { "id": "road_straight_h", "connections": { "east": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_straight_v", "connections": { "north": "road", "south": "road" }, "variants": 3 },
+        { "id": "road_corner_ne", "connections": { "north": "road", "east": "road" }, "variants": 3 },
+        { "id": "road_corner_nw", "connections": { "north": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_corner_se", "connections": { "south": "road", "east": "road" }, "variants": 3 },
+        { "id": "road_corner_sw", "connections": { "south": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_tjunction_n", "connections": { "north": "road", "east": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_tjunction_s", "connections": { "south": "road", "east": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_tjunction_e", "connections": { "east": "road", "north": "road", "south": "road" }, "variants": 3 },
+        { "id": "road_tjunction_w", "connections": { "west": "road", "north": "road", "south": "road" }, "variants": 3 },
+        { "id": "road_cross", "connections": { "north": "road", "south": "road", "east": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_deadend", "connections": { "south": "road" }, "variants": 3 },
+        { "id": "road_narrow", "connections": { "east": "road", "west": "road" }, "variants": 3, "notes": "narrower lane same connections as straight_h" },
+        { "id": "road_wide", "connections": { "east": "road", "west": "road" }, "variants": 3, "notes": "wider lane same connections as straight_h" },
+        { "id": "road_damaged", "connections": { "east": "road", "west": "road" }, "variants": 3 },
+        { "id": "road_patched", "connections": { "east": "road", "west": "road" }, "variants": 3 }
+      ]
+    },
+    "sidewalks": {
+      "path": "sidewalks",
+      "prefix": "sidewalk_",
+      "tiles": [
+        { "id": "sidewalk_straight", "connections": { "east": "sidewalk", "west": "sidewalk" }, "variants": 3 },
+        { "id": "sidewalk_corner", "connections": { "north": "sidewalk", "east": "sidewalk" }, "variants": 3 },
+        { "id": "sidewalk_inner_corner", "connections": { "north": "sidewalk", "west": "sidewalk" }, "variants": 3 },
+        { "id": "sidewalk_outer_corner", "connections": { "south": "sidewalk", "east": "sidewalk" }, "variants": 3 },
+        { "id": "sidewalk_crossing", "connections": { "north": "sidewalk", "south": "sidewalk", "east": "sidewalk", "west": "sidewalk" }, "variants": 3 },
+        { "id": "sidewalk_ramp", "connections": { "east": "sidewalk", "west": "sidewalk" }, "variants": 3 }
+      ]
+    },
+    "curbs": {
+      "path": "curbs",
+      "prefix": "curb_",
+      "tiles": [
+        { "id": "curb_straight", "connections": { "east": "curb", "west": "curb" }, "variants": 3 },
+        { "id": "curb_corner", "connections": { "north": "curb", "east": "curb" }, "variants": 3 },
+        { "id": "curb_ramp", "connections": { "east": "curb", "west": "curb" }, "variants": 3 }
+      ]
+    },
+    "terrain": {
+      "path": "terrain",
+      "prefix": "",
+      "tiles": [
+        { "id": "grass_clean", "connections": { "fill": "grass" }, "variants": 5 },
+        { "id": "grass_dry", "connections": { "fill": "grass" }, "variants": 5 },
+        { "id": "dirt_compact", "connections": { "fill": "dirt" }, "variants": 5 },
+        { "id": "dirt_soft", "connections": { "fill": "dirt" }, "variants": 5 },
+        { "id": "concrete_clean", "connections": { "fill": "concrete" }, "variants": 5 },
+        { "id": "concrete_old", "connections": { "fill": "concrete" }, "variants": 5 },
+        { "id": "gravel", "connections": { "fill": "gravel" }, "variants": 5 }
+      ]
+    },
+    "markings": {
+      "path": "markings",
+      "prefix": "marking_",
+      "tiles": [
+        { "id": "marking_manhole", "overlay": true, "variants": 3 },
+        { "id": "marking_storm_drain", "overlay": true, "variants": 3 },
+        { "id": "marking_crack_small", "overlay": true, "variants": 3 },
+        { "id": "marking_crack_large", "overlay": true, "variants": 3 },
+        { "id": "marking_repair_asphalt", "overlay": true, "variants": 3 },
+        { "id": "marking_paint_straight", "overlay": true, "variants": 3 },
+        { "id": "marking_paint_stop", "overlay": true, "variants": 3 },
+        { "id": "marking_paint_crosswalk", "overlay": true, "variants": 3 },
+        { "id": "marking_paint_arrow", "overlay": true, "variants": 3 }
+      ]
+    },
+    "transitions": {
+      "path": "transitions",
+      "prefix": "transition_",
+      "tiles": [
+        { "id": "transition_road_dirt", "connections": { "north": "road", "south": "dirt" }, "variants": 3 },
+        { "id": "transition_road_grass", "connections": { "north": "road", "south": "grass" }, "variants": 3 },
+        { "id": "transition_sidewalk_grass", "connections": { "north": "sidewalk", "south": "grass" }, "variants": 3 },
+        { "id": "transition_concrete_grass", "connections": { "north": "concrete", "south": "grass" }, "variants": 3 },
+        { "id": "transition_concrete_dirt", "connections": { "north": "concrete", "south": "dirt" }, "variants": 3 },
+        { "id": "transition_grass_dirt", "connections": { "north": "grass", "south": "dirt" }, "variants": 3 }
+      ]
+    }
+  },
+  "palette": {
+    "asphalt_base": "#6B6860",
+    "asphalt_shadow": "#4A4840",
+    "asphalt_light": "#858278",
+    "sidewalk_base": "#B8B0A4",
+    "sidewalk_shadow": "#8A8278",
+    "grass_base": "#6AAF4A",
+    "grass_shadow": "#4A8830",
+    "dirt_base": "#A08058",
+    "concrete_base": "#B8B0A4",
+    "gravel_base": "#C8B898",
+    "road_paint": "#F0F0E8",
+    "road_paint_yellow": "#F0D020"
+  },
+  "production_status": {
+    "phase": 1,
+    "style_anchor": "road_straight_h_01",
+    "generated": [],
+    "pending": "all"
+  }
+}

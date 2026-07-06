@@ -1,0 +1,28 @@
+=== CARRERAS DE BARRIO — ENVIRONMENT_BASE_PACK_01 ===
+GAME ART BIBLE + ART_STYLE_GUIDE + VISUAL_LANGUAGE + ASSET_PIPELINE compliant.
+
+Single isometric ground tile for a Latin American neighborhood racing game.
+Clean HD hand-painted cartoon game art. NOT pixel art. NOT photorealistic.
+Modern casual game tileset style with smooth soft textures, low noise.
+
+CAMERA: isometric 2:1 dimetric diamond tile, 30 degree elevation, 45 degree azimuth NE.
+LIGHTING: mid-morning sunny, light from NE (55 deg), warm #FFF5E6.
+Shadows toward SW at 35% opacity tint #3A3A5C on surface edges.
+No outline on terrain tiles. No text. No labels. No UI.
+
+CANVAS: exactly one diamond-shaped isometric tile filling the center.
+Tile aspect ratio 2:1 (width twice height). Seamless tileable edges where specified.
+Background OUTSIDE the diamond: 100% solid flat magenta #FF00FF, no gradients.
+
+MATERIAL RULES: clean, cared-for neighborhood. No trash, no grime, no post-apocalyptic.
+No buildings, no trees, no people, no vehicles, no objects. Ground infrastructure ONLY.
+
+
+TILE: clean healthy grass fill tile. Green #6AAF4A base, #4A8830 shadow SW, #82C860 highlight NE.
+Full diamond fill, seamless all edges for tiling. Soft cartoon grass tufts suggestion, no flowers.
+Variant: vary tuft density and slight color shift within palette only.
+
+
+VARIANT 3: change subtle texture, cracks, patches, or color within palette. Same silhouette and connections.
+
+MANDATORY: solid #FF00FF outside diamond. One tile only. 256x128 isometric diamond.

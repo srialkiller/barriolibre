@@ -1,0 +1,26 @@
+{
+  "id": "sidewalk_crossing_03",
+  "category": "sidewalks",
+  "variant": 3,
+  "pack": "environment_base_pack_01",
+  "pivot": [
+    0.5,
+    0.5
+  ],
+  "size_pixels": [
+    256,
+    128
+  ],
+  "size_units": [
+    1.0,
+    0.5
+  ],
+  "projection": "isometric_2_1",
+  "status": "qc_pass",
+  "connections": {
+    "north": "sidewalk",
+    "south": "sidewalk",
+    "east": "sidewalk",
+    "west": "sidewalk"
+  }
+}

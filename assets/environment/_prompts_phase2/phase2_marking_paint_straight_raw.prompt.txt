@@ -1,0 +1,34 @@
+=== CARRERAS DE BARRIO — ENVIRONMENT_BASE_PACK_01 ===
+GAME ART BIBLE + ART_STYLE_GUIDE + VISUAL_LANGUAGE + ASSET_PIPELINE compliant.
+
+Single isometric ground tile for a Latin American neighborhood racing game.
+Clean HD hand-painted cartoon game art. NOT pixel art. NOT photorealistic.
+Modern casual game tileset style with smooth soft textures, low noise.
+
+CAMERA: isometric 2:1 dimetric diamond tile, 30 degree elevation, 45 degree azimuth NE.
+LIGHTING: mid-morning sunny, light from NE (55 deg), warm #FFF5E6.
+Shadows toward SW at 35% opacity tint #3A3A5C on surface edges.
+No outline on terrain tiles. No text. No labels. No UI.
+
+CANVAS: exactly one diamond-shaped isometric tile filling the center.
+Tile aspect ratio 2:1 (width twice height). Seamless tileable edges where specified.
+Background OUTSIDE the diamond: 100% solid flat magenta #FF00FF, no gradients.
+
+MATERIAL RULES: clean, cared-for neighborhood. No trash, no grime, no post-apocalyptic.
+No buildings, no trees, no people, no vehicles, no objects. Ground infrastructure ONLY.
+
+
+TILE OVERLAY: white road lane marking dashed line #F0F0E8 running east-west center of asphalt tile.
+
+
+SPRITE SHEET: exactly 2 equal cells in 1 rows x 2 columns grid.
+Each cell is one isometric diamond tile 256x128 aspect inside its cell.
+ALL cells show the SAME tile connectivity/shape type: marking_paint_straight
+Only texture/detail/color varies between cells.
+
+Cell 1: marking_paint_straight_02
+Cell 2: marking_paint_straight_03
+
+CRITICAL: identical camera, scale, lighting, edge alignment across all cells.
+NO borders between cells. NO text. Solid magenta #FF00FF between cells and outside.
+Do not make pixel art. Clean HD hand-painted cartoon Carreras de Barrio tileset.
