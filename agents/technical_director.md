@@ -24,12 +24,14 @@
 - Lore del barrio, narrativa
 - Naming de marca comercial
 - Prompts de generación de sprites
+- **Comandos git** — eso es Release Manager exclusivamente (POL-001–002)
 
 ---
 
 ## READ FIRST (obligatorio)
 
 ```
+docs/production/GITFLOW_GUIDE.md
 decisions/README.md
 decisions/ADR-001-bevy-engine.md
 decisions/ADR-004-ecs-architecture.md

@@ -105,4 +105,11 @@ GAME_IDENTITY  >  GAME_ART_BIBLE  >  guía de dominio  >  ADR  >  agente  >  pro
 
 | Versión | Cambios |
 |---|---|
-| 3.0 | Docs por dominio (`game/`, `art/`, etc.) + integración con `/agents` |
+| 3.0 | Docs por dominio + agents |
+| 3.1 | GitFlow + Release Manager + branch registry |
+
+## Git del estudio
+
+Ver [docs/production/GITFLOW_GUIDE.md](../docs/production/GITFLOW_GUIDE.md) — **POL-001: nunca trabajar en main.**
+
+Sprint = feature branches dentro de `release/vertical-slice`.

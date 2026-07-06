@@ -27,10 +27,13 @@ Protocolo en [studio_director.md](../agents/studio_director.md) — Pipeline C.
 
 ## Reglas
 
-1. Cada sprint: 5–8 tasks, agente asignado, dependencias explícitas
-2. Tasks propagadas a `features/*/tasks.md`
-3. Post-sprint: `studio_scan.py` + update metrics
-4. No incluir work de fase alpha mientras vertical_slice incompleto
+1. Cada sprint mapea a **feature branches** en `release/vertical-slice`
+2. Release Manager abre ramas antes de trabajo
+3. Post-sprint: merge → `studio_scan.py`
+
+## Git
+
+Ver [GITFLOW_GUIDE](../docs/production/GITFLOW_GUIDE.md). Sprint 01 listo tras integración GitFlow ✅.
 
 ## Historial
 

@@ -1,25 +1,21 @@
 # Estudio Virtual — Carreras de Barrio
 
-**Punto de entrada:** [`studio_director.md`](./studio_director.md) — orquesta todo el equipo.
+**Punto de entrada:** [`studio_director.md`](./studio_director.md)
 
 ---
 
-## Flujo del estudio
+## Núcleo del estudio
 
 ```
 Tú
  ↓
-Studio Director        ← @agents/studio_director.md (SIEMPRE para tareas multi-rol)
+Studio Director        ← Orquesta
  ↓
-Creative Director      ← ¿Encaja en GAME_IDENTITY?
+Release Manager        ← Git, ramas, merge (ÚNICO con git)
  ↓
-Especialista(s)
+Especialistas → QA
  ↓
-QA Director
- ↓
-Technical Director     ← si hay implementación
- ↓
-Resultado integrado
+Merge → develop → release/* → main
 ```
 
 ---
@@ -27,50 +23,50 @@ Resultado integrado
 ## Invocación
 
 ```bash
-# Estado del proyecto
 python scripts/studio_scan.py
+```
 
-# Orquestación
-@agents/studio_director.md Crear un nuevo barrio
-@agents/studio_director.md Generar Sprint 04
-@agents/studio_director.md ¿Qué bloquea el MVP?
+```
+@agents/studio_director.md Agregar garage
+@agents/release_manager.md Crear rama feature/bevy-scaffold
 ```
 
 ---
 
-## Especialistas
+## Agentes
 
 | Agente | Rol |
 |---|---|
-| [**studio_director**](./studio_director.md) | **Orquestador — asigna, prioriza, integra** |
-| [creative_director](./creative_director.md) | ADN, lore, filtro de ideas |
-| [art_director](./art_director.md) | Color, composición, assets |
-| [world_designer](./world_designer.md) | Barrios, POIs, mapas |
-| [game_designer](./game_designer.md) | Diversión, balance, loops |
-| [vehicle_designer](./vehicle_designer.md) | Slots, stats, compatibilidades |
-| [economy_designer](./economy_designer.md) | Materiales, chapitas, craft |
-| [race_designer](./race_designer.md) | Circuitos, atajos, torneos |
-| [audio_director](./audio_director.md) | Música, SFX |
-| [technical_director](./technical_director.md) | Bevy, Rust, ECS |
-| [qa_director](./qa_director.md) | Scoring, checklists |
+| [**studio_director**](./studio_director.md) | Orquestador — asigna, prioriza |
+| [**release_manager**](./release_manager.md) | **Git exclusivo** — ramas, merge, tags |
+| [creative_director](./creative_director.md) | ADN, filtro |
+| [art_director](./art_director.md) | Visual |
+| [world_designer](./world_designer.md) | Barrios |
+| [game_designer](./game_designer.md) | Gameplay |
+| [vehicle_designer](./vehicle_designer.md) | Vehículo sistemas |
+| [economy_designer](./economy_designer.md) | Economía |
+| [race_designer](./race_designer.md) | Carreras |
+| [audio_director](./audio_director.md) | Audio |
+| [technical_director](./technical_director.md) | Bevy/Rust |
+| [qa_director](./qa_director.md) | QA |
 
 ---
 
-## Infraestructura del estudio
+## Infraestructura
 
 | Carpeta | Propósito |
 |---|---|
-| [`features/`](../features/README.md) | Funcionalidades aisladas (design, tasks, qa, ecs) |
-| [`roadmap/`](../roadmap/README.md) | MVP + Sprints generados |
-| [`metrics/`](../metrics/README.md) | Estado real del repo |
-| [`production/`](../production/README.md) | Fases: preproduction → release |
-| [`docs/`](../docs/README.md) | Guías por dominio |
-| [`decisions/`](../decisions/README.md) | ADRs |
-| [`lore/`](../lore/README.md) | Coherencia del mundo |
+| [docs/production/GITFLOW_GUIDE.md](../docs/production/GITFLOW_GUIDE.md) | **Norma Git del estudio** |
+| [production/branches/](../production/branches/README.md) | Registry de ramas |
+| [features/](../features/README.md) | Features + STATUS/TASKS/QA |
+| [roadmap/](../roadmap/README.md) | MVP + Sprints |
+| [metrics/](../metrics/README.md) | Estado del repo |
 
 ---
 
-## Regla de oro
+## Reglas
 
-> Un especialista **nunca** hace el trabajo de otro.  
-> El Studio Director **nunca** diseña ni codea — solo orquesta.
+- **POL-001:** Nunca trabajar en `main`
+- **POL-002:** Toda feature = rama propia
+- **GIT-001:** Ninguna tarea sin Release Manager
+- Especialistas **nunca** ejecutan git

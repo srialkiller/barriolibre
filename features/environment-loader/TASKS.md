@@ -1,0 +1,3 @@
+- [ ] **EL-001** Parse environment manifest JSON — `technical_director`
+- [ ] **EL-002** Tilemap plugin / custom renderer — `technical_director`
+- [ ] **EL-003** Render road_straight_h_01 anchor — `technical_director`

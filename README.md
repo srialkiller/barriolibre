@@ -3,69 +3,51 @@
 Videojuego de carreras infantiles en barrio latinoamericano.  
 **Rust + Bevy** · 2.5D isométrico · Sprites prerenderizados.
 
-> *No trata sobre autos. Trata sobre creatividad.*
-
 ---
 
-## Punto de entrada — Studio Director
+## Estudio virtual — flujo
 
 ```
-@agents/studio_director.md <tu tarea>
+Tú → Studio Director → Release Manager → Especialistas → QA → Merge
 ```
 
-El Studio Director **no diseña** — orquesta especialistas, detecta bloqueos, genera sprints.
-
-```bash
-python scripts/studio_scan.py   # estado del proyecto
+```
+@agents/studio_director.md <tarea>
+python scripts/studio_scan.py
 ```
 
----
-
-## Arquitectura del estudio
-
-```
-agents/           ← Equipo virtual (11 roles)
-features/         ← Funcionalidades aisladas (garage, race, craft…)
-roadmap/          ← MVP + Sprints (generados por IA)
-metrics/          ← Medición del repo (project_state.json)
-production/       ← Fases: preproduction → release
-docs/             ← Guías por dominio (game, art, world, systems)
-decisions/        ← ADRs
-lore/             ← Coherencia del mundo
-```
-
-| Necesito… | Ir a… |
+| Doc | Rol |
 |---|---|
-| Orquestar trabajo | [`agents/studio_director.md`](./agents/studio_director.md) |
-| Estado del proyecto | [`metrics/dashboard.md`](./metrics/dashboard.md) |
-| Qué hacer ahora | [`roadmap/Sprint_01.md`](./roadmap/Sprint_01.md) |
-| MVP definition | [`roadmap/MVP.md`](./roadmap/MVP.md) |
-| ADN del juego | [`docs/game/GAME_IDENTITY.md`](./docs/game/GAME_IDENTITY.md) |
-| Feature garage | [`features/garage/`](./features/garage/README.md) |
-| Fase actual | [`production/vertical_slice/`](./production/vertical_slice/README.md) |
+| [GITFLOW_GUIDE](docs/production/GITFLOW_GUIDE.md) | **Norma Git del estudio** |
+| [release_manager](agents/release_manager.md) | **Único agente con git** |
+| [studio_director](agents/studio_director.md) | Orquestador |
+| [branch registry](production/branches/registry.json) | Ramas planificadas |
 
 ---
 
-## Fase actual: Vertical Slice
+## Fase: Vertical Slice
 
-**Objetivo:** loop jugable MVP (explorar → recoger → craft → garage → carrera).
-
-**Blocker #1:** No existe proyecto Bevy → Sprint 01.
-
-Producción de assets **pausada** excepto placeholders MVP.
+**Release branch:** `release/vertical-slice`  
+**Sprint 01:** `feature/bevy-scaffold` + `feature/environment-loader`  
+**Estado:** GitFlow integrado ✅ — listo para abrir ramas
 
 ---
 
-## Marca
-
-ADR-005 **Proposed** — decisión post-prototipo jugable + circuito 1.
-
----
-
-## Assets existentes
+## Estructura
 
 ```
-assets/environment/     ← 155/155 tiles ✅
-data/tilesets/          ← Manifiestos JSON
-scripts/                ← studio_scan.py + pipeline
+agents/       release_manager + 11 especialistas
+features/     README + STATUS + TASKS + QA + CHANGELOG + NOTES
+production/   fases + branches/registry.json
+roadmap/      MVP + Sprints (branch per task)
+metrics/      project_state.json
+docs/         guías por dominio
 ```
+
+---
+
+## Blocker actual
+
+**B-001** — Sin `Cargo.toml`. Resolver en `feature/bevy-scaffold` (Sprint 01).
+
+**ADR-005** — Proposed. Naming post-prototipo.

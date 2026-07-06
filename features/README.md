@@ -1,35 +1,50 @@
 # Features — Funcionalidades del Juego
 
-Cada feature vive **aislada** con todo lo necesario para diseñar, implementar, testear y producir assets.
+Cada feature es **autocontenida** — una IA puede entrar solo a esta carpeta.
 
-## Estructura por feature
+## Estructura por feature (obligatoria)
 
 ```
 features/<name>/
-├── README.md    ← Overview, status, fase, agente owner
-├── design.md    ← Diseño (links a docs/ + spec local)
-├── tasks.md     ← Backlog de la feature (sync con roadmap/)
-├── qa.md        ← Criterios de aceptación
-├── assets.md    ← Assets requeridos y estado
-└── ecs.md       ← Components, resources, systems (Bevy)
+├── README.md       ← Overview, scope, dependencias
+├── STATUS.md       ← Rama, lifecycle state, release target
+├── CHANGELOG.md    ← Historial de cambios de la feature
+├── TASKS.md        ← Backlog (sync roadmap/sprints)
+├── QA.md           ← Criterios de aceptación
+├── NOTES.md        ← Notas libres, decisiones, blockers
+├── design.md       ← Spec de diseño (opcional detalle)
+├── assets.md       ← Assets requeridos
+└── ecs.md          ← ECS spec (si aplica)
 ```
 
-## Índice
+## Lifecycle (STATUS.md)
 
-| Feature | Status | Fase | Owner agent |
-|---|---|---|---|
-| [garage](./garage/README.md) | spec | vertical_slice | vehicle_designer + technical_director |
-| [crafting](./crafting/README.md) | spec | vertical_slice | economy_designer |
-| [inventory](./inventory/README.md) | spec | vertical_slice | economy_designer |
-| [race](./race/README.md) | spec | vertical_slice | race_designer |
-| [economy](./economy/README.md) | spec | vertical_slice | economy_designer |
-| [clans](./clans/README.md) | spec | alpha | game_designer |
-| [events](./events/README.md) | spec | alpha | game_designer |
+```
+Draft → In Design → Implementation → QA → Ready to Merge → Merged → Released
+```
 
-## Sync con roadmap
+Ver [GITFLOW_GUIDE](../docs/production/GITFLOW_GUIDE.md).
 
-El **Studio Director** propaga tasks de `roadmap/Sprint_NN.md` → `features/*/tasks.md`.
+## Índice — Vertical Slice
 
-## Sync con metrics
+| Feature | Branch | STATUS |
+|---|---|---|
+| [bevy-scaffold](./bevy-scaffold/README.md) | `feature/bevy-scaffold` | planned |
+| [environment-loader](./environment-loader/README.md) | `feature/environment-loader` | planned |
+| [player-controller](./player-controller/README.md) | `feature/player-controller` | planned |
+| [inventory](./inventory/README.md) | `feature/inventory` | planned |
+| [crafting](./crafting/README.md) | `feature/crafting-system` | planned |
+| [garage](./garage/README.md) | `feature/garage` | planned |
+| [race](./race/README.md) | `feature/race-ai` | planned |
+| [tutorial](./tutorial/README.md) | `feature/tutorial` | planned |
+| [economy](./economy/README.md) | (shared en features) | planned |
 
-Post-implementación: actualizar `assets.md` y ejecutar `python scripts/studio_scan.py`.
+## Alpha (futuro)
+
+[clans](./clans/README.md) · [events](./events/README.md)
+
+## Git
+
+- Una feature = una rama — [production/branches/registry.json](../production/branches/registry.json)
+- Release Manager es el único que opera git
+- Studio Director asigna; Release Manager crea rama antes de trabajar

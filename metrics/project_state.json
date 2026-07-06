@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T16:33:30.761978+00:00",
+  "generated_at": "2026-07-06T16:45:16.250329+00:00",
   "phase": "preproduction",
   "brand_adr": "proposed",
   "bevy_project": false,
@@ -24,34 +24,56 @@
     "circuits": 0
   },
   "features": {
+    "bevy-scaffold": {
+      "status": "unknown",
+      "lifecycle": "planned",
+      "open_tasks": 7
+    },
     "clans": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     },
     "crafting": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     },
     "economy": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
+    },
+    "environment-loader": {
+      "status": "unknown",
+      "lifecycle": "planned",
+      "open_tasks": 3
     },
     "events": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     },
     "garage": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     },
     "inventory": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     },
     "race": {
       "status": "spec",
+      "lifecycle": "planned",
       "open_tasks": 6
     }
+  },
+  "branches": {
+    "active": 0,
+    "planned": 8,
+    "merged": 0
   },
   "blockers": [
     {
@@ -81,8 +103,8 @@
     }
   ],
   "documentation": {
-    "agents": 12,
-    "docs": 14,
+    "agents": 13,
+    "docs": 15,
     "adrs": 5,
     "lore": 7
   }

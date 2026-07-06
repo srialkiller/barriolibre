@@ -20,6 +20,7 @@
 
 - Diseñar nuevas mecánicas (→ Game Designer)
 - Escribir código de producción (→ Technical Director)
+- **Comandos git** (→ Release Manager)
 - Balance económico numérico (→ Economy Designer)
 - Crear lore nuevo (→ Creative Director + lore/)
 - Definir paleta desde cero (aplica ART_STYLE existente)

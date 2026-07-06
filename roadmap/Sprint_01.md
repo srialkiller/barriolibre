@@ -1,72 +1,86 @@
-# Sprint 01 — Bevy Scaffold
+# Sprint 01 — Bevy Scaffold + Environment Loader
 
 **Generated:** 2026-07-06 by Studio Director  
-**Phase:** vertical_slice  
-**Previous sprint:** —  
-**Goal:** Proyecto Rust/Bevy compilable con estados de juego base.
+**Release branch:** `release/vertical-slice`  
+**Status:** ⏸ **NO INICIAR** hasta GitFlow integrado ✅
 
 ---
 
-## Context (from metrics)
+## Pre-flight (Release Manager)
 
-- `bevy_project: false` — **BLOCKER CRÍTICO**
-- Docs + tiles listos; 0 archivos `.rs`
-- ADR-001, ADR-004 vigentes
+Antes de cualquier código:
+
+```
+1. @agents/studio_director.md Iniciar Sprint 01
+2. @agents/release_manager.md
+     - Crear develop desde main (si no existe)
+     - Crear release/vertical-slice desde develop
+     - Crear feature/bevy-scaffold
+     - Registrar en production/branches/registry.json
+     - features/bevy-scaffold/STATUS.md → Draft
+3. git switch feature/bevy-scaffold
+```
+
+Ver [GITFLOW_GUIDE](../docs/production/GITFLOW_GUIDE.md).
+
+---
+
+## Feature branches (Sprint 01)
+
+| Branch | Feature folder | Owner |
+|---|---|---|
+| `feature/bevy-scaffold` | [features/bevy-scaffold](../features/bevy-scaffold/) | technical_director |
+| `feature/environment-loader` | [features/environment-loader](../features/environment-loader/) | technical_director |
+
+**Orden:** bevy-scaffold primero → merge → environment-loader desde develop.
 
 ---
 
 ## Tasks
 
-| ID | Task | Agent | Feature | Deps | Done |
-|---|---|---|---|---|---|
-| S1-001 | Crear `Cargo.toml` Bevy 0.15+ workspace | technical_director | — | — | [ ] |
-| S1-002 | Crate `barriolibre` con App + plugins base | technical_director | — | S1-001 | [ ] |
-| S1-003 | `GameState` enum (Exploring, Garage, Racing) | technical_director | race | S1-002 | [ ] |
-| S1-004 | Asset loader tiles environment (1 tile test) | technical_director | — | S1-002 | [ ] |
-| S1-005 | Cámara isométrica 2:1 fija | technical_director | — | S1-002 | [ ] |
-| S1-006 | CI/local: `cargo check` + `cargo run` window | technical_director | — | S1-002 | [ ] |
-| S1-007 | Folder structure `data/` + load JSON skeleton | technical_director | economy | S1-002 | [ ] |
+| ID | Task | Branch | Agent | Done |
+|---|---|---|---|---|
+| S1-001 | Cargo.toml + App | `feature/bevy-scaffold` | technical_director | [ ] |
+| S1-002 | GameState enum | `feature/bevy-scaffold` | technical_director | [ ] |
+| S1-003 | Cámara isométrica | `feature/bevy-scaffold` | technical_director | [ ] |
+| S1-004 | cargo run window | `feature/bevy-scaffold` | technical_director | [ ] |
+| S1-005 | data/ JSON loader | `feature/bevy-scaffold` | technical_director | [ ] |
+| S1-006 | Tile manifest parse | `feature/environment-loader` | technical_director | [ ] |
+| S1-007 | Render 1 tile | `feature/environment-loader` | technical_director | [ ] |
 
 ---
 
-## Agent assignments
+## Agent chain
 
 ```
-@agents/technical_director.md
-  Implement S1-001 through S1-007 per ADR-001 and ADR-004.
-  Reference docs/game/GAMEPLAY_GUIDE.md §7 for GameState.
-  Reference docs/production/ASSET_PIPELINE.md for asset paths.
-```
-
----
-
-## Dependencies graph
-
-```
-S1-001 → S1-002 → S1-003, S1-004, S1-005, S1-007
-S1-002 → S1-006
+Studio Director
+    ↓
+Release Manager (ramas)
+    ↓
+Technical Director (feature/bevy-scaffold)
+    ↓
+QA Director (features/bevy-scaffold/QA.md)
+    ↓
+Release Manager (merge → develop)
+    ↓
+Technical Director (feature/environment-loader)
+    ↓
+QA → Release Manager merge
+    ↓
+Studio Director (metrics + roadmap)
 ```
 
 ---
 
 ## Sprint exit
 
-- [ ] `cargo run` abre ventana Bevy
-- [ ] 1 tile environment renderizado
-- [ ] `GameState` cambia con tecla debug
-- [ ] `studio_scan.py` reporta `bevy_project: true`
+- [ ] `bevy_project: true` in metrics
+- [ ] POL-001–007 satisfied per branch
+- [ ] Both branches `Merged` in registry
+- [ ] STATUS.md updated on both features
 
 ---
 
-## Risks
+## Siguiente
 
-| Risk | Mitigation |
-|---|---|
-| Bevy version API drift | Pin version in Cargo.toml + ADR note |
-| Tile pivot incorrect | Test con `road_straight_h_01` anchor |
-
----
-
-## Next sprint preview
-
-Sprint 02: mapa tutorial + player movement + inventory pickups.
+Sprint 02: `feature/player-controller` + `feature/inventory` on `release/vertical-slice`

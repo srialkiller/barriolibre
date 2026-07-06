@@ -1,6 +1,6 @@
 # Project Dashboard
 
-**Generated:** 2026-07-06T16:33:30.761978+00:00  
+**Generated:** 2026-07-06T16:45:16.250329+00:00  
 **Phase:** `preproduction`  
 **Scan:** `python scripts/studio_scan.py`
 
@@ -24,14 +24,24 @@
 - **MEDIUM** [B-004] No props pack
 - **INFO** [B-006] Environment QA formal scoring pending
 
+## Branches (registry)
+
+| Type | Count |
+|---|---|
+| Active | 0 |
+| Planned | 8 |
+| Merged | 0 |
+
 ## Features
 
-| Feature | Status | Open tasks |
+| Feature | Lifecycle | Open tasks |
 |---|---|---|
-| clans | spec | 6 |
-| crafting | spec | 6 |
-| economy | spec | 6 |
-| events | spec | 6 |
-| garage | spec | 6 |
-| inventory | spec | 6 |
-| race | spec | 6 |
+| bevy-scaffold | planned | 7 |
+| clans | planned | 6 |
+| crafting | planned | 6 |
+| economy | planned | 6 |
+| environment-loader | planned | 3 |
+| events | planned | 6 |
+| garage | planned | 6 |
+| inventory | planned | 6 |
+| race | planned | 6 |

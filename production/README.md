@@ -17,7 +17,13 @@ Organización por **fase de producción** — las prioridades cambian en cada et
 
 ## Fase actual
 
-**`vertical_slice`** — detectada automáticamente por `studio_scan.py` (sin Cargo.toml aún).
+**`vertical_slice`** — release branch: `release/vertical-slice`
+
+## Git workflow
+
+Ver [docs/production/GITFLOW_GUIDE.md](../docs/production/GITFLOW_GUIDE.md) y [production/branches/](../production/branches/README.md).
+
+Sprint 01 **no codea en main** — ramas `feature/bevy-scaffold`, etc.
 
 ## Exit criteria por fase
 

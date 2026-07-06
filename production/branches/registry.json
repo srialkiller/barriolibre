@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-07-06T00:00:00Z",
+  "permanent_branches": {
+    "main": { "purpose": "production stable", "protected": true },
+    "develop": { "purpose": "integration", "protected": true, "exists": false },
+    "release/vertical-slice": { "purpose": "MVP vertical slice", "protected": true, "exists": false }
+  },
+  "active_branches": [],
+  "planned_branches": [
+    {
+      "branch": "feature/bevy-scaffold",
+      "type": "feature",
+      "feature": "bevy-scaffold",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_01",
+      "status": "planned",
+      "agents": ["technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/environment-loader",
+      "type": "feature",
+      "feature": "environment-loader",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_01",
+      "status": "planned",
+      "agents": ["technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/player-controller",
+      "type": "feature",
+      "feature": "player-controller",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_02",
+      "status": "planned",
+      "agents": ["technical_director", "world_designer"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/inventory",
+      "type": "feature",
+      "feature": "inventory",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_02",
+      "status": "planned",
+      "agents": ["economy_designer", "technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/crafting-system",
+      "type": "feature",
+      "feature": "crafting",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_03",
+      "status": "planned",
+      "agents": ["economy_designer", "technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/garage",
+      "type": "feature",
+      "feature": "garage",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_03",
+      "status": "planned",
+      "agents": ["vehicle_designer", "game_designer", "technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/race-ai",
+      "type": "feature",
+      "feature": "race",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_03",
+      "status": "planned",
+      "agents": ["race_designer", "technical_director"],
+      "merged_to": null
+    },
+    {
+      "branch": "feature/tutorial",
+      "type": "feature",
+      "feature": "tutorial",
+      "release": "release/vertical-slice",
+      "sprint": "Sprint_03",
+      "status": "planned",
+      "agents": ["game_designer", "world_designer", "technical_director"],
+      "merged_to": null
+    }
+  ],
+  "merged_branches": [],
+  "tags": []
+}

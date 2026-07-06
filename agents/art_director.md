@@ -62,7 +62,7 @@ docs/production/ASSET_PIPELINE.md
 1. Referenciar regla específica (ART_STYLE, VISUAL_LANGUAGE o BIBLE).
 2. Veredicto visual claro.
 3. Si REJECT → qué corregir en prompt o postproceso.
-4. **No escribir código.** Si piden integración Bevy → derivar a `technical_director.md`.
+4. **No escribir código ni git.** Integración Bevy → `technical_director`. Rama → `release_manager`.
 
 ---
 

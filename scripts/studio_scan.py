@@ -66,11 +66,20 @@ def scan_features() -> dict:
             match = re.search(r"\*\*Status:\*\*\s*(\w+)", text)
             if match:
                 status = match.group(1).lower()
-        tasks_file = feature_path / "tasks.md"
+        tasks_file = feature_path / "TASKS.md"
+        if not tasks_file.exists():
+            tasks_file = feature_path / "tasks.md"
         open_tasks = 0
         if tasks_file.exists():
             open_tasks = len(re.findall(r"^- \[ \]", tasks_file.read_text(encoding="utf-8"), re.M))
-        result[feature_path.name] = {"status": status, "open_tasks": open_tasks}
+        status_file = feature_path / "STATUS.md"
+        lifecycle = status
+        if status_file.exists():
+            text = status_file.read_text(encoding="utf-8")
+            match = re.search(r"\*\*Current:\*\*\s*`?(\w+)`?", text)
+            if match:
+                lifecycle = match.group(1).lower()
+        result[feature_path.name] = {"status": status, "lifecycle": lifecycle, "open_tasks": open_tasks}
     return result
 
 
@@ -95,6 +104,14 @@ def main() -> None:
     if not tiles.get("complete"):
         blockers.append({"id": "B-005", "severity": "low", "message": "Environment tiles incomplete vs manifest"})
     blockers.append({"id": "B-006", "severity": "info", "message": "Environment QA formal scoring pending"})
+
+    registry_path = ROOT / "production/branches/registry.json"
+    branches = {"active": 0, "planned": 0, "merged": 0}
+    if registry_path.exists():
+        reg = json.loads(registry_path.read_text(encoding="utf-8"))
+        branches["active"] = len(reg.get("active_branches", []))
+        branches["planned"] = len(reg.get("planned_branches", []))
+        branches["merged"] = len(reg.get("merged_branches", []))
 
     state = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -122,6 +139,7 @@ def main() -> None:
             "circuits": 0,
         },
         "features": scan_features(),
+        "branches": branches,
         "blockers": blockers,
         "documentation": {
             "agents": count_files(ROOT / "agents", "*.md"),
@@ -162,14 +180,23 @@ def main() -> None:
     for blocker in blockers:
         dashboard += f"- **{blocker['severity'].upper()}** [{blocker['id']}] {blocker['message']}\n"
 
-    dashboard += """
+    dashboard += f"""
+## Branches (registry)
+
+| Type | Count |
+|---|---|
+| Active | {branches['active']} |
+| Planned | {branches['planned']} |
+| Merged | {branches['merged']} |
+
 ## Features
 
-| Feature | Status | Open tasks |
+| Feature | Lifecycle | Open tasks |
 |---|---|---|
 """
     for name, info in state["features"].items():
-        dashboard += f"| {name} | {info['status']} | {info['open_tasks']} |\n"
+        lifecycle = info.get("lifecycle", info.get("status", "?"))
+        dashboard += f"| {name} | {lifecycle} | {info['open_tasks']} |\n"
 
     (metrics_dir / "dashboard.md").write_text(dashboard, encoding="utf-8")
     print(json.dumps(state, indent=2, ensure_ascii=False))
