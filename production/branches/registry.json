@@ -1,32 +1,23 @@
 {
-  "schema_version": "1.0",
-  "updated_at": "2026-07-06T00:00:00Z",
+  "schema_version": "1.1",
+  "updated_at": "2026-07-06T16:55:00Z",
   "permanent_branches": {
     "main": { "purpose": "production stable", "protected": true },
     "develop": { "purpose": "integration", "protected": true, "exists": false },
-    "release/vertical-slice": { "purpose": "MVP vertical slice", "protected": true, "exists": false }
+    "release/vertical-slice": { "purpose": "MVP vertical slice — 15 min playable", "protected": true, "exists": false }
   },
   "active_branches": [],
   "planned_branches": [
     {
-      "branch": "feature/bevy-scaffold",
+      "branch": "feature/bevy-foundation-runtime",
       "type": "feature",
-      "feature": "bevy-scaffold",
+      "feature": "foundation-runtime",
       "release": "release/vertical-slice",
-      "sprint": "Sprint_01",
+      "sprint": "Sprint_01_Foundation_Runtime",
       "status": "planned",
-      "agents": ["technical_director"],
-      "merged_to": null
-    },
-    {
-      "branch": "feature/environment-loader",
-      "type": "feature",
-      "feature": "environment-loader",
-      "release": "release/vertical-slice",
-      "sprint": "Sprint_01",
-      "status": "planned",
-      "agents": ["technical_director"],
-      "merged_to": null
+      "agents": ["build_engineer", "technical_director", "tools_engineer", "world_designer", "qa_director"],
+      "merged_to": null,
+      "demo_criterion": "cargo run → barrio renderizado"
     },
     {
       "branch": "feature/player-controller",
@@ -90,5 +81,9 @@
     }
   ],
   "merged_branches": [],
+  "deprecated_branches": [
+    "feature/bevy-scaffold",
+    "feature/environment-loader"
+  ],
   "tags": []
 }

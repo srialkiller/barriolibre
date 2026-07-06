@@ -1,53 +1,32 @@
 # Carreras de Barrio
 
-Videojuego de carreras infantiles en barrio latinoamericano.  
-**Rust + Bevy** · 2.5D isométrico · Sprites prerenderizados.
-
----
-
-## Estudio virtual — flujo
+## Estudio virtual
 
 ```
-Tú → Studio Director → Release Manager → Especialistas → QA → Merge
-```
-
-```
-@agents/studio_director.md <tarea>
+@agents/studio_director.md Iniciar Sprint 01 — Foundation Runtime
 python scripts/studio_scan.py
 ```
 
-| Doc | Rol |
+## Sprint 01 — Foundation Runtime
+
+**Rama:** `feature/bevy-foundation-runtime`  
+**DoD:** `cargo run` → **barrio renderizado**
+
+No es scaffold — es el **runtime** del juego.
+
+| Rol | Agente |
 |---|---|
-| [GITFLOW_GUIDE](docs/production/GITFLOW_GUIDE.md) | **Norma Git del estudio** |
-| [release_manager](agents/release_manager.md) | **Único agente con git** |
-| [studio_director](agents/studio_director.md) | Orquestador |
-| [branch registry](production/branches/registry.json) | Ramas planificadas |
+| Cargo / CI | build_engineer |
+| ECS / render / assets | technical_director |
+| map_validator, F3 | tools_engineer |
+| Git | release_manager |
 
----
+## Studio Health
 
-## Fase: Vertical Slice
+Ver [`metrics/studio_health.json`](metrics/studio_health.json) — Runtime 🔴 hasta Sprint 01.
 
-**Release branch:** `release/vertical-slice`  
-**Sprint 01:** `feature/bevy-scaffold` + `feature/environment-loader`  
-**Estado:** GitFlow integrado ✅ — listo para abrir ramas
+## Vertical Slice
 
----
+**15 min** flujo completo → [roadmap/MVP.md](roadmap/MVP.md)
 
-## Estructura
-
-```
-agents/       release_manager + 11 especialistas
-features/     README + STATUS + TASKS + QA + CHANGELOG + NOTES
-production/   fases + branches/registry.json
-roadmap/      MVP + Sprints (branch per task)
-metrics/      project_state.json
-docs/         guías por dominio
-```
-
----
-
-## Blocker actual
-
-**B-001** — Sin `Cargo.toml`. Resolver en `feature/bevy-scaffold` (Sprint 01).
-
-**ADR-005** — Proposed. Naming post-prototipo.
+**Regla:** cada sprint = `cargo run` + avance visible.

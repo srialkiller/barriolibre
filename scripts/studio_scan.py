@@ -113,6 +113,26 @@ def main() -> None:
         branches["planned"] = len(reg.get("planned_branches", []))
         branches["merged"] = len(reg.get("merged_branches", []))
 
+    bevy_exists = (ROOT / "Cargo.toml").exists()
+    tools_count = sum(1 for p in (ROOT / "tools").iterdir() if p.is_dir()) if (ROOT / "tools").exists() else 0
+
+    studio_health = {
+        "documentacion": {"status": "green", "note": f"{count_files(ROOT / 'docs', '*.md')} docs"},
+        "arte": {"status": "green" if tiles.get("complete") else "yellow", "note": f"{env_png} env PNGs"},
+        "runtime": {
+            "status": "green" if bevy_exists and maps > 0 else ("yellow" if bevy_exists else "red"),
+            "note": "Foundation Runtime Sprint 01",
+        },
+        "gameplay": {"status": "red", "note": "No playable loop yet"},
+        "herramientas": {"status": "yellow" if tools_count >= 6 else "red", "note": f"{tools_count} tool dirs"},
+        "qa": {"status": "yellow", "note": "Env QA formal pending"},
+        "produccion": {"status": "green" if tiles.get("complete") else "yellow", "note": "Environment pack done"},
+        "riesgo_tecnico": {
+            "status": "yellow" if not bevy_exists else "green",
+            "note": "Bevy not initialized" if not bevy_exists else "Runtime in progress",
+        },
+    }
+
     state = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "phase": detect_phase(),
@@ -140,6 +160,7 @@ def main() -> None:
         },
         "features": scan_features(),
         "branches": branches,
+        "studio_health": studio_health,
         "blockers": blockers,
         "documentation": {
             "agents": count_files(ROOT / "agents", "*.md"),
@@ -155,6 +176,10 @@ def main() -> None:
         json.dumps(state, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    (metrics_dir / "studio_health.json").write_text(
+        json.dumps(studio_health, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
     dashboard = f"""# Project Dashboard
 
@@ -162,7 +187,29 @@ def main() -> None:
 **Phase:** `{state["phase"]}`  
 **Scan:** `python scripts/studio_scan.py`
 
-## Health
+## Studio Health
+
+| Métrica | Estado | Nota |
+|---|---|---|
+"""
+    labels = {
+        "documentacion": "Documentación",
+        "arte": "Arte",
+        "runtime": "Runtime",
+        "gameplay": "Gameplay",
+        "herramientas": "Herramientas",
+        "qa": "QA",
+        "produccion": "Producción",
+        "riesgo_tecnico": "Riesgo técnico",
+    }
+    icons = {"green": "🟢", "yellow": "🟡", "red": "🔴"}
+    for key, label in labels.items():
+        h = studio_health[key]
+        icon = icons.get(h["status"], "⚪")
+        dashboard += f"| {label} | {icon} | {h['note']} |\n"
+
+    dashboard += f"""
+## Runtime
 
 | Metric | Value |
 |---|---|
@@ -171,8 +218,6 @@ def main() -> None:
 | Playable maps | {maps} |
 | Environment PNGs | {env_png} |
 | Tiles generated | {tiles["generated_total"]}/{tiles["manifest_total"]} |
-| Vehicle parts | {vehicle_parts} |
-| Circuits | 0 |
 
 ## Blockers
 
@@ -199,7 +244,7 @@ def main() -> None:
         dashboard += f"| {name} | {lifecycle} | {info['open_tasks']} |\n"
 
     (metrics_dir / "dashboard.md").write_text(dashboard, encoding="utf-8")
-    print(json.dumps(state, indent=2, ensure_ascii=False))
+    print(json.dumps(state, indent=2, ensure_ascii=True))
 
 
 if __name__ == "__main__":

@@ -4,50 +4,38 @@
 
 ---
 
-## Núcleo del estudio
+## Núcleo
 
 ```
-Tú
- ↓
-Studio Director        ← Orquesta
- ↓
-Release Manager        ← Git, ramas, merge (ÚNICO con git)
- ↓
-Especialistas → QA
- ↓
-Merge → develop → release/* → main
+Tú → Studio Director → Release Manager → Build/Tech/Tools → Especialistas → QA → Merge
 ```
+
+**Regla:** Cada sprint termina con `cargo run` + avance visible.
 
 ---
 
-## Invocación
-
-```bash
-python scripts/studio_scan.py
-```
-
-```
-@agents/studio_director.md Agregar garage
-@agents/release_manager.md Crear rama feature/bevy-scaffold
-```
-
----
-
-## Agentes
+## Agentes — núcleo técnico
 
 | Agente | Rol |
 |---|---|
-| [**studio_director**](./studio_director.md) | Orquestador — asigna, prioriza |
-| [**release_manager**](./release_manager.md) | **Git exclusivo** — ramas, merge, tags |
-| [creative_director](./creative_director.md) | ADN, filtro |
+| [studio_director](./studio_director.md) | Orquestador |
+| [release_manager](./release_manager.md) | Git exclusivo |
+| [build_engineer](./build_engineer.md) | **Cargo, CI, lints, Bevy version** |
+| [technical_director](./technical_director.md) | Arquitectura ECS, runtime |
+| [tools_engineer](./tools_engineer.md) | **Herramientas `tools/`** |
+
+## Agentes — diseño y contenido
+
+| Agente | Rol |
+|---|---|
+| [creative_director](./creative_director.md) | ADN |
 | [art_director](./art_director.md) | Visual |
 | [world_designer](./world_designer.md) | Barrios |
 | [game_designer](./game_designer.md) | Gameplay |
-| [vehicle_designer](./vehicle_designer.md) | Vehículo sistemas |
+| [vehicle_designer](./vehicle_designer.md) | Vehículo |
 | [economy_designer](./economy_designer.md) | Economía |
 | [race_designer](./race_designer.md) | Carreras |
 | [audio_director](./audio_director.md) | Audio |
-| [technical_director](./technical_director.md) | Bevy/Rust |
 | [qa_director](./qa_director.md) | QA |
 
 ---
@@ -56,17 +44,15 @@ python scripts/studio_scan.py
 
 | Carpeta | Propósito |
 |---|---|
-| [docs/production/GITFLOW_GUIDE.md](../docs/production/GITFLOW_GUIDE.md) | **Norma Git del estudio** |
-| [production/branches/](../production/branches/README.md) | Registry de ramas |
-| [features/](../features/README.md) | Features + STATUS/TASKS/QA |
-| [roadmap/](../roadmap/README.md) | MVP + Sprints |
-| [metrics/](../metrics/README.md) | Estado del repo |
+| [tools/](../tools/README.md) | Herramientas internas |
+| [features/foundation-runtime](../features/foundation-runtime/) | Sprint 01 |
+| [metrics/studio_health.json](../metrics/studio_health.json) | Salud del estudio |
+| [roadmap/Sprint_01.md](../roadmap/Sprint_01.md) | Foundation Runtime DoD |
 
 ---
 
-## Reglas
+## Studio Health
 
-- **POL-001:** Nunca trabajar en `main`
-- **POL-002:** Toda feature = rama propia
-- **GIT-001:** Ninguna tarea sin Release Manager
-- Especialistas **nunca** ejecutan git
+`python scripts/studio_scan.py` → `metrics/studio_health.json`
+
+Prioridad automática: 🔴 Runtime → Sprint 01.

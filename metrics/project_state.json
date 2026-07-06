@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T16:45:16.250329+00:00",
+  "generated_at": "2026-07-06T16:55:53.993492+00:00",
   "phase": "preproduction",
   "brand_adr": "proposed",
   "bevy_project": false,
@@ -54,6 +54,11 @@
       "lifecycle": "planned",
       "open_tasks": 6
     },
+    "foundation-runtime": {
+      "status": "unknown",
+      "lifecycle": "planned",
+      "open_tasks": 17
+    },
     "garage": {
       "status": "spec",
       "lifecycle": "planned",
@@ -72,8 +77,42 @@
   },
   "branches": {
     "active": 0,
-    "planned": 8,
+    "planned": 7,
     "merged": 0
+  },
+  "studio_health": {
+    "documentacion": {
+      "status": "green",
+      "note": "15 docs"
+    },
+    "arte": {
+      "status": "green",
+      "note": "255 env PNGs"
+    },
+    "runtime": {
+      "status": "red",
+      "note": "Foundation Runtime Sprint 01"
+    },
+    "gameplay": {
+      "status": "red",
+      "note": "No playable loop yet"
+    },
+    "herramientas": {
+      "status": "yellow",
+      "note": "6 tool dirs"
+    },
+    "qa": {
+      "status": "yellow",
+      "note": "Env QA formal pending"
+    },
+    "produccion": {
+      "status": "green",
+      "note": "Environment pack done"
+    },
+    "riesgo_tecnico": {
+      "status": "yellow",
+      "note": "Bevy not initialized"
+    }
   },
   "blockers": [
     {
@@ -103,7 +142,7 @@
     }
   ],
   "documentation": {
-    "agents": 13,
+    "agents": 15,
     "docs": 15,
     "adrs": 5,
     "lore": 7

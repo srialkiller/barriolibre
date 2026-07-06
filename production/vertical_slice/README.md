@@ -2,50 +2,58 @@
 
 **Status:** 🔴 **FASE ACTUAL**
 
-## Objetivo
+## Objetivo único
 
-**Un loop jugable de punta a punta** que pruebe el ADN del juego en 15 minutos.
+**15 minutos de juego continuo** — juego completo en versión mínima.
 
-## MVP Loop (definido en roadmap/MVP.md)
+Ver [roadmap/MVP.md](../../roadmap/MVP.md).
+
+---
+
+## Flujo target
 
 ```
-Spawn plaza tutorial
-    ↓
-Recoger 3 materiales (micro loop)
-    ↓
-Craft ruedas básicas (crafting)
-    ↓
-Instalar en garage
-    ↓
-Carrera corta en cancha (1 lap, 1 rival fácil)
-    ↓
-Ganar chapitas + rep
+Menú → Barrio → Caminar → Recoger → Garaje → Construir
+    → Carrera → Recompensas → Mejorar pieza → Guardar → Menú
 ```
 
-## Features activas (prioridad)
+---
 
-| P | Feature |
-|---|---|
-| P0 | Bevy scaffold (technical) |
-| P0 | inventory + economy (mínimo) |
-| P0 | crafting (1 receta) |
-| P0 | garage (3 slots) |
-| P0 | race (circuito tutorial) |
-| P1 | Mapa barrio 1 (world) |
+## Regla estricta del estudio
+
+> **Si un sprint no acerca al flujo de 15 min, no es prioritario.**
+
+> **Cada sprint termina con `cargo run` + avance visible.**
+
+---
+
+## Sprints → Vertical Slice
+
+| Sprint | Nombre | Avance visible |
+|---|---|---|
+| **01** | **Foundation Runtime** | `cargo run` → barrio renderizado |
+| 02 | Player & Exploration | Caminar + recoger pickups |
+| 03 | Craft, Garage, Race | Loop core jugable |
+| 04 | Save + Menu polish | Flujo 15 min cerrado |
+
+---
+
+## Sprint 01 actual
+
+**Branch:** `feature/bevy-foundation-runtime`  
+**Feature:** [features/foundation-runtime](../../features/foundation-runtime/)
+
+No es "scaffold" — es **runtime completo** (ECS, assets, render, map JSON).
+
+---
 
 ## Features congeladas
 
 - clans, events → alpha
-- Vehicle Parts Pack producción → placeholders OK
-- Brand naming → post-prototipo
+- Brand → post-prototipo (ADR-005)
 
-## Exit criteria
+---
 
-- [ ] `cargo run` lanza juego
-- [ ] Loop MVP completable sin crashes
-- [ ] 1 mapa, 1 circuito, 1 craft, 1 carrera
-- [ ] Playtest interno 15 min positivo
+## Agentes
 
-## Agentes principales
-
-Studio Director → Technical Director → World Designer → Race Designer → QA
+Studio Director → Release Manager → Build Engineer + Technical Director + Tools Engineer → QA

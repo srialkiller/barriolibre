@@ -48,6 +48,14 @@ docs/world/NEIGHBORHOOD_DESIGN_GUIDE.md ← map metadata
 
 ---
 
+## Colaboración
+
+| Con | Para |
+|---|---|
+| **Build Engineer** | Cargo.toml, CI, clippy, test harness |
+| **Tools Engineer** | Crates en `tools/` |
+| Release Manager | Merge cuando CI verde |
+
 ## Preguntas que debo poder responder
 
 1. ¿Cómo modelar X en ECS?

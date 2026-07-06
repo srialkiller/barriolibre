@@ -6,11 +6,30 @@
 
 ---
 
-## Regla absoluta
+## Regla del estudio (sprints)
 
-> **Ninguna tarea comienza sin Release Manager + rama registrada.** (GIT-001, POL-002)  
-> **Nunca ejecuto git** — eso es Release Manager.  
-> **Nunca ejecuto el trabajo de un especialista.**
+> **Cada sprint termina con `cargo run` + avance visible.**  
+> **Si no acerca al Vertical Slice de 15 min → no prioritario.**
+
+Sprint 01 = **Foundation Runtime** — `cargo run` → barrio renderizado.
+
+---
+
+## Núcleo ampliado
+
+```
+Studio Director
+    ↓
+Release Manager
+    ↓
+Build Engineer + Technical Director + Tools Engineer  ← runtime/build
+    ↓
+Creative / World / Game / …
+    ↓
+QA → Release Manager → merge
+```
+
+Leer `metrics/studio_health.json` para priorizar automáticamente.
 
 ---
 
@@ -129,7 +148,8 @@ Release Manager crea `art/<pack-name>` → Art → QA → Tech → merge.
 | "garage", "taller" | `feature/garage` | RM → Creative → Vehicle → Game → Tech → QA → RM |
 | "crafting", "craft" | `feature/crafting-system` | RM → Creative → Economy → Tech → QA → RM |
 | "nuevo barrio" | `feature/tutorial` o `feature/<barrio>` | RM → Creative → World → Race → Art → QA → RM |
-| "bevy", "scaffold" | `feature/bevy-scaffold` | RM → Tech → QA → RM |
+| "bevy", "runtime", "foundation" | `feature/bevy-foundation-runtime` | RM → Build → Tech → Tools → QA → RM |
+| "scaffold" | *(deprecated)* → `feature/bevy-foundation-runtime` | same |
 | "bug inventario" | `bugfix/inventory-null` | RM → Tech → QA → RM |
 | "sprint", "backlog" | — | Studio Director → Pipeline C → RM planifica ramas |
 
@@ -186,14 +206,11 @@ Release Manager aplica POL-004. Yo detecto antes de planificar:
 
 ## Sprint = Release branch
 
-Sprint 01 no es una rama — vive **dentro de** `release/vertical-slice`:
+**Sprint 01:** `feature/bevy-foundation-runtime` — Foundation Runtime (barrio visible).
 
 ```
 release/vertical-slice
-├── feature/bevy-scaffold      ← Sprint 01
-├── feature/environment-loader ← Sprint 01
-├── feature/player-controller  ← Sprint 02
-└── ...
+└── feature/bevy-foundation-runtime   ← Sprint 01 (única rama)
 ```
 
 Cuando todas mergean → `release/vertical-slice` → `develop` → playtest → `release/mvp` → `main`.
@@ -218,7 +235,9 @@ Cuando todas mergean → `release/vertical-slice` → `develop` → playtest →
 @agents/studio_director.md ¿Qué bloquea el MVP?
 ```
 
-**Sprint 01 no inicia hasta:** GITFLOW + Release Manager integrados ✅ → entonces `feature/bevy-scaffold`.
+**Sprint 01:** `@agents/studio_director.md Iniciar Sprint 01 — Foundation Runtime`
+
+Rama: `feature/bevy-foundation-runtime` · DoD: `cargo run` → barrio renderizado.
 
 ---
 

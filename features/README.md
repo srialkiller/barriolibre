@@ -1,50 +1,28 @@
-# Features — Funcionalidades del Juego
+# Features
 
-Cada feature es **autocontenida** — una IA puede entrar solo a esta carpeta.
+## Sprint 01 — Foundation Runtime
 
-## Estructura por feature (obligatoria)
-
-```
-features/<name>/
-├── README.md       ← Overview, scope, dependencias
-├── STATUS.md       ← Rama, lifecycle state, release target
-├── CHANGELOG.md    ← Historial de cambios de la feature
-├── TASKS.md        ← Backlog (sync roadmap/sprints)
-├── QA.md           ← Criterios de aceptación
-├── NOTES.md        ← Notas libres, decisiones, blockers
-├── design.md       ← Spec de diseño (opcional detalle)
-├── assets.md       ← Assets requeridos
-└── ecs.md          ← ECS spec (si aplica)
-```
-
-## Lifecycle (STATUS.md)
-
-```
-Draft → In Design → Implementation → QA → Ready to Merge → Merged → Released
-```
-
-Ver [GITFLOW_GUIDE](../docs/production/GITFLOW_GUIDE.md).
-
-## Índice — Vertical Slice
-
-| Feature | Branch | STATUS |
+| Feature | Branch | Visible demo |
 |---|---|---|
-| [bevy-scaffold](./bevy-scaffold/README.md) | `feature/bevy-scaffold` | planned |
-| [environment-loader](./environment-loader/README.md) | `feature/environment-loader` | planned |
-| [player-controller](./player-controller/README.md) | `feature/player-controller` | planned |
-| [inventory](./inventory/README.md) | `feature/inventory` | planned |
-| [crafting](./crafting/README.md) | `feature/crafting-system` | planned |
-| [garage](./garage/README.md) | `feature/garage` | planned |
-| [race](./race/README.md) | `feature/race-ai` | planned |
-| [tutorial](./tutorial/README.md) | `feature/tutorial` | planned |
-| [economy](./economy/README.md) | (shared en features) | planned |
+| [foundation-runtime](./foundation-runtime/) | `feature/bevy-foundation-runtime` | `cargo run` → barrio |
 
-## Alpha (futuro)
+**Deprecated:** `bevy-scaffold`, `environment-loader` → merged into foundation-runtime.
 
-[clans](./clans/README.md) · [events](./events/README.md)
+## Vertical Slice (Sprint 02+)
 
-## Git
+| Feature | Branch |
+|---|---|
+| [inventory](./inventory/) | `feature/inventory` |
+| [crafting](./crafting/) | `feature/crafting-system` |
+| [garage](./garage/) | `feature/garage` |
+| [race](./race/) | `feature/race-ai` |
+| [tutorial](./tutorial/) | `feature/tutorial` |
+| [economy](./economy/) | shared |
 
-- Una feature = una rama — [production/branches/registry.json](../production/branches/registry.json)
-- Release Manager es el único que opera git
-- Studio Director asigna; Release Manager crea rama antes de trabajar
+## Alpha
+
+[clans](./clans/) · [events](./events/)
+
+## Estructura por feature
+
+`README.md` · `STATUS.md` · `CHANGELOG.md` · `TASKS.md` · `QA.md` · `NOTES.md` · (+ design/ecs)

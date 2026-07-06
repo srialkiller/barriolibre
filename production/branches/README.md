@@ -17,8 +17,7 @@
 
 | Branch | Feature | Sprint | Status |
 |---|---|---|---|
-| `feature/bevy-scaffold` | bevy-scaffold | 01 | planned |
-| `feature/environment-loader` | environment-loader | 01 | planned |
+| `feature/bevy-foundation-runtime` | foundation-runtime | 01 Foundation Runtime | planned |
 | `feature/player-controller` | player-controller | 02 | planned |
 | `feature/inventory` | inventory | 02 | planned |
 | `feature/crafting-system` | crafting | 03 | planned |
