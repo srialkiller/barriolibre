@@ -20,6 +20,7 @@ Runtime Bevy completo: ECS, assets, render isométrico, primer barrio cargado de
 
 ## Docs
 
+- [**BEVY_ARCHITECTURE.md**](../../docs/systems/BEVY_ARCHITECTURE.md) — **constitución técnica (gate Sprint 01)**
 - [Sprint_01.md](../../roadmap/Sprint_01.md) — Definition of Done
 - [ADR-001](../../decisions/ADR-001-bevy-engine.md) · [ADR-004](../../decisions/ADR-004-ecs-architecture.md)
 

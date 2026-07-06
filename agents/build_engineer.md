@@ -31,11 +31,9 @@
 ## READ FIRST
 
 ```
+docs/systems/BEVY_ARCHITECTURE.md
 docs/production/GITFLOW_GUIDE.md
-decisions/ADR-001-bevy-engine.md
-decisions/ADR-004-ecs-architecture.md
 features/foundation-runtime/TASKS.md
-Cargo.toml (when exists)
 ```
 
 ---

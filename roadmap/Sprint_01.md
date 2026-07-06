@@ -7,6 +7,13 @@
 
 ---
 
+## Pre-requisito (gate)
+
+- [x] **`docs/systems/BEVY_ARCHITECTURE.md`** — constitución técnica ✅
+- [ ] Release Manager abre `feature/bevy-foundation-runtime`
+
+---
+
 ## Objetivo
 
 > **No es crear un Cargo.toml.**  
@@ -118,21 +125,21 @@ Ver detalle: [features/foundation-runtime/TASKS.md](../features/foundation-runti
 ```
 Studio Director
     ↓
+BEVY_ARCHITECTURE.md ✅ (gate passed)
+    ↓
 Release Manager → feature/bevy-foundation-runtime
     ↓
-Build Engineer (Cargo + CI)
+Build Engineer (Cargo workspace §2)
     ↓
-World Designer (map JSON)
-    ↓
-Technical Director (runtime)
+Technical Director (runtime per architecture)
     ↓
 Tools Engineer (validators + F3)
+    ↓
+World Designer (map JSON)
     ↓
 QA Director (DoD)
     ↓
 Release Manager (merge → develop)
-    ↓
-Studio Director (metrics + studio_health)
 ```
 
 ---

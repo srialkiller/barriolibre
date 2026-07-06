@@ -62,6 +62,7 @@ docs/
 |---|---|
 | [VEHICLE_DESIGN_GUIDE.md](./systems/VEHICLE_DESIGN_GUIDE.md) | Slots, stats, compatibilidades |
 | [ECONOMY_GUIDE.md](./systems/ECONOMY_GUIDE.md) | Materiales, chapitas, craft |
+| [**BEVY_ARCHITECTURE.md**](./systems/BEVY_ARCHITECTURE.md) | **Constitución Bevy — leer antes de Rust** |
 
 ## production/
 

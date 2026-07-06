@@ -7,12 +7,19 @@
 python scripts/studio_scan.py
 ```
 
+## Constituciones del estudio
+
+| Dominio | Documento |
+|---|---|
+| Gameplay | [GAME_IDENTITY.md](docs/game/GAME_IDENTITY.md) |
+| Arte | [ART_STYLE_GUIDE.md](docs/art/ART_STYLE_GUIDE.md) |
+| **Runtime Bevy** | [**BEVY_ARCHITECTURE.md**](docs/systems/BEVY_ARCHITECTURE.md) ✅ |
+
 ## Sprint 01 — Foundation Runtime
 
+**Gate BEVY_ARCHITECTURE:** ✅ passed — listo para abrir rama  
 **Rama:** `feature/bevy-foundation-runtime`  
 **DoD:** `cargo run` → **barrio renderizado**
-
-No es scaffold — es el **runtime** del juego.
 
 | Rol | Agente |
 |---|---|

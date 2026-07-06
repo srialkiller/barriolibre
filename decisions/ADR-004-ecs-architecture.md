@@ -33,16 +33,9 @@ OOP profundo con herencia no escala bien. Bevy impone ECS.
 
 ### Data-driven
 
-Balance y contenido en JSON bajo `data/`:
+Balance y contenido en JSON bajo `data/`.
 
-```
-data/vehicles/parts_catalog.json
-data/economy/recipe_table.json
-data/progression/unlock_table.json
-data/races/*.json
-```
-
-Rust carga → Resources. **No hardcodear balance en systems.**
+**Implementación detallada:** [BEVY_ARCHITECTURE.md](../docs/systems/BEVY_ARCHITECTURE.md) — constitución técnica del estudio.
 
 ## Rationale
 

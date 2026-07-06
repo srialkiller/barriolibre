@@ -1,5 +1,7 @@
 # Foundation Runtime — ECS
 
+Implementación detallada: [BEVY_ARCHITECTURE.md](../../docs/systems/BEVY_ARCHITECTURE.md).
+
 ## GameState
 
 ```rust
@@ -10,17 +12,22 @@ pub enum GameState {
     Loading,
     MainMenu,
     Gameplay,
+    Paused,
+    Debug,
 }
 ```
 
-## Plugins (planned crates/modules)
+## Plugins (Sprint 01 — ver BEVY_ARCHITECTURE §4)
 
-| Plugin | Responsibility |
+| Plugin | Module |
 |---|---|
-| `CorePlugin` | State machine, events, config |
-| `AssetPlugin` | AssetManager, manifest verify, hot reload |
-| `RenderPlugin` | Isometric camera, tilemap |
-| `WorldPlugin` | layout.json, scene_hooks, collision load |
+| `CorePlugin` | `core/` |
+| `AssetPlugin` | `assets/` |
+| `MapPlugin` | `world/map/` |
+| `CameraPlugin` | `render/camera/` |
+| `SpritePlugin` | `render/sprites/` |
+| `MenuPlugin` | `ui/menus/` (stub) |
+| `DebugPlugin` | `debug/` |
 
 ## Resources
 

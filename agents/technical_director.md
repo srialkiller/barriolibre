@@ -24,19 +24,20 @@
 - Lore del barrio, narrativa
 - Naming de marca comercial
 - Prompts de generación de sprites
-- **Comandos git** — eso es Release Manager exclusivamente (POL-001–002)
+- **Comandos git** — Release Manager (POL-001–002)
+- **Improvisar estructura de carpetas/plugins** — BEVY_ARCHITECTURE manda
 
 ---
 
 ## READ FIRST (obligatorio)
 
 ```
+docs/systems/BEVY_ARCHITECTURE.md    ← LEER PRIMERO — no improvisar estructura
 docs/production/GITFLOW_GUIDE.md
-decisions/README.md
-decisions/ADR-001-bevy-engine.md
 decisions/ADR-004-ecs-architecture.md
+decisions/ADR-001-bevy-engine.md
 docs/production/ASSET_PIPELINE.md
-docs/game/GAMEPLAY_GUIDE.md          ← estados ECS referencia
+features/foundation-runtime/ecs.md
 ```
 
 Según tarea:

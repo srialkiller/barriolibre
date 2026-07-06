@@ -60,14 +60,24 @@ develop → release/* → main
 ## READ FIRST (obligatorio)
 
 ```
-docs/production/GITFLOW_GUIDE.md     ← Norma Git del estudio
-production/branches/registry.json  ← Ramas activas/planificadas
-metrics/project_state.json         ← python scripts/studio_scan.py
+docs/systems/BEVY_ARCHITECTURE.md    ← Constitución técnica (ANTES de Rust)
+docs/production/GITFLOW_GUIDE.md
+production/branches/registry.json
+metrics/project_state.json
+metrics/studio_health.json
 roadmap/MVP.md
-production/README.md
 features/<name>/STATUS.md
 agents/release_manager.md
 docs/game/GAME_IDENTITY.md
+```
+
+### Gate Sprint 01 — Foundation Runtime
+
+**No abrir `feature/bevy-foundation-runtime` sin `BEVY_ARCHITECTURE.md`.** Gate: ✅ passed.
+
+Orden obligatorio:
+```
+BEVY_ARCHITECTURE.md ✅  →  Release Manager  →  feature/bevy-foundation-runtime  →  cargo run
 ```
 
 ---
@@ -155,7 +165,44 @@ Release Manager crea `art/<pack-name>` → Art → QA → Tech → merge.
 
 ---
 
-## Detección de bloqueos (pre-merge)
+## Dependencias entre features (automático)
+
+Antes de asignar cualquier feature, verificar [BEVY_ARCHITECTURE §10](../docs/systems/BEVY_ARCHITECTURE.md#10-dependencias-entre-módulos).
+
+### Formato de respuesta — "Crear Garage"
+
+```markdown
+## Studio Director — Garage
+
+**Dependencias:**
+| Requisito | Status |
+|---|---|
+| Runtime | ✅ / ❌ |
+| Inventory | ✅ / ❌ |
+| Vehicle | ✅ / ❌ |
+| UI | ⚠️ opcional |
+| Save | ❌ post-MVP |
+
+**Orden:** 1 Runtime → 2 Inventory → 3 Vehicle → 4 Garage
+
+**Bloqueado si:** InventoryPlugin o VehiclePlugin no merged
+
+**Branch:** feature/garage (solo si deps ✅)
+**Agents:** vehicle_designer → game_designer → technical_director → qa
+```
+
+### Matriz rápida
+
+| Feature | Hard deps |
+|---|---|
+| foundation-runtime | — |
+| inventory | runtime, player |
+| garage | runtime, inventory, vehicle |
+| race | runtime, vehicle, map |
+| crafting | runtime, inventory |
+| clans | runtime, save, race (alpha) |
+
+---
 
 Release Manager aplica POL-004. Yo detecto antes de planificar:
 

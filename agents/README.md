@@ -45,6 +45,7 @@ Tú → Studio Director → Release Manager → Build/Tech/Tools → Especialist
 | Carpeta | Propósito |
 |---|---|
 | [tools/](../tools/README.md) | Herramientas internas |
+| [BEVY_ARCHITECTURE.md](../docs/systems/BEVY_ARCHITECTURE.md) | **Constitución Bevy (gate Sprint 01)** ✅ |
 | [features/foundation-runtime](../features/foundation-runtime/) | Sprint 01 |
 | [metrics/studio_health.json](../metrics/studio_health.json) | Salud del estudio |
 | [roadmap/Sprint_01.md](../roadmap/Sprint_01.md) | Foundation Runtime DoD |
