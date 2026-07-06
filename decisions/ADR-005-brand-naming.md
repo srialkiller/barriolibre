@@ -1,6 +1,8 @@
 # ADR-005: Nombre Comercial del Juego
 
-**Status:** Proposed — **pendiente decisión del equipo**  
+**Status:** Proposed — **pendiente decisión humana post-prototipo**
+
+> **Gate intencional:** No cerrar hasta tener (1) prototipo jugable, (2) dirección artística consolidada en vertical slice, (3) primer circuito funcionando. Ahí el nombre será evidente.  
 **Date:** 2026-07-06  
 **Deciders:** Creative Director (+ stakeholder humano)
 

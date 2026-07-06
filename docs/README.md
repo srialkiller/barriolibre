@@ -85,7 +85,13 @@ docs/
 | Circuito | `agents/race_designer.md` | `game/RACE_DESIGN` + `world/NEIGHBORHOOD` |
 | Implementar | `agents/technical_director.md` | `decisions/` + `production/ASSET_PIPELINE` |
 
-Ver tabla completa en [`../agents/README.md`](../agents/README.md).
+Para tareas multi-disciplina, el **Studio Director** orquesta primero:
+
+```
+@agents/studio_director.md <tarea>
+```
+
+Ver [`../agents/studio_director.md`](../agents/studio_director.md) · [`../features/`](../features/README.md) · [`../roadmap/`](../roadmap/README.md) · [`../metrics/`](../metrics/README.md)
 
 ---
 

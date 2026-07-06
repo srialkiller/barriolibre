@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+"""Scan repository state for Studio Director metrics and sprint planning."""
+
+from __future__ import annotations
+
+import json
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def count_files(directory: Path, pattern: str) -> int:
+    if not directory.exists():
+        return 0
+    return len(list(directory.rglob(pattern)))
+
+
+def read_manifest_tiles() -> dict:
+    manifest = ROOT / "data/tilesets/environment_base_pack_01_manifest.json"
+    generated = ROOT / "data/tilesets/environment_base_pack_01_generated.json"
+    result = {"manifest_total": 0, "generated_total": 0, "complete": False}
+    if manifest.exists():
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+        categories = data.get("categories", {})
+        total = 0
+        for category in categories.values():
+            for tile in category.get("tiles", []):
+                variants = tile.get("variants", data.get("variants_per_tile", {}).get("default", 1))
+                if isinstance(variants, dict):
+                    variants = variants.get("default", 1)
+                total += int(variants) if variants else 1
+        result["manifest_total"] = total or data.get("tile_count", 155)
+    if generated.exists():
+        data = json.loads(generated.read_text(encoding="utf-8"))
+        items = data.get("generated", data.get("tiles", []))
+        result["generated_total"] = len(items) if isinstance(items, list) else 0
+    result["complete"] = result["generated_total"] >= result["manifest_total"] > 0
+    return result
+
+
+def detect_phase() -> str:
+    cargo = ROOT / "Cargo.toml"
+    maps = count_files(ROOT / "data/maps", "*.json")
+    rust = count_files(ROOT / "src", "*.rs")
+    if not cargo.exists():
+        return "preproduction"
+    if maps == 0 or rust < 10:
+        return "vertical_slice"
+    return "vertical_slice"
+
+
+def scan_features() -> dict:
+    features_dir = ROOT / "features"
+    result = {}
+    if not features_dir.exists():
+        return result
+    for feature_path in sorted(features_dir.iterdir()):
+        if not feature_path.is_dir():
+            continue
+        readme = feature_path / "README.md"
+        status = "unknown"
+        if readme.exists():
+            text = readme.read_text(encoding="utf-8")
+            match = re.search(r"\*\*Status:\*\*\s*(\w+)", text)
+            if match:
+                status = match.group(1).lower()
+        tasks_file = feature_path / "tasks.md"
+        open_tasks = 0
+        if tasks_file.exists():
+            open_tasks = len(re.findall(r"^- \[ \]", tasks_file.read_text(encoding="utf-8"), re.M))
+        result[feature_path.name] = {"status": status, "open_tasks": open_tasks}
+    return result
+
+
+def main() -> None:
+    env_png = count_files(ROOT / "assets/environment", "*.png")
+    tiles = read_manifest_tiles()
+    rust_files = count_files(ROOT / "src", "*.rs")
+    maps = count_files(ROOT / "data/maps", "*.json")
+    vehicle_parts = count_files(ROOT / "assets/vehicles", "*.png")
+    props = count_files(ROOT / "assets/props", "*.png")
+    characters = count_files(ROOT / "assets/characters", "*.png")
+
+    blockers = []
+    if not (ROOT / "Cargo.toml").exists():
+        blockers.append({"id": "B-001", "severity": "critical", "message": "No Bevy/Rust project (Cargo.toml missing)"})
+    if maps == 0:
+        blockers.append({"id": "B-002", "severity": "critical", "message": "No playable maps in data/maps/"})
+    if vehicle_parts == 0:
+        blockers.append({"id": "B-003", "severity": "high", "message": "No vehicle part assets"})
+    if props == 0:
+        blockers.append({"id": "B-004", "severity": "medium", "message": "No props pack"})
+    if not tiles.get("complete"):
+        blockers.append({"id": "B-005", "severity": "low", "message": "Environment tiles incomplete vs manifest"})
+    blockers.append({"id": "B-006", "severity": "info", "message": "Environment QA formal scoring pending"})
+
+    state = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "phase": detect_phase(),
+        "brand_adr": "proposed",
+        "bevy_project": (ROOT / "Cargo.toml").exists(),
+        "assets": {
+            "environment_png": env_png,
+            "environment_tiles_manifest": tiles["manifest_total"],
+            "environment_tiles_generated": tiles["generated_total"],
+            "environment_complete": tiles["complete"],
+            "vehicle_parts": vehicle_parts,
+            "props": props,
+            "characters": characters,
+            "qa_scored": 0,
+            "qa_rejected": 0,
+        },
+        "code": {
+            "rust_files": rust_files,
+            "maps": maps,
+        },
+        "world": {
+            "neighborhoods": 0,
+            "pois_defined": 11,
+            "circuits": 0,
+        },
+        "features": scan_features(),
+        "blockers": blockers,
+        "documentation": {
+            "agents": count_files(ROOT / "agents", "*.md"),
+            "docs": count_files(ROOT / "docs", "*.md"),
+            "adrs": count_files(ROOT / "decisions", "ADR-*.md"),
+            "lore": count_files(ROOT / "lore", "*.md"),
+        },
+    }
+
+    metrics_dir = ROOT / "metrics"
+    metrics_dir.mkdir(exist_ok=True)
+    (metrics_dir / "project_state.json").write_text(
+        json.dumps(state, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+    dashboard = f"""# Project Dashboard
+
+**Generated:** {state["generated_at"]}  
+**Phase:** `{state["phase"]}`  
+**Scan:** `python scripts/studio_scan.py`
+
+## Health
+
+| Metric | Value |
+|---|---|
+| Bevy project | {"✅" if state["bevy_project"] else "❌"} |
+| Rust files | {rust_files} |
+| Playable maps | {maps} |
+| Environment PNGs | {env_png} |
+| Tiles generated | {tiles["generated_total"]}/{tiles["manifest_total"]} |
+| Vehicle parts | {vehicle_parts} |
+| Circuits | 0 |
+
+## Blockers
+
+"""
+    for blocker in blockers:
+        dashboard += f"- **{blocker['severity'].upper()}** [{blocker['id']}] {blocker['message']}\n"
+
+    dashboard += """
+## Features
+
+| Feature | Status | Open tasks |
+|---|---|---|
+"""
+    for name, info in state["features"].items():
+        dashboard += f"| {name} | {info['status']} | {info['open_tasks']} |\n"
+
+    (metrics_dir / "dashboard.md").write_text(dashboard, encoding="utf-8")
+    print(json.dumps(state, indent=2, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

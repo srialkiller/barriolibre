@@ -13,7 +13,7 @@ Primer paquete oficial de tiles modulares isométricos para **Carreras de Barrio
 | **Tiles totales en disco** | 187 (incluye variantes extra de packs 3×3) |
 | **Style anchor** | `road_straight_h_01` |
 | **Fase 2** | **Completada** |
-| **Revisión** | Pendiente scoring formal — ver [docs/ASSET_REVIEW_GUIDE.md](../../docs/ASSET_REVIEW_GUIDE.md) |
+| **Revisión** | Pendiente scoring formal — ver [docs/art/ASSET_REVIEW_GUIDE.md](../../docs/art/ASSET_REVIEW_GUIDE.md) |
 | **Herramienta** | `generate2dsprite` (Agent Sprite Forge) |
 
 ## Estructura

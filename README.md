@@ -7,57 +7,65 @@ Videojuego de carreras infantiles en barrio latinoamericano.
 
 ---
 
-## Estudio virtual (empezar aquí)
-
-Este repo funciona como un **estudio de desarrollo con agentes especializados**, no como un asistente genérico.
-
-| Carpeta | Qué es |
-|---|---|
-| [`agents/`](./agents/README.md) | Equipo virtual — roles, límites, contexto |
-| [`docs/`](./docs/README.md) | Guías del juego por dominio |
-| [`decisions/`](./decisions/README.md) | ADRs — por qué elegimos X |
-| [`lore/`](./lore/README.md) | Coherencia del mundo |
-
-### Invocar un agente
+## Punto de entrada — Studio Director
 
 ```
-@agents/world_designer.md Diseña un barrio con cancha y taller
-@agents/creative_director.md ¿El nitro comprable encaja en el juego?
-@agents/technical_director.md Modela VehicleAssembly en ECS
+@agents/studio_director.md <tu tarea>
+```
+
+El Studio Director **no diseña** — orquesta especialistas, detecta bloqueos, genera sprints.
+
+```bash
+python scripts/studio_scan.py   # estado del proyecto
 ```
 
 ---
 
-## Inicio rápido
+## Arquitectura del estudio
+
+```
+agents/           ← Equipo virtual (11 roles)
+features/         ← Funcionalidades aisladas (garage, race, craft…)
+roadmap/          ← MVP + Sprints (generados por IA)
+metrics/          ← Medición del repo (project_state.json)
+production/       ← Fases: preproduction → release
+docs/             ← Guías por dominio (game, art, world, systems)
+decisions/        ← ADRs
+lore/             ← Coherencia del mundo
+```
 
 | Necesito… | Ir a… |
 |---|---|
-| ADN del juego | [docs/game/GAME_IDENTITY.md](./docs/game/GAME_IDENTITY.md) |
-| Elegir agente | [agents/README.md](./agents/README.md) |
-| Por qué Bevy / 2.5D / ECS | [decisions/](./decisions/README.md) |
-| Por qué los niños corren | [lore/why_kids_race.md](./lore/why_kids_race.md) |
-| Nombre comercial (pendiente) | [decisions/ADR-005-brand-naming.md](./decisions/ADR-005-brand-naming.md) |
+| Orquestar trabajo | [`agents/studio_director.md`](./agents/studio_director.md) |
+| Estado del proyecto | [`metrics/dashboard.md`](./metrics/dashboard.md) |
+| Qué hacer ahora | [`roadmap/Sprint_01.md`](./roadmap/Sprint_01.md) |
+| MVP definition | [`roadmap/MVP.md`](./roadmap/MVP.md) |
+| ADN del juego | [`docs/game/GAME_IDENTITY.md`](./docs/game/GAME_IDENTITY.md) |
+| Feature garage | [`features/garage/`](./features/garage/README.md) |
+| Fase actual | [`production/vertical_slice/`](./production/vertical_slice/README.md) |
 
 ---
 
-## Assets
+## Fase actual: Vertical Slice
 
-```
-assets/environment/     ← ENVIRONMENT_BASE_PACK_01 (155 tiles)
-data/tilesets/          ← Manifiestos JSON
-scripts/                ← Pipeline postproceso
-```
+**Objetivo:** loop jugable MVP (explorar → recoger → craft → garage → carrera).
 
-Estado: [assets/environment/ENVIRONMENT_BASE_PACK_01.md](./assets/environment/ENVIRONMENT_BASE_PACK_01.md)
+**Blocker #1:** No existe proyecto Bevy → Sprint 01.
 
-**Producción de assets pausada** — prioridad: estudio virtual + primer barrio jugable.
+Producción de assets **pausada** excepto placeholders MVP.
 
 ---
 
 ## Marca
 
-| Concepto | Nombre actual |
-|---|---|
-| Juego (working title) | **Carreras de Barrio** |
-| Repositorio | `barriolibre` |
-| Decisión final | Pendiente → [ADR-005](./decisions/ADR-005-brand-naming.md) |
+ADR-005 **Proposed** — decisión post-prototipo jugable + circuito 1.
+
+---
+
+## Assets existentes
+
+```
+assets/environment/     ← 155/155 tiles ✅
+data/tilesets/          ← Manifiestos JSON
+scripts/                ← studio_scan.py + pipeline
+```

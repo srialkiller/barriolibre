@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-07-06T16:33:30.761978+00:00",
+  "phase": "preproduction",
+  "brand_adr": "proposed",
+  "bevy_project": false,
+  "assets": {
+    "environment_png": 255,
+    "environment_tiles_manifest": 155,
+    "environment_tiles_generated": 187,
+    "environment_complete": true,
+    "vehicle_parts": 0,
+    "props": 0,
+    "characters": 0,
+    "qa_scored": 0,
+    "qa_rejected": 0
+  },
+  "code": {
+    "rust_files": 0,
+    "maps": 0
+  },
+  "world": {
+    "neighborhoods": 0,
+    "pois_defined": 11,
+    "circuits": 0
+  },
+  "features": {
+    "clans": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "crafting": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "economy": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "events": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "garage": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "inventory": {
+      "status": "spec",
+      "open_tasks": 6
+    },
+    "race": {
+      "status": "spec",
+      "open_tasks": 6
+    }
+  },
+  "blockers": [
+    {
+      "id": "B-001",
+      "severity": "critical",
+      "message": "No Bevy/Rust project (Cargo.toml missing)"
+    },
+    {
+      "id": "B-002",
+      "severity": "critical",
+      "message": "No playable maps in data/maps/"
+    },
+    {
+      "id": "B-003",
+      "severity": "high",
+      "message": "No vehicle part assets"
+    },
+    {
+      "id": "B-004",
+      "severity": "medium",
+      "message": "No props pack"
+    },
+    {
+      "id": "B-006",
+      "severity": "info",
+      "message": "Environment QA formal scoring pending"
+    }
+  ],
+  "documentation": {
+    "agents": 12,
+    "docs": 14,
+    "adrs": 5,
+    "lore": 7
+  }
+}
