@@ -10,3 +10,14 @@ pub struct MapTile {
 
 #[derive(Component, Debug)]
 pub struct MapRoot;
+
+#[derive(Component, Debug)]
+pub struct PropRoot;
+
+#[derive(Component, Debug)]
+#[allow(dead_code)]
+pub struct MapProp {
+    pub prop_id: String,
+    pub col: f32,
+    pub row: f32,
+}

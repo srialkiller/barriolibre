@@ -1,0 +1,16 @@
+{
+  "id": "bench_01",
+  "category": "props",
+  "pack": "environment_base_pack_01",
+  "pivot": [
+    0.5,
+    1.0
+  ],
+  "size_pixels": [
+    639,
+    640
+  ],
+  "projection": "isometric_2_1",
+  "kind": "object",
+  "status": "qc_pass"
+}

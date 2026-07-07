@@ -2,8 +2,11 @@ use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use tracing::warn;
 
+use std::collections::HashSet;
+
 use crate::assets::manifest::{
-    collect_map_tile_ids, read_layout_tile_ids, resolve_tile_path, tile_file_exists,
+    collect_map_tile_ids, prop_file_exists, read_layout_tile_ids, resolve_prop_path,
+    resolve_tile_path, tile_file_exists,
 };
 use crate::assets::registry::{AssetLoadState, AssetRegistry, GeneratedManifest, PackManifest, TileId};
 use crate::core::events::AssetsReady;
@@ -90,6 +93,7 @@ pub fn load_pending_tiles_system(
     mut images: ResMut<Assets<Image>>,
     mut load_state: ResMut<AssetLoadState>,
     mut registry: ResMut<AssetRegistry>,
+    neighborhood: Res<LoadedNeighborhood>,
     mut assets_ready: EventWriter<AssetsReady>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {
@@ -111,6 +115,20 @@ pub fn load_pending_tiles_system(
         }
     }
 
+    let mut seen_props: HashSet<String> = HashSet::new();
+    for prop in &neighborhood.props {
+        if !seen_props.insert(prop.prop_id.clone()) {
+            continue;
+        }
+        if prop_file_exists(&prop.prop_id) {
+            let handle = asset_server.load(resolve_prop_path(&prop.prop_id));
+            registry.register_prop(prop.prop_id.clone(), handle);
+        } else {
+            registry.register_missing();
+            warn!(prop_id = %prop.prop_id, "Prop PNG missing");
+        }
+    }
+
     load_state.finished = true;
     assets_ready.send(AssetsReady);
     tracing::info!(
@@ -119,6 +137,7 @@ pub fn load_pending_tiles_system(
         mods = %config.mods_directory,
         loaded = registry.loaded_count(),
         missing = registry.missing_count(),
+        props = registry.prop_count(),
         "Assets ready"
     );
     next_state.set(GameState::MainMenu);

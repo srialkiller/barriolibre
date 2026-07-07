@@ -17,8 +17,5 @@
   ],
   "projection": "isometric_2_1",
   "status": "qc_pass",
-  "connections": {
-    "north": "road",
-    "west": "road"
-  }
+  "connections": {}
 }

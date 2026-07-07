@@ -13,8 +13,13 @@ tools/
 ├── manifest_builder/    ← Genera/valida manifest JSON
 ├── atlas_generator/     ← Texture atlases (futuro)
 ├── save_editor/         ← Editar saves dev (futuro)
-└── debug_overlay/       ← FPS, ECS stats, asset debug
+├── debug_overlay/       ← FPS, ECS stats, asset debug
+└── tiled_export/        ← Tiled → layout.json + props.json
 ```
+
+## Tiled (edición de mapas)
+
+Guía completa: **[tiled_export/README.md](tiled_export/README.md)** — abrir `.tmx`, capas, props, exportar y probar en Bevy.
 
 ## Workspace
 

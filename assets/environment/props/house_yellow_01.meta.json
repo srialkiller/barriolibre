@@ -1,0 +1,16 @@
+{
+  "id": "house_yellow_01",
+  "category": "props",
+  "pack": "environment_base_pack_01",
+  "pivot": [
+    0.5,
+    1.0
+  ],
+  "size_pixels": [
+    640,
+    604
+  ],
+  "projection": "isometric_2_1",
+  "kind": "object",
+  "status": "qc_pass"
+}

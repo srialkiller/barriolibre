@@ -1,0 +1,21 @@
+{
+  "id": "road_crosswalk_v_01",
+  "category": "roads",
+  "variant": 1,
+  "pack": "environment_base_pack_01",
+  "pivot": [
+    0.5,
+    0.5
+  ],
+  "size_pixels": [
+    256,
+    128
+  ],
+  "size_units": [
+    1.0,
+    0.5
+  ],
+  "projection": "isometric_2_1",
+  "status": "qc_pass",
+  "connections": {}
+}

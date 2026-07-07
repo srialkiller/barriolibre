@@ -29,6 +29,14 @@ pub fn tile_file_exists(tile_id: &TileId) -> bool {
     Path::new("assets").join(resolve_tile_path(tile_id)).exists()
 }
 
+pub fn resolve_prop_path(prop_id: &str) -> String {
+    format!("environment/props/{prop_id}.png")
+}
+
+pub fn prop_file_exists(prop_id: &str) -> bool {
+    Path::new("assets").join(resolve_prop_path(prop_id)).exists()
+}
+
 pub fn collect_map_tile_ids(neighborhood: &LoadedNeighborhood) -> Vec<TileId> {
     let mut unique_ids = HashSet::new();
 

@@ -26,6 +26,16 @@ pub fn grid_to_world(grid_x: i32, grid_y: i32) -> Vec2 {
     Vec2::new(world_x, world_y)
 }
 
+/// Converts fractional grid coordinates to world position (Bevy 2D, Y-up).
+///
+/// Used for props, which can sit on non-integer cells (e.g. a fountain
+/// centred between four tiles).
+pub fn grid_to_world_f(col: f32, row: f32) -> Vec2 {
+    let world_x = (col - row) * TILE_WORLD_WIDTH * 0.5 * PIXELS_PER_UNIT;
+    let world_y = -((col + row) * TILE_WORLD_HEIGHT * 0.5 * PIXELS_PER_UNIT);
+    Vec2::new(world_x, world_y)
+}
+
 /// Depth sort key for pseudo-3D draw order.
 pub fn iso_sort_key(grid_x: i32, grid_y: i32) -> f32 {
     (grid_x + grid_y) as f32

@@ -8,6 +8,7 @@ pub struct LoadedNeighborhood {
     pub width: usize,
     pub height: usize,
     pub ground_layer: Vec<Vec<String>>,
+    pub props: Vec<PropInstance>,
     pub spawn_position: Option<[i32; 2]>,
     pub collision_loaded: bool,
     pub hooks_loaded: bool,
@@ -21,11 +22,32 @@ impl Default for LoadedNeighborhood {
             width: 0,
             height: 0,
             ground_layer: Vec::new(),
+            props: Vec::new(),
             spawn_position: None,
             collision_loaded: false,
             hooks_loaded: false,
         }
     }
+}
+
+/// One placed prop (house, tree, lamp, ...) read from `props.json`.
+///
+/// `col`/`row` are fractional grid coordinates of the cell the prop stands on;
+/// `width_px`/`height_px` are the proportional on-screen size (same pixel space
+/// as tiles, where one tile is 256x128).
+#[derive(Debug, Clone, Deserialize)]
+pub struct PropInstance {
+    pub prop_id: String,
+    pub col: f32,
+    pub row: f32,
+    pub width_px: f32,
+    pub height_px: f32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PropsFile {
+    #[serde(default)]
+    pub props: Vec<PropInstance>,
 }
 
 #[derive(Debug, Deserialize)]

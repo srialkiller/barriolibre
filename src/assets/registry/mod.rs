@@ -28,6 +28,7 @@ impl From<&str> for TileId {
 #[derive(Resource, Debug, Default)]
 pub struct AssetRegistry {
     tiles: HashMap<TileId, Handle<Image>>,
+    props: HashMap<String, Handle<Image>>,
     loaded_count: usize,
     missing_count: usize,
 }
@@ -40,6 +41,19 @@ impl AssetRegistry {
     pub fn register_tile(&mut self, id: TileId, handle: Handle<Image>) {
         self.tiles.insert(id, handle);
         self.loaded_count += 1;
+    }
+
+    pub fn prop(&self, prop_id: &str) -> Option<&Handle<Image>> {
+        self.props.get(prop_id)
+    }
+
+    pub fn register_prop(&mut self, prop_id: String, handle: Handle<Image>) {
+        self.props.insert(prop_id, handle);
+        self.loaded_count += 1;
+    }
+
+    pub fn prop_count(&self) -> usize {
+        self.props.len()
     }
 
     pub fn register_missing(&mut self) {

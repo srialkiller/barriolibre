@@ -6,7 +6,7 @@ use tracing::warn;
 use crate::core::events::NeighborhoodLoaded;
 use crate::core::resources::GameConfig;
 use crate::world::map::resources::{
-    CollisionFile, LayoutFile, LoadedNeighborhood, MapLoadState, SceneHooksFile,
+    CollisionFile, LayoutFile, LoadedNeighborhood, MapLoadState, PropsFile, SceneHooksFile,
 };
 
 pub fn load_map_during_loading_system(
@@ -23,6 +23,7 @@ pub fn load_map_during_loading_system(
     let layout_path = map_dir.join("layout.json");
     let collision_path = map_dir.join("collision.json");
     let hooks_path = map_dir.join("scene_hooks.json");
+    let props_path = map_dir.join("props.json");
 
     let layout_text = match std::fs::read_to_string(&layout_path) {
         Ok(text) => text,
@@ -49,6 +50,12 @@ pub fn load_map_during_loading_system(
     neighborhood.width = layout.size[0];
     neighborhood.height = layout.size[1];
     neighborhood.ground_layer = layout.layers.ground;
+
+    neighborhood.props = std::fs::read_to_string(&props_path)
+        .ok()
+        .and_then(|text| serde_json::from_str::<PropsFile>(&text).ok())
+        .map(|file| file.props)
+        .unwrap_or_default();
 
     neighborhood.collision_loaded = collision_path
         .exists()

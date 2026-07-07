@@ -5,6 +5,7 @@ use crate::assets::AssetPlugin;
 use crate::core::CorePlugin;
 use crate::debug::DebugPlugin;
 use crate::render::camera::CameraPlugin;
+use crate::render::props::PropPlugin;
 use crate::render::sprites::SpritePlugin;
 use crate::ui::menus::MenuPlugin;
 use crate::world::map::MapPlugin;
@@ -43,6 +44,7 @@ impl Plugin for AppPlugin {
             .add_plugins(MapPlugin)
             .add_plugins(CameraPlugin)
             .add_plugins(SpritePlugin)
+            .add_plugins(PropPlugin)
             .add_plugins(MenuPlugin)
             .add_plugins(DebugPlugin);
     }

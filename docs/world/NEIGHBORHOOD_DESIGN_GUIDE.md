@@ -286,13 +286,19 @@ Carrera: circuito principal + 2 atajos + esquina peligrosa
 
 ```
 data/maps/<barrio_id>/
-├── layout.json           ← grid de tile IDs
+├── <barrio_id>.tmx         ← mapa editable en Tiled
+├── environment_*.tsx       ← tileset de suelo
+├── props_*.tsx             ← tileset de props (objetos)
+├── layout.json           ← grid de tile IDs (exportado desde Tiled)
+├── props.json            ← posiciones y tamaños de props (exportado desde Tiled)
 ├── pois.json             ← puntos de interés
 ├── collision.json        ← geometría sólida
 ├── scene_hooks.json      ← spawns, checkpoints, meta
 ├── slopes.json           ← metadata de pendiente
 └── shortcuts.json        ← atajos y rutas alternativas
 ```
+
+**Flujo de edición en Tiled:** ver [tools/tiled_export/README.md](../../tools/tiled_export/README.md).
 
 ### 8.2 Layout JSON (ejemplo)
 
