@@ -265,6 +265,50 @@ def write_props_json(props: list[dict]) -> None:
     print(f"Wrote {out} ({len(entries)} props)")
 
 
+# Player spawn in the central plaza (open grass, south of the fountain focal point).
+SPAWN_COL, SPAWN_ROW = 12, 11
+
+
+def write_scene_hooks_json() -> None:
+    payload = {
+        "barrio_id": MAP_ID,
+        "version": 1,
+        "spawn_points": [
+            {
+                "id": "tutorial_spawn",
+                "position": [SPAWN_COL, SPAWN_ROW],
+                "facing": "south",
+            }
+        ],
+        "checkpoints": [],
+        "poi_hooks": [
+            {
+                "id": "plaza_central",
+                "position": [11, 11],
+                "poi_type": "plaza",
+            }
+        ],
+        "metadata": {
+            "tutorial": True,
+            "description": "Primer barrio del Foundation Runtime",
+        },
+    }
+    out = MAP_DIR / "scene_hooks.json"
+    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {out}")
+
+
+def spawn_object_xml(object_id: int) -> tuple[str, int]:
+    x = (SPAWN_COL + 0.5) * TH
+    y = (SPAWN_ROW + 0.5) * TH
+    line = (
+        f'  <object id="{object_id}" name="tutorial_spawn" '
+        f'x="{x:.2f}" y="{y:.2f}" width="0" height="0">'
+        f'<properties><property name="facing" value="south"/></properties></object>'
+    )
+    return line, object_id + 1
+
+
 def ground_gids(ground: list[list[str]]) -> list[int]:
     index_of = {tid: i for i, tid in enumerate(CURATED_TUTORIAL_TILES)}
     return [GROUND_FIRSTGID + index_of[tile_id] for row in ground for tile_id in row]
@@ -292,6 +336,7 @@ def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
     encoded_ground = encode_layer_data(ground_gids(ground))
     empty_layer = encode_layer_data([0] * (SIZE * SIZE))
     object_lines, next_object_id = prop_object_xml(props)
+    spawn_line, next_object_id = spawn_object_xml(next_object_id)
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -300,7 +345,7 @@ def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
             'orientation="isometric" renderorder="right-down" '
             f'width="{SIZE}" height="{SIZE}" '
             f'tilewidth="{TW}" tileheight="{TH}" infinite="0" '
-            f'nextlayerid="5" nextobjectid="{next_object_id}">'
+            f'nextlayerid="6" nextobjectid="{next_object_id}">'
         ),
         ' <tileset firstgid="1" source="environment_tutorial.tsx"/>',
         f' <tileset firstgid="{PROPS_FIRSTGID}" source="props_tutorial.tsx"/>',
@@ -316,6 +361,9 @@ def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
         ' <objectgroup id="4" name="props">',
     ]
     lines.extend(object_lines)
+    lines.append(" </objectgroup>")
+    lines.append(' <objectgroup id="5" name="spawn">')
+    lines.append(spawn_line)
     lines.append(" </objectgroup>")
     lines.append("</map>")
 
@@ -374,6 +422,7 @@ def main() -> int:
     props = build_props(ground)
     write_layout_json(ground)
     write_props_json(props)
+    write_scene_hooks_json()
     write_tmx(ground, props)
     render_preview(ground, props)
     return 0

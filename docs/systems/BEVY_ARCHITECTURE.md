@@ -166,10 +166,12 @@ agents: economy_designer + technical_director
 | `CorePlugin` | `core/` | 01 | `GameConfig` |
 | `AssetPlugin` | `assets/` | 01 | `AssetRegistry` |
 | `MapPlugin` | `world/map/` | 01 | `LoadedNeighborhood` |
+| `CollisionPlugin` | `world/collision/` | 02 | `CollisionGrid` |
 | `CameraPlugin` | `render/camera/` | 01 | — |
 | `SpritePlugin` | `render/sprites/` | 01 | — |
-| `DebugPlugin` | `debug/` | 01 | `DebugOverlayState` |
-| `PlayerPlugin` | `game/player/` | 02 | `PlayerInputConfig` |
+| `PropPlugin` | `render/props/` | 01 | — |
+| `PlayerPlugin` | `game/player/` | 02 | `PlayerConfig`, `PlayerAssets` |
+| `DebugPlugin` | `debug/` | 01 | `DebugOverlayState`, `GameplayDebugState` |
 | `InventoryPlugin` | `game/inventory/` | 02 | `PlayerInventory` |
 | `VehiclePlugin` | `game/vehicle/` | 03 | `PartsCatalog` |
 | `GaragePlugin` | `game/garage/` | 03 | — |

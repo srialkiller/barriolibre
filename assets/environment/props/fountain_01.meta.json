@@ -12,5 +12,8 @@
   ],
   "projection": "isometric_2_1",
   "kind": "object",
-  "status": "qc_pass"
+  "status": "qc_pass",
+  "collision": {
+    "blocks_movement": true
+  }
 }

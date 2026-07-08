@@ -20,6 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 LAYER_NAMES = ("ground", "markings", "overlay")
 PROPS_LAYER_NAME = "props"
+SPAWN_LAYER_NAME = "spawn"
 # Tiled stores flip flags in the top bits of tile/object gids.
 GID_MASK = 0x1FFFFFFF
 
@@ -188,6 +189,44 @@ def export_props(
     }
 
 
+def export_spawn(root: ET.Element, barrio_id: str) -> dict | None:
+    tile_height = float(root.attrib["tileheight"])
+    spawn_points: list[dict] = []
+
+    for group in root.findall("objectgroup"):
+        if group.attrib.get("name") != SPAWN_LAYER_NAME:
+            continue
+        for obj in group.findall("object"):
+            spawn_id = obj.attrib.get("name") or f"spawn_{obj.attrib.get('id', '0')}"
+            col, row = tiled_object_to_grid(
+                float(obj.attrib["x"]),
+                float(obj.attrib["y"]),
+                tile_height,
+            )
+            entry: dict = {
+                "id": spawn_id,
+                "position": [int(round(col)), int(round(row))],
+            }
+            properties = obj.find("properties")
+            if properties is not None:
+                for prop in properties.findall("property"):
+                    if prop.attrib.get("name") == "facing" and prop.attrib.get("value"):
+                        entry["facing"] = prop.attrib["value"]
+            spawn_points.append(entry)
+
+    if not spawn_points:
+        return None
+
+    return {
+        "barrio_id": barrio_id,
+        "version": 1,
+        "spawn_points": spawn_points,
+        "checkpoints": [],
+        "poi_hooks": [],
+        "metadata": {"exported_from_tiled": True},
+    }
+
+
 def export_layout(
     map_path: Path,
     barrio_id: str,
@@ -233,7 +272,9 @@ def export_layout(
     ):
         props_payload = export_props(root, gid_to_prop_id, barrio_id)
 
-    return layout, props_payload
+    spawn_payload = export_spawn(root, barrio_id)
+
+    return layout, props_payload, spawn_payload
 
 
 def main() -> int:
@@ -259,14 +300,25 @@ def main() -> int:
         action="store_true",
         help="Skip exporting props.json even if a props object layer exists.",
     )
+    parser.add_argument(
+        "--hooks-output",
+        type=Path,
+        help="Output scene_hooks.json path (default: same folder as .tmx)",
+    )
+    parser.add_argument(
+        "--no-hooks",
+        action="store_true",
+        help="Skip exporting scene_hooks.json even if a spawn object layer exists.",
+    )
     args = parser.parse_args()
 
     map_path = args.tmx if args.tmx.is_absolute() else REPO_ROOT / args.tmx
     barrio_id = args.barrio_id or map_path.parent.name
     output_path = args.output or map_path.parent / "layout.json"
     props_output_path = args.props_output or map_path.parent / "props.json"
+    hooks_output_path = args.hooks_output or map_path.parent / "scene_hooks.json"
 
-    layout, props_payload = export_layout(
+    layout, props_payload, spawn_payload = export_layout(
         map_path=map_path,
         barrio_id=barrio_id,
         display_name=args.display_name,
@@ -286,6 +338,18 @@ def main() -> int:
         print(f"Exported {props_output_path} ({len(props_payload['props'])} props)")
     elif not args.no_props:
         print("No props object layer found — props.json unchanged")
+
+    if not args.no_hooks and spawn_payload is not None:
+        hooks_output_path.write_text(
+            json.dumps(spawn_payload, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        print(
+            f"Exported {hooks_output_path} "
+            f"({len(spawn_payload['spawn_points'])} spawn points)"
+        )
+    elif not args.no_hooks:
+        print("No spawn object layer found — scene_hooks.json unchanged")
 
     return 0
 

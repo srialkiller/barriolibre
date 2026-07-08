@@ -39,14 +39,14 @@ pub fn focus_iso_camera_system(
     }
 }
 
-/// Pan with WASD / arrow keys, zoom with the mouse wheel or Q/E (and +/-).
+/// Pan with WASD / arrow keys (debug only). Zoom with wheel or Q/E in gameplay.
 pub fn camera_control_system(
     time: Res<Time>,
     keyboard: Res<ButtonInput<KeyCode>>,
     mut wheel_events: EventReader<MouseWheel>,
     mut cameras: Query<(&mut Transform, &mut OrthographicProjection), With<IsoCamera>>,
 ) {
-    let Ok((mut transform, mut projection)) = cameras.get_single_mut() else {
+    let Ok((_transform, mut projection)) = cameras.get_single_mut() else {
         return;
     };
 
@@ -63,6 +63,17 @@ pub fn camera_control_system(
     if zoom_delta != 0.0 {
         projection.scale = (projection.scale + zoom_delta).clamp(MIN_ZOOM, MAX_ZOOM);
     }
+}
+
+/// Free camera pan — disabled during normal gameplay (WASD moves the player).
+pub fn camera_pan_system(
+    time: Res<Time>,
+    keyboard: Res<ButtonInput<KeyCode>>,
+    mut cameras: Query<(&mut Transform, &OrthographicProjection), With<IsoCamera>>,
+) {
+    let Ok((mut transform, projection)) = cameras.get_single_mut() else {
+        return;
+    };
 
     let mut direction = Vec2::ZERO;
     if keyboard.any_pressed([KeyCode::KeyW, KeyCode::ArrowUp]) {

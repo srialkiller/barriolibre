@@ -31,11 +31,11 @@ data/maps/barrio_tutorial_01/
 ├── props_tutorial.tsx            ← tileset de props (9 objetos)
 ├── layout.json                 ← exportado → suelo que renderiza Bevy
 ├── props.json                  ← exportado → casas/árboles/etc. en Bevy
-├── collision.json              ← colisiones (futuro gameplay)
-└── scene_hooks.json            ← spawns y POI (futuro)
+├── scene_hooks.json            ← exportado → spawn del jugador (capa `spawn`)
+├── collision.json              ← colisiones manuales (opcional; v1 usa props + bordes)
 ```
 
-**Regla:** editá solo el `.tmx` en Tiled. Los `.json` los genera el script de exportación (no los edites a mano salvo `scene_hooks.json` / `collision.json` cuando toque).
+**Regla:** editá solo el `.tmx` en Tiled. Los `.json` los genera el script de exportación.
 
 ---
 
@@ -128,11 +128,24 @@ En vista isométrica, lo que está más **abajo-derecha** tapa lo de arriba-izqu
 
 ---
 
-## 4. Reglas importantes
+## 4. Capa de objetos `spawn`
+
+El punto de aparición del jugador va en la capa de objetos **`spawn`**.
+
+1. Panel **Layers** → **`spawn`**
+2. Herramienta **Insert Point**
+3. Clic en la celda deseada (plaza central en el tutorial)
+4. Opcional: nombre `tutorial_spawn`, propiedad `facing` = `south`
+
+El exportador escribe `scene_hooks.json` con `spawn_points[].position` en coordenadas de grilla.
+
+---
+
+## 5. Reglas importantes
 
 | Hacé esto | Evitá esto |
 |-----------|------------|
-| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `props`) |
+| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `props`, `spawn`) |
 | Usar tiles de los tilesets del proyecto | Mover o renombrar `.tsx` fuera de la carpeta del mapa |
 | Exportar con el script de Python | Exportar JSON manualmente desde Tiled |
 | **Ctrl+S** después de editar | Borrar propiedades `tile_id` / `prop_id` de los tilesets |
@@ -143,7 +156,7 @@ En vista isométrica, lo que está más **abajo-derecha** tapa lo de arriba-izqu
 
 ---
 
-## 5. Exportar al motor (layout + props)
+## 6. Exportar al motor (layout + props + spawn)
 
 Desde la raíz del repo:
 
@@ -159,6 +172,7 @@ Exported .../layout.json
 Size: 24x24
 Ground layer rows: 24
 Exported .../props.json (64 props)
+Exported .../scene_hooks.json (1 spawn points)
 ```
 
 ### Qué genera cada archivo
@@ -167,6 +181,7 @@ Exported .../props.json (64 props)
 |---------|-----------------|-------------|
 | `layout.json` | Capas `ground`, `markings`, `overlay` | Tilemap de suelo |
 | `props.json` | Capa de objetos `props` | Sprites de casas, árboles, etc. |
+| `scene_hooks.json` | Capa de objetos `spawn` | Posición inicial del jugador |
 
 ### Opciones del exportador
 
@@ -174,8 +189,11 @@ Exported .../props.json (64 props)
 # Solo suelo, sin tocar props.json
 python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --no-props
 
+# Sin exportar scene_hooks.json
+python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --no-hooks
+
 # Ruta custom de salida
-python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --output data/maps/.../layout.json --props-output data/maps/.../props.json
+python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --output data/maps/.../layout.json --props-output data/maps/.../props.json --hooks-output data/maps/.../scene_hooks.json
 ```
 
 ---

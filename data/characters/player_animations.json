@@ -1,0 +1,25 @@
+{
+  "texture": "player/player.png",
+  "cell_size": [
+    256,
+    256
+  ],
+  "columns": 4,
+  "rows": 6,
+  "display_height_px": 192,
+  "idle": {
+    "frame_start": 16,
+    "frames": 4,
+    "fps": 6
+  },
+  "walk": {
+    "frames_per_direction": 4,
+    "fps": 10,
+    "direction_rows": {
+      "north": 0,
+      "east": 1,
+      "south": 2,
+      "west": 3
+    }
+  }
+}

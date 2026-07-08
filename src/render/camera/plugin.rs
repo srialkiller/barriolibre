@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::core::states::GameState;
 use crate::render::camera::systems::{
-    camera_control_system, focus_iso_camera_system, setup_default_camera_system,
+    camera_control_system, camera_pan_system, focus_iso_camera_system, setup_default_camera_system,
 };
 
 pub struct CameraPlugin;
@@ -13,7 +13,11 @@ impl Plugin for CameraPlugin {
             .add_systems(OnEnter(GameState::Gameplay), focus_iso_camera_system)
             .add_systems(
                 Update,
-                camera_control_system.run_if(in_state(GameState::Gameplay)),
+                (
+                    camera_control_system,
+                    camera_pan_system.run_if(in_state(GameState::Debug)),
+                )
+                    .run_if(in_state(GameState::Gameplay).or(in_state(GameState::Debug))),
             );
     }
 }

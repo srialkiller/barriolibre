@@ -36,6 +36,15 @@ pub fn grid_to_world_f(col: f32, row: f32) -> Vec2 {
     Vec2::new(world_x, world_y)
 }
 
+/// Inverse of [`grid_to_world_f`] — world feet position to fractional grid coords.
+pub fn world_to_grid_f(world: Vec2) -> (f32, f32) {
+    let half_width = TILE_WORLD_WIDTH * 0.5 * PIXELS_PER_UNIT;
+    let half_height = TILE_WORLD_HEIGHT * 0.5 * PIXELS_PER_UNIT;
+    let col = (world.x / half_width - world.y / half_height) * 0.5;
+    let row = (-world.y / half_height - world.x / half_width) * 0.5;
+    (col, row)
+}
+
 /// Depth sort key for pseudo-3D draw order.
 pub fn iso_sort_key(grid_x: i32, grid_y: i32) -> f32 {
     (grid_x + grid_y) as f32
@@ -151,5 +160,13 @@ mod tests {
         assert_eq!(grid_to_world(1, 0).x, TILE_PX_WIDTH * 0.5);
         assert_eq!(grid_to_world(0, 1).x, -TILE_PX_WIDTH * 0.5);
         assert_eq!(grid_to_world(0, 1).y, -TILE_PX_HEIGHT * 0.5);
+    }
+
+    #[test]
+    fn world_grid_roundtrip() {
+        let world = grid_to_world_f(12.5, 11.25);
+        let (col, row) = world_to_grid_f(world);
+        assert!((col - 12.5).abs() < 0.01);
+        assert!((row - 11.25).abs() < 0.01);
     }
 }

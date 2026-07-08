@@ -111,13 +111,6 @@
       "height_px": 300.0
     },
     {
-      "prop_id": "hydrant_01",
-      "col": 6.0,
-      "row": 6.0,
-      "width_px": 45.72,
-      "height_px": 95.0
-    },
-    {
       "prop_id": "lamp_01",
       "col": 6.0,
       "row": 6.0,
@@ -139,18 +132,25 @@
       "height_px": 270.0
     },
     {
-      "prop_id": "hydrant_01",
-      "col": 17.0,
-      "row": 6.0,
-      "width_px": 45.72,
-      "height_px": 95.0
-    },
-    {
       "prop_id": "lamp_01",
       "col": 17.0,
       "row": 6.0,
       "width_px": 79.31,
       "height_px": 270.0
+    },
+    {
+      "prop_id": "hydrant_01",
+      "col": 3.062,
+      "row": 6.062,
+      "width_px": 45.72,
+      "height_px": 95.0
+    },
+    {
+      "prop_id": "hydrant_01",
+      "col": 19.055,
+      "row": 6.102,
+      "width_px": 45.72,
+      "height_px": 95.0
     },
     {
       "prop_id": "lamp_01",
