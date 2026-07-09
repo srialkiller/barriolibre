@@ -14,7 +14,8 @@ tools/
 ├── atlas_generator/     ← Texture atlases (futuro)
 ├── save_editor/         ← Editar saves dev (futuro)
 ├── debug_overlay/       ← FPS, ECS stats, asset debug
-└── tiled_export/        ← Tiled → layout.json + props.json
+├── tiled_export/        ← Tiled → layout.json + props.json
+└── tiled_mcp/           ← MCP server: leer/editar/exportar mapas Tiled + puente vivo
 ```
 
 ## Tiled (edición de mapas)

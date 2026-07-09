@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "tiled": {
+      "type": "local",
+      "command": ["python", "-m", "tiled_mcp"],
+      "cwd": "tools/tiled_mcp",
+      "enabled": true,
+      "timeout": 10000
+    }
+  }
+}
