@@ -17,7 +17,8 @@ impl Plugin for CameraPlugin {
                 (
                     camera_control_system,
                     camera_pan_system.run_if(
-                        in_state(GameState::Debug).or(|editor: Res<CollisionEditorState>| editor.active),
+                        in_state(GameState::Debug)
+                            .or(|editor: Res<CollisionEditorState>| editor.active),
                     ),
                 )
                     .run_if(in_state(GameState::Gameplay).or(in_state(GameState::Debug))),

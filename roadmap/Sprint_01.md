@@ -1,6 +1,6 @@
 # Sprint 01 — Foundation Runtime
 
-**Status:** 🔴 **LAUNCHED** — 2026-07-06  
+**Status:** ✅ **COMPLETE** — merged 2026-07-09  
 **Milestone:** [M0 — Foundation Runtime](../milestones/MILESTONE_0_FOUNDATION_RUNTIME.md)
 
 ---
@@ -8,7 +8,7 @@
 ## Pre-requisito (gate)
 
 - [x] **`docs/systems/BEVY_ARCHITECTURE.md`** — constitución técnica ✅
-- [ ] Release Manager abre `feature/bevy-foundation-runtime`
+- [x] Release Manager abre `feature/bevy-foundation-runtime`
 
 ---
 
@@ -59,46 +59,46 @@ Gameplay/jugador **no requerido** en M0.
 ## Definition of Done (Sprint NO termina hasta ✅ todo)
 
 ### Proyecto
-- [ ] Proyecto Bevy inicializado (workspace)
-- [ ] Compila sin warnings críticos
-- [ ] CI local: `cargo fmt`, `cargo clippy`, `cargo test` — Build Engineer
+- [x] Proyecto Bevy inicializado (workspace)
+- [x] Compila sin warnings críticos
+- [x] CI local: `cargo fmt`, `cargo clippy`, `cargo test` — Build Engineer
 
 ### ECS
-- [ ] Estados: `Boot`, `Loading`, `MainMenu`, `Gameplay`
-- [ ] Plugins separados por dominio
-- [ ] Resources globales (`GameConfig`, etc.)
-- [ ] Event bus inicial
+- [x] Estados: `Boot`, `Loading`, `MainMenu`, `Gameplay`
+- [x] Plugins separados por dominio
+- [x] Resources globales (`GameConfig`, etc.)
+- [x] Event bus inicial
 
 ### Assets
-- [ ] `AssetManager` / loader unificado
-- [ ] Carga automática ENVIRONMENT_BASE_PACK_01
-- [ ] Verificación vs manifest JSON
-- [ ] Hot reload activo (dev)
+- [x] `AssetManager` / loader unificado
+- [x] Carga automática ENVIRONMENT_BASE_PACK_01
+- [x] Verificación vs manifest JSON
+- [x] Hot reload activo (dev)
 
 ### Render
-- [ ] Cámara isométrica 2:1 (ADR-002)
-- [ ] Primer mapa desde JSON
-- [ ] Tiles renderizados correctamente
+- [x] Cámara isométrica 2:1 (ADR-002)
+- [x] Primer mapa desde JSON
+- [x] Tiles renderizados correctamente
 
 ### Mundo
-- [ ] `layout.json` leído
-- [ ] `collision.json` preparado (no usado aún OK)
-- [ ] `scene_hooks.json` cargado
+- [x] `layout.json` leído
+- [x] `collision.json` preparado (no usado aún OK)
+- [x] `scene_hooks.json` cargado
 
 ### Herramientas
-- [ ] Logging (tracing)
-- [ ] Configuración (`config/` o `data/config/`)
-- [ ] Carpeta `mods/` preparada (vacía OK)
-- [ ] Debug overlay F3 — Tools Engineer
+- [x] Logging (tracing)
+- [x] Configuración (`config/` o `data/config/`)
+- [x] Carpeta `mods/` preparada (vacía OK)
+- [x] Debug overlay F3 — Tools Engineer
 
 ### QA
-- [ ] `cargo test` pasa
-- [ ] `cargo clippy` sin errores
-- [ ] FPS estable en mapa test
-- [ ] Assets cargados sin errores en log
+- [x] `cargo test` pasa
+- [x] `cargo clippy` sin errores
+- [x] FPS estable en mapa test
+- [x] Assets cargados sin errores en log
 
 ### Visible (regla del estudio)
-- [ ] **`cargo run` → barrio visible en pantalla**
+- [x] **`cargo run` → barrio visible en pantalla**
 
 ---
 
@@ -106,21 +106,21 @@ Gameplay/jugador **no requerido** en M0.
 
 | ID | Task | Agent | Done |
 |---|---|---|---|
-| S1-BE-001 | Cargo workspace + Bevy pin | build_engineer | [ ] |
-| S1-BE-002 | CI script fmt/clippy/test | build_engineer | [ ] |
-| S1-TD-001 | App + GameState machine | technical_director | [ ] |
-| S1-TD-002 | Plugins: core, assets, render, world | technical_director | [ ] |
-| S1-TD-003 | AssetManager + manifest verify | technical_director | [ ] |
-| S1-TD-004 | Hot reload dev | technical_director | [ ] |
-| S1-TD-005 | Isometric camera + tilemap render | technical_director | [ ] |
-| S1-TD-006 | Load layout.json + scene_hooks | technical_director | [ ] |
-| S1-TD-007 | collision.json loader (stub use) | technical_director | [ ] |
-| S1-TD-008 | Logging + GameConfig | technical_director | [ ] |
-| S1-TD-009 | mods/ folder + placeholder | technical_director | [ ] |
-| S1-TE-001 | map_validator stub | tools_engineer | [ ] |
-| S1-TE-002 | debug_overlay F3 | tools_engineer | [ ] |
-| S1-WD-001 | data/maps/barrio_tutorial_01/ JSON | world_designer | [ ] |
-| S1-QA-001 | DoD checklist completo | qa_director | [ ] |
+| S1-BE-001 | Cargo workspace + Bevy pin | build_engineer | [x] |
+| S1-BE-002 | CI script fmt/clippy/test | build_engineer | [x] |
+| S1-TD-001 | App + GameState machine | technical_director | [x] |
+| S1-TD-002 | Plugins: core, assets, render, world | technical_director | [x] |
+| S1-TD-003 | AssetManager + manifest verify | technical_director | [x] |
+| S1-TD-004 | Hot reload dev | technical_director | [x] |
+| S1-TD-005 | Isometric camera + tilemap render | technical_director | [x] |
+| S1-TD-006 | Load layout.json + scene_hooks | technical_director | [x] |
+| S1-TD-007 | collision.json loader (stub use) | technical_director | [x] |
+| S1-TD-008 | Logging + GameConfig | technical_director | [x] |
+| S1-TD-009 | mods/ folder + placeholder | technical_director | [x] |
+| S1-TE-001 | map_validator stub | tools_engineer | [x] |
+| S1-TE-002 | debug_overlay F3 | tools_engineer | [x] |
+| S1-WD-001 | data/maps/barrio_tutorial_01/ JSON | world_designer | [x] |
+| S1-QA-001 | DoD checklist completo | qa_director | [x] |
 
 Ver detalle: [features/foundation-runtime/TASKS.md](../features/foundation-runtime/TASKS.md)
 
@@ -152,10 +152,10 @@ Release Manager (merge → develop)
 
 ## Sprint exit
 
-- [ ] DoD 100% ✅
-- [ ] `metrics/studio_health.json` → Runtime 🟢
-- [ ] Demo: `cargo run` barrio renderizado
-- [ ] POL-001–007
+- [x] DoD 100% ✅
+- [x] `metrics/studio_health.json` → Runtime 🟢
+- [x] Demo: `cargo run` barrio renderizado
+- [x] POL-001–007
 
 ---
 

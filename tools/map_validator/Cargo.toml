@@ -1,0 +1,14 @@
+[package]
+name = "map_validator"
+version = "0.1.0"
+edition = "2021"
+description = "Validates barrio map JSON against tile manifests and asset files"
+publish = false
+
+[[bin]]
+name = "map_validator"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

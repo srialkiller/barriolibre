@@ -42,11 +42,8 @@ pub fn load_map_during_loading_system(
     };
 
     neighborhood.barrio_id = layout.barrio_id.clone();
-    neighborhood.display_name = if layout.display_name.is_empty() {
-        layout.barrio_id.clone()
-    } else {
-        layout.display_name
-    };
+    neighborhood.display_name =
+        if layout.display_name.is_empty() { layout.barrio_id.clone() } else { layout.display_name };
     neighborhood.width = layout.size[0];
     neighborhood.height = layout.size[1];
     neighborhood.ground_layer = layout.layers.ground;
@@ -57,8 +54,7 @@ pub fn load_map_during_loading_system(
         .map(|file| file.props)
         .unwrap_or_default();
 
-    neighborhood.collision_loaded = collision_path
-        .exists()
+    neighborhood.collision_loaded = collision_path.exists()
         && std::fs::read_to_string(&collision_path)
             .ok()
             .and_then(|text| serde_json::from_str::<CollisionFile>(&text).ok())
@@ -84,9 +80,7 @@ pub fn load_map_during_loading_system(
         "Neighborhood loaded"
     );
 
-    neighborhood_loaded.send(NeighborhoodLoaded {
-        map_id: neighborhood.barrio_id.clone(),
-    });
+    neighborhood_loaded.send(NeighborhoodLoaded { map_id: neighborhood.barrio_id.clone() });
 
     tracing::debug!(map_id = %neighborhood.barrio_id, "NeighborhoodLoaded event emitted");
 }

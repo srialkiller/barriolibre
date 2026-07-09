@@ -21,12 +21,7 @@ pub fn spawn_tilemap_system(
     let tile_size = tile_display_size();
     let tile_anchor = default_tile_anchor();
     let root = commands
-        .spawn((
-            MapRoot,
-            Name::new("MapRoot"),
-            Transform::default(),
-            Visibility::default(),
-        ))
+        .spawn((MapRoot, Name::new("MapRoot"), Transform::default(), Visibility::default()))
         .id();
 
     for (row_index, row) in neighborhood.ground_layer.iter().enumerate() {
@@ -36,21 +31,15 @@ pub fn spawn_tilemap_system(
             let position = grid_to_iso(grid_x, grid_y);
             let z = iso_sort_key(grid_x, grid_y);
 
-            let handle = registry
-                .tile(&TileId::new(tile_id.clone()))
-                .cloned()
-                .unwrap_or_else(|| {
+            let handle =
+                registry.tile(&TileId::new(tile_id.clone())).cloned().unwrap_or_else(|| {
                     warn_missing_tile(tile_id);
                     Handle::default()
                 });
 
             commands.entity(root).with_children(|parent| {
                 parent.spawn((
-                    MapTile {
-                        grid_x,
-                        grid_y,
-                        tile_id: tile_id.clone(),
-                    },
+                    MapTile { grid_x, grid_y, tile_id: tile_id.clone() },
                     Sprite {
                         image: handle,
                         custom_size: Some(tile_size),

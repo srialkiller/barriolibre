@@ -5,4 +5,3 @@ pub mod resources;
 pub mod systems;
 
 pub use plugin::CollisionPlugin;
-pub use resources::CollisionGrid;

@@ -11,6 +11,9 @@ cargo clippy --all-targets --features dev_fast -- -D warnings
 Write-Host "==> cargo test"
 cargo test --features dev_fast
 
+Write-Host "==> map_validator"
+cargo run -p map_validator --quiet -- data/maps/barrio_tutorial_01
+
 Write-Host "==> cargo build --release"
 cargo build --release
 

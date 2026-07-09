@@ -4,11 +4,11 @@
 
 | Feature | Branch | Visible demo |
 |---|---|---|
-| [foundation-runtime](./foundation-runtime/) | `feature/bevy-foundation-runtime` | `cargo run` → barrio |
+| [foundation-runtime](./foundation-runtime/) | `feature/bevy-foundation-runtime` | ✅ merged — `cargo run` → barrio |
 
 **Deprecated:** `bevy-scaffold`, `environment-loader` → merged into foundation-runtime.
 
-## Vertical Slice (Sprint 02+)
+## Vertical Slice (Sprint 02+) — CURRENT
 
 | Feature | Branch |
 |---|---|

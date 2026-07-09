@@ -39,6 +39,6 @@ Ver [GITFLOW_GUIDE](../docs/production/GITFLOW_GUIDE.md). Sprint 01 listo tras i
 
 | Sprint | Fase | Focus | Status |
 |---|---|---|---|
-| 01 | vertical_slice | Bevy scaffold | ⬜ |
-| 02 | vertical_slice | Map + pickup + inventory | ⬜ |
+| 01 | vertical_slice | Bevy scaffold | ✅ |
+| 02 | vertical_slice | Map + pickup + inventory | 🔴 |
 | 03 | vertical_slice | Craft + garage + race v0 | ⬜ |

@@ -1,14 +1,14 @@
 {
   "documentacion": {
     "status": "green",
-    "note": "15 docs"
+    "note": "16 docs"
   },
   "arte": {
     "status": "green",
-    "note": "255 env PNGs"
+    "note": "295 env PNGs"
   },
   "runtime": {
-    "status": "red",
+    "status": "green",
     "note": "Foundation Runtime Sprint 01"
   },
   "gameplay": {
@@ -17,7 +17,7 @@
   },
   "herramientas": {
     "status": "yellow",
-    "note": "6 tool dirs"
+    "note": "7 tool dirs"
   },
   "qa": {
     "status": "yellow",
@@ -28,7 +28,7 @@
     "note": "Environment pack done"
   },
   "riesgo_tecnico": {
-    "status": "yellow",
-    "note": "Bevy not initialized"
+    "status": "green",
+    "note": "Runtime in progress"
   }
 }

@@ -20,10 +20,7 @@ pub fn setup_default_camera_system(mut commands: Commands) {
     commands.spawn((
         IsoCamera,
         Camera2d,
-        OrthographicProjection {
-            scale: DEFAULT_ZOOM,
-            ..OrthographicProjection::default_2d()
-        },
+        OrthographicProjection { scale: DEFAULT_ZOOM, ..OrthographicProjection::default_2d() },
         Name::new("IsoCamera"),
     ));
 }
@@ -99,11 +96,7 @@ pub fn camera_pan_system(
         direction.x += 1.0;
     }
     if direction != Vec2::ZERO {
-        let speed = if editor_pan {
-            PAN_SPEED * EDITOR_PAN_MULTIPLIER
-        } else {
-            PAN_SPEED
-        };
+        let speed = if editor_pan { PAN_SPEED * EDITOR_PAN_MULTIPLIER } else { PAN_SPEED };
         let movement = direction.normalize() * speed * projection.scale * time.delta_secs();
         transform.translation.x += movement.x;
         transform.translation.y += movement.y;

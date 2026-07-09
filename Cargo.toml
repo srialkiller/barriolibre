@@ -1,5 +1,5 @@
 [workspace]
-members = ["."]
+members = [".", "tools/map_validator"]
 resolver = "2"
 
 [package]

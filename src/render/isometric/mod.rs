@@ -19,10 +19,8 @@ pub const TILE_PIVOT: Vec2 = Vec2::new(0.5, 0.5);
 
 /// Converts grid indices to world position (Bevy 2D, Y-up).
 pub fn grid_to_world(grid_x: i32, grid_y: i32) -> Vec2 {
-    let world_x =
-        (grid_x - grid_y) as f32 * TILE_WORLD_WIDTH * 0.5 * PIXELS_PER_UNIT;
-    let world_y =
-        -((grid_x + grid_y) as f32 * TILE_WORLD_HEIGHT * 0.5 * PIXELS_PER_UNIT);
+    let world_x = (grid_x - grid_y) as f32 * TILE_WORLD_WIDTH * 0.5 * PIXELS_PER_UNIT;
+    let world_y = -((grid_x + grid_y) as f32 * TILE_WORLD_HEIGHT * 0.5 * PIXELS_PER_UNIT);
     Vec2::new(world_x, world_y)
 }
 
@@ -52,10 +50,7 @@ pub fn iso_sort_key(grid_x: i32, grid_y: i32) -> f32 {
 
 /// Display size for loaded tile sprites (native pixel dimensions).
 pub fn tile_display_size() -> Vec2 {
-    Vec2::new(
-        TILE_WORLD_WIDTH * PIXELS_PER_UNIT,
-        TILE_WORLD_HEIGHT * PIXELS_PER_UNIT,
-    )
+    Vec2::new(TILE_WORLD_WIDTH * PIXELS_PER_UNIT, TILE_WORLD_HEIGHT * PIXELS_PER_UNIT)
 }
 
 /// Anchor from ASSET_PIPELINE pivot.
@@ -73,10 +68,7 @@ pub fn default_tile_anchor() -> Anchor {
 }
 
 /// Alpha bounding box of a tile's visible content, in image pixels.
-///
-/// Returns `(min, max)` where `min` is the top-left and `max` is the
-/// bottom-right (exclusive) of the opaque region. `None` when the image
-/// is empty, fully transparent, or not RGBA8.
+#[allow(dead_code)]
 pub fn content_bounds(image: &Image, alpha_threshold: u8) -> Option<(Vec2, Vec2)> {
     let size = image.size();
     let width = size.x as usize;
@@ -114,26 +106,18 @@ pub fn content_bounds(image: &Image, alpha_threshold: u8) -> Option<(Vec2, Vec2)
         return None;
     }
 
-    Some((
-        Vec2::new(min_x as f32, min_y as f32),
-        Vec2::new((max_x + 1) as f32, (max_y + 1) as f32),
-    ))
+    Some((Vec2::new(min_x as f32, min_y as f32), Vec2::new((max_x + 1) as f32, (max_y + 1) as f32)))
 }
 
 /// Fits a tile's content bounds into a full iso cell.
-///
-/// Returns the sprite `custom_size` (frame scaled up so the opaque
-/// content covers the `256x128` cell) and the world-space offset to add
-/// to the tile transform so the content center lands on the grid
-/// position (Bevy Y-up; image Y is flipped).
+#[allow(dead_code)]
 pub fn fit_content_to_cell(min: Vec2, max: Vec2) -> (Vec2, Vec2) {
     let content = max - min;
     if content.x <= 0.0 || content.y <= 0.0 {
         return (tile_display_size(), Vec2::ZERO);
     }
 
-    let scale =
-        (TILE_PX_WIDTH / content.x).max(TILE_PX_HEIGHT / content.y);
+    let scale = (TILE_PX_WIDTH / content.x).max(TILE_PX_HEIGHT / content.y);
     let custom_size = Vec2::new(TILE_PX_WIDTH * scale, TILE_PX_HEIGHT * scale);
 
     let content_center = (min + max) * 0.5;

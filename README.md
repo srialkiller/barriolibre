@@ -9,13 +9,20 @@
 python scripts/studio_scan.py
 ```
 
-## 🔴 Milestone 0 — LAUNCHED
+## 🟢 Milestone 0 — COMPLETE
 
 | | |
 |---|---|
 | **Milestone** | [M0 Foundation Runtime](milestones/MILESTONE_0_FOUNDATION_RUNTIME.md) |
-| **Branch** | `feature/bevy-foundation-runtime` |
+| **Merged** | `feature/bevy-foundation-runtime` → `develop` (2026-07-09) |
 | **DoD** | `cargo run` → barrio + F3 overlay + runtime message |
+
+## 🔴 Milestone 1 — Sprint 02
+
+| | |
+|---|---|
+| **Focus** | Player movement + inventory + pickups |
+| **Branch** | `feature/inventory` (planned) |
 
 ## Constituciones
 

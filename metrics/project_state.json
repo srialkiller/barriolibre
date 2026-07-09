@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-06T16:55:53.993492+00:00",
-  "phase": "preproduction",
+  "generated_at": "2026-07-09T17:09:26.135211+00:00",
+  "phase": "vertical_slice",
   "brand_adr": "proposed",
-  "bevy_project": false,
+  "bevy_project": true,
   "assets": {
-    "environment_png": 255,
+    "environment_png": 295,
     "environment_tiles_manifest": 155,
     "environment_tiles_generated": 187,
     "environment_complete": true,
@@ -15,8 +15,8 @@
     "qa_rejected": 0
   },
   "code": {
-    "rust_files": 0,
-    "maps": 0
+    "rust_files": 63,
+    "maps": 6
   },
   "world": {
     "neighborhoods": 0,
@@ -56,8 +56,8 @@
     },
     "foundation-runtime": {
       "status": "unknown",
-      "lifecycle": "planned",
-      "open_tasks": 17
+      "lifecycle": "complete",
+      "open_tasks": 0
     },
     "garage": {
       "status": "spec",
@@ -76,21 +76,21 @@
     }
   },
   "branches": {
-    "active": 0,
-    "planned": 7,
-    "merged": 0
+    "active": 1,
+    "planned": 5,
+    "merged": 1
   },
   "studio_health": {
     "documentacion": {
       "status": "green",
-      "note": "15 docs"
+      "note": "16 docs"
     },
     "arte": {
       "status": "green",
-      "note": "255 env PNGs"
+      "note": "295 env PNGs"
     },
     "runtime": {
-      "status": "red",
+      "status": "green",
       "note": "Foundation Runtime Sprint 01"
     },
     "gameplay": {
@@ -99,7 +99,7 @@
     },
     "herramientas": {
       "status": "yellow",
-      "note": "6 tool dirs"
+      "note": "7 tool dirs"
     },
     "qa": {
       "status": "yellow",
@@ -110,21 +110,11 @@
       "note": "Environment pack done"
     },
     "riesgo_tecnico": {
-      "status": "yellow",
-      "note": "Bevy not initialized"
+      "status": "green",
+      "note": "Runtime in progress"
     }
   },
   "blockers": [
-    {
-      "id": "B-001",
-      "severity": "critical",
-      "message": "No Bevy/Rust project (Cargo.toml missing)"
-    },
-    {
-      "id": "B-002",
-      "severity": "critical",
-      "message": "No playable maps in data/maps/"
-    },
     {
       "id": "B-003",
       "severity": "high",
@@ -142,8 +132,8 @@
     }
   ],
   "documentation": {
-    "agents": 15,
-    "docs": 15,
+    "agents": 16,
+    "docs": 16,
     "adrs": 5,
     "lore": 7
   }

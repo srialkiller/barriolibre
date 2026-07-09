@@ -8,7 +8,9 @@ use crate::assets::manifest::{
     collect_map_tile_ids, prop_file_exists, read_layout_tile_ids, resolve_prop_path,
     resolve_tile_path, tile_file_exists,
 };
-use crate::assets::registry::{AssetLoadState, AssetRegistry, GeneratedManifest, PackManifest, TileId};
+use crate::assets::registry::{
+    AssetLoadState, AssetRegistry, GeneratedManifest, PackManifest, TileId,
+};
 use crate::core::events::AssetsReady;
 use crate::core::resources::GameConfig;
 use crate::core::states::GameState;
@@ -157,11 +159,7 @@ fn placeholder_image_for_tile(tile_id: &TileId) -> Image {
     }
 
     let mut image = Image::new(
-        Extent3d {
-            width,
-            height,
-            depth_or_array_layers: 1,
-        },
+        Extent3d { width, height, depth_or_array_layers: 1 },
         TextureDimension::D2,
         data,
         TextureFormat::Rgba8UnormSrgb,

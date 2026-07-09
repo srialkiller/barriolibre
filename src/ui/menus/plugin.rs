@@ -11,9 +11,6 @@ impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(GameState::MainMenu), setup_main_menu_system)
             .add_systems(OnExit(GameState::MainMenu), teardown_main_menu_system)
-            .add_systems(
-                Update,
-                handle_menu_input_system.run_if(in_state(GameState::MainMenu)),
-            );
+            .add_systems(Update, handle_menu_input_system.run_if(in_state(GameState::MainMenu)));
     }
 }

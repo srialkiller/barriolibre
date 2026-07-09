@@ -16,13 +16,7 @@ pub struct CollisionGrid {
 
 impl Default for CollisionGrid {
     fn default() -> Self {
-        Self {
-            width: 0,
-            height: 0,
-            blocked: Vec::new(),
-            from_file: false,
-            dirty: false,
-        }
+        Self { width: 0, height: 0, blocked: Vec::new(), from_file: false, dirty: false }
     }
 }
 
@@ -47,9 +41,7 @@ impl CollisionGrid {
             (col, row + radius_cells),
             (col, row - radius_cells),
         ];
-        samples
-            .iter()
-            .all(|(sample_col, sample_row)| self.is_walkable_f(*sample_col, *sample_row))
+        samples.iter().all(|(sample_col, sample_row)| self.is_walkable_f(*sample_col, *sample_row))
     }
 
     pub fn set_blocked(&mut self, col: i32, row: i32, blocked: bool) -> bool {

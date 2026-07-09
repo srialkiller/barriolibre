@@ -32,9 +32,6 @@ fn main() {
 mod tests {
     #[test]
     fn game_state_has_boot_default() {
-        assert_eq!(
-            format!("{:?}", super::core::states::GameState::default()),
-            "Boot"
-        );
+        assert_eq!(format!("{:?}", super::core::states::GameState::default()), "Boot");
     }
 }

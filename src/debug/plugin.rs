@@ -3,9 +3,7 @@ use bevy::prelude::*;
 
 use crate::assets::registry::AssetRegistry;
 use crate::core::states::GameState;
-use crate::debug::gameplay_overlay::{
-    GameplayDebugRoot, GameplayDebugState, GameplayDebugText,
-};
+use crate::debug::gameplay_overlay::{GameplayDebugRoot, GameplayDebugState, GameplayDebugText};
 use crate::debug::overlay::{DebugOverlayRoot, DebugOverlayState, DebugOverlayText};
 use crate::game::player::components::{GridPosition, PlayerVelocity};
 use crate::render::isometric::world_to_grid_f;
@@ -31,55 +29,51 @@ impl Plugin for DebugPlugin {
 }
 
 fn spawn_debug_overlay_system(mut commands: Commands) {
-    commands.spawn((
-        DebugOverlayRoot,
-        Node {
-            position_type: PositionType::Absolute,
-            top: Val::Px(8.0),
-            left: Val::Px(8.0),
-            padding: UiRect::all(Val::Px(8.0)),
-            display: Display::None,
-            ..default()
-        },
-        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.75)),
-    ))
-    .with_children(|parent| {
-        parent.spawn((
-            DebugOverlayText,
-            Text::new("Debug Overlay"),
-            TextFont {
-                font_size: 16.0,
+    commands
+        .spawn((
+            DebugOverlayRoot,
+            Node {
+                position_type: PositionType::Absolute,
+                top: Val::Px(8.0),
+                left: Val::Px(8.0),
+                padding: UiRect::all(Val::Px(8.0)),
+                display: Display::None,
                 ..default()
             },
-            TextColor(Color::srgb(0.9, 0.95, 1.0)),
-        ));
-    });
+            BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.75)),
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                DebugOverlayText,
+                Text::new("Debug Overlay"),
+                TextFont { font_size: 16.0, ..default() },
+                TextColor(Color::srgb(0.9, 0.95, 1.0)),
+            ));
+        });
 }
 
 fn spawn_gameplay_debug_system(mut commands: Commands) {
-    commands.spawn((
-        GameplayDebugRoot,
-        Node {
-            position_type: PositionType::Absolute,
-            top: Val::Px(8.0),
-            right: Val::Px(8.0),
-            padding: UiRect::all(Val::Px(8.0)),
-            display: Display::None,
-            ..default()
-        },
-        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.75)),
-    ))
-    .with_children(|parent| {
-        parent.spawn((
-            GameplayDebugText,
-            Text::new("Gameplay Debug"),
-            TextFont {
-                font_size: 16.0,
+    commands
+        .spawn((
+            GameplayDebugRoot,
+            Node {
+                position_type: PositionType::Absolute,
+                top: Val::Px(8.0),
+                right: Val::Px(8.0),
+                padding: UiRect::all(Val::Px(8.0)),
+                display: Display::None,
                 ..default()
             },
-            TextColor(Color::srgb(0.85, 1.0, 0.85)),
-        ));
-    });
+            BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.75)),
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                GameplayDebugText,
+                Text::new("Gameplay Debug"),
+                TextFont { font_size: 16.0, ..default() },
+                TextColor(Color::srgb(0.85, 1.0, 0.85)),
+            ));
+        });
 }
 
 fn toggle_debug_overlay_system(
@@ -90,11 +84,7 @@ fn toggle_debug_overlay_system(
     if keyboard.just_pressed(KeyCode::F3) {
         overlay_state.visible = !overlay_state.visible;
         for mut node in &mut nodes {
-            node.display = if overlay_state.visible {
-                Display::Flex
-            } else {
-                Display::None
-            };
+            node.display = if overlay_state.visible { Display::Flex } else { Display::None };
         }
     }
 }
@@ -111,11 +101,7 @@ fn toggle_gameplay_debug_system(
     if keyboard.just_pressed(KeyCode::F1) {
         overlay_state.visible = !overlay_state.visible;
         for mut node in &mut nodes {
-            node.display = if overlay_state.visible {
-                Display::Flex
-            } else {
-                Display::None
-            };
+            node.display = if overlay_state.visible { Display::Flex } else { Display::None };
         }
     }
 }

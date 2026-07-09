@@ -7,9 +7,6 @@ pub struct SpritePlugin;
 
 impl Plugin for SpritePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            OnEnter(GameState::Gameplay),
-            spawn_tilemap_system,
-        );
+        app.add_systems(OnEnter(GameState::Gameplay), spawn_tilemap_system);
     }
 }

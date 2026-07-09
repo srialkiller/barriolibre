@@ -1,36 +1,34 @@
 # Project Dashboard
 
-**Generated:** 2026-07-06T16:55:53.993492+00:00  
-**Phase:** `preproduction`  
+**Generated:** 2026-07-09T17:09:26.135211+00:00  
+**Phase:** `vertical_slice`  
 **Scan:** `python scripts/studio_scan.py`
 
 ## Studio Health
 
 | Métrica | Estado | Nota |
 |---|---|---|
-| Documentación | 🟢 | 15 docs |
-| Arte | 🟢 | 255 env PNGs |
-| Runtime | 🔴 | Foundation Runtime Sprint 01 |
+| Documentación | 🟢 | 16 docs |
+| Arte | 🟢 | 295 env PNGs |
+| Runtime | 🟢 | Foundation Runtime Sprint 01 |
 | Gameplay | 🔴 | No playable loop yet |
-| Herramientas | 🟡 | 6 tool dirs |
+| Herramientas | 🟡 | 7 tool dirs |
 | QA | 🟡 | Env QA formal pending |
 | Producción | 🟢 | Environment pack done |
-| Riesgo técnico | 🟡 | Bevy not initialized |
+| Riesgo técnico | 🟢 | Runtime in progress |
 
 ## Runtime
 
 | Metric | Value |
 |---|---|
-| Bevy project | ❌ |
-| Rust files | 0 |
-| Playable maps | 0 |
-| Environment PNGs | 255 |
+| Bevy project | ✅ |
+| Rust files | 63 |
+| Playable maps | 6 |
+| Environment PNGs | 295 |
 | Tiles generated | 187/155 |
 
 ## Blockers
 
-- **CRITICAL** [B-001] No Bevy/Rust project (Cargo.toml missing)
-- **CRITICAL** [B-002] No playable maps in data/maps/
 - **HIGH** [B-003] No vehicle part assets
 - **MEDIUM** [B-004] No props pack
 - **INFO** [B-006] Environment QA formal scoring pending
@@ -39,9 +37,9 @@
 
 | Type | Count |
 |---|---|
-| Active | 0 |
-| Planned | 7 |
-| Merged | 0 |
+| Active | 1 |
+| Planned | 5 |
+| Merged | 1 |
 
 ## Features
 
@@ -53,7 +51,7 @@
 | economy | planned | 6 |
 | environment-loader | planned | 3 |
 | events | planned | 6 |
-| foundation-runtime | planned | 17 |
+| foundation-runtime | complete | 0 |
 | garage | planned | 6 |
 | inventory | planned | 6 |
 | race | planned | 6 |

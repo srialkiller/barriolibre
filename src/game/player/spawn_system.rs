@@ -47,12 +47,8 @@ pub fn load_player_assets_system(
     let layout_handle = layouts.add(layout);
     let texture_handle = asset_server.load(PLAYER_TEXTURE_PATH);
 
-    *assets = PlayerAssets {
-        loaded: true,
-        texture: texture_handle,
-        layout: layout_handle,
-        definitions,
-    };
+    *assets =
+        PlayerAssets { loaded: true, texture: texture_handle, layout: layout_handle, definitions };
 
     tracing::info!("Player assets queued");
 }
@@ -80,10 +76,7 @@ pub fn spawn_player_system(
 
     commands.spawn((
         Player,
-        GridPosition {
-            col: spawn_col,
-            row: spawn_row,
-        },
+        GridPosition { col: spawn_col, row: spawn_row },
         PlayerVelocity::default(),
         PlayerAnimation {
             state: AnimState::Idle,
@@ -99,9 +92,7 @@ pub fn spawn_player_system(
             image: assets.texture.clone(),
             texture_atlas: Some(TextureAtlas {
                 layout: assets.layout.clone(),
-                index: assets
-                    .definitions
-                    .atlas_index(AnimState::Idle, Facing::South, 0),
+                index: assets.definitions.atlas_index(AnimState::Idle, Facing::South, 0),
             }),
             custom_size: Some(Vec2::new(display_width, display_height)),
             anchor: Anchor::BottomCenter,
@@ -112,10 +103,5 @@ pub fn spawn_player_system(
         Name::new("Player"),
     ));
 
-    tracing::info!(
-        col = spawn_col,
-        row = spawn_row,
-        zoom = config.camera_zoom,
-        "Player spawned"
-    );
+    tracing::info!(col = spawn_col, row = spawn_row, zoom = config.camera_zoom, "Player spawned");
 }

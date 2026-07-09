@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
-use crate::core::config::load_game_config;
 use crate::assets::AssetPlugin;
+use crate::core::config::load_game_config;
 use crate::core::CorePlugin;
 use crate::debug::DebugPlugin;
 use crate::game::player::PlayerPlugin;

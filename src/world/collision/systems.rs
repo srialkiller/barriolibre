@@ -8,9 +8,9 @@ use tracing::{info, warn};
 use crate::render::camera::components::IsoCamera;
 use crate::render::isometric::{grid_to_world, tile_display_size, world_to_grid_f};
 use crate::world::collision::resources::{
-    CollisionBrushPreview, CollisionEditorHudRoot, CollisionEditorHudText,
-    CollisionEditorState, CollisionFileData, CollisionGrid, CollisionOverlayAssets,
-    CollisionOverlayCell, CollisionOverlayRoot, PropFootprints, PropFootprintsFile,
+    CollisionBrushPreview, CollisionEditorHudRoot, CollisionEditorHudText, CollisionEditorState,
+    CollisionFileData, CollisionGrid, CollisionOverlayAssets, CollisionOverlayCell,
+    CollisionOverlayRoot, PropFootprints, PropFootprintsFile,
 };
 use crate::world::map::resources::{LoadedNeighborhood, PropInstance};
 
@@ -59,9 +59,7 @@ fn anchor_cell(prop: &PropInstance) -> (i32, i32) {
 }
 
 fn capture_max_radius(prop_id: &str) -> i32 {
-    if prop_id.starts_with("house_") {
-        1
-    } else if prop_id == "fountain_01" {
+    if prop_id.starts_with("house_") || prop_id == "fountain_01" {
         1
     } else {
         0
@@ -85,22 +83,23 @@ fn mark_offsets(
     }
 }
 
-fn nearest_prop<'a>(
-    neighborhood: &'a LoadedNeighborhood,
+fn nearest_prop(
+    neighborhood: &LoadedNeighborhood,
     col: i32,
     row: i32,
-) -> Option<&'a PropInstance> {
-    neighborhood.props.iter().min_by(|left, right| {
-        let left_dist = (left.col - col as f32).hypot(left.row - row as f32);
-        let right_dist = (right.col - col as f32).hypot(right.row - row as f32);
-        left_dist
-            .partial_cmp(&right_dist)
-            .unwrap_or(std::cmp::Ordering::Equal)
-    })
-    .filter(|prop| {
-        let dist = (prop.col - col as f32).hypot(prop.row - row as f32);
-        dist <= 2.5
-    })
+) -> Option<&PropInstance> {
+    neighborhood
+        .props
+        .iter()
+        .min_by(|left, right| {
+            let left_dist = (left.col - col as f32).hypot(left.row - row as f32);
+            let right_dist = (right.col - col as f32).hypot(right.row - row as f32);
+            left_dist.partial_cmp(&right_dist).unwrap_or(std::cmp::Ordering::Equal)
+        })
+        .filter(|prop| {
+            let dist = (prop.col - col as f32).hypot(prop.row - row as f32);
+            dist <= 2.5
+        })
 }
 
 fn capture_footprint_around(grid: &CollisionGrid, prop: &PropInstance) -> Vec<[i32; 2]> {
@@ -112,11 +111,7 @@ fn capture_footprint_around(grid: &CollisionGrid, prop: &PropInstance) -> Vec<[i
         for d_col in -max_r..=max_r {
             let col = anchor_col + d_col;
             let row = anchor_row + d_row;
-            if col < 0
-                || row < 0
-                || col >= grid.width as i32
-                || row >= grid.height as i32
-            {
+            if col < 0 || row < 0 || col >= grid.width as i32 || row >= grid.height as i32 {
                 continue;
             }
             if grid.blocked[row as usize][col as usize] {
@@ -167,14 +162,7 @@ fn bake_from_templates(
             continue;
         }
         let (anchor_col, anchor_row) = anchor_cell(prop);
-        mark_offsets(
-            &mut blocked,
-            width,
-            height,
-            anchor_col,
-            anchor_row,
-            &offsets,
-        );
+        mark_offsets(&mut blocked, width, height, anchor_col, anchor_row, &offsets);
     }
 
     blocked
@@ -190,10 +178,7 @@ pub fn load_prop_footprints_system(mut templates: ResMut<PropFootprints>) {
         Ok(text) => match serde_json::from_str::<PropFootprintsFile>(&text) {
             Ok(file) => {
                 templates.footprints = file.footprints;
-                info!(
-                    count = templates.footprints.len(),
-                    "Loaded prop collision footprints"
-                );
+                info!(count = templates.footprints.len(), "Loaded prop collision footprints");
             }
             Err(error) => warn!(?error, "Invalid prop_footprints.json"),
         },
@@ -223,21 +208,9 @@ pub fn build_collision_grid_system(
 
     let blocked_cells = blocked.iter().flatten().filter(|cell| **cell).count();
 
-    *grid = CollisionGrid {
-        width,
-        height,
-        blocked,
-        from_file,
-        dirty: false,
-    };
+    *grid = CollisionGrid { width, height, blocked, from_file, dirty: false };
 
-    info!(
-        width,
-        height,
-        blocked_cells,
-        from_file,
-        "Collision grid built"
-    );
+    info!(width, height, blocked_cells, from_file, "Collision grid built");
 }
 
 pub fn setup_collision_overlay_assets_system(
@@ -248,11 +221,7 @@ pub fn setup_collision_overlay_assets_system(
         return;
     }
     let image = Image::new(
-        Extent3d {
-            width: 1,
-            height: 1,
-            depth_or_array_layers: 1,
-        },
+        Extent3d { width: 1, height: 1, depth_or_array_layers: 1 },
         TextureDimension::D2,
         vec![255, 255, 255, 255],
         TextureFormat::Rgba8UnormSrgb,
@@ -279,10 +248,7 @@ pub fn spawn_collision_editor_hud_system(mut commands: Commands) {
             parent.spawn((
                 CollisionEditorHudText,
                 Text::new("Collision Editor"),
-                TextFont {
-                    font_size: 14.0,
-                    ..default()
-                },
+                TextFont { font_size: 14.0, ..default() },
                 TextColor(Color::srgb(1.0, 0.85, 0.4)),
             ));
         });
@@ -318,11 +284,7 @@ pub fn toggle_collision_editor_system(
     }
 
     for mut node in &mut hud {
-        node.display = if editor.active {
-            Display::Flex
-        } else {
-            Display::None
-        };
+        node.display = if editor.active { Display::Flex } else { Display::None };
     }
 }
 
@@ -417,10 +379,7 @@ pub fn sync_collision_overlay_system(
             let world = grid_to_world(col as i32, row as i32);
             commands.entity(root).with_children(|parent| {
                 parent.spawn((
-                    CollisionOverlayCell {
-                        col: col as i32,
-                        row: row as i32,
-                    },
+                    CollisionOverlayCell { col: col as i32, row: row as i32 },
                     Sprite {
                         image: assets.marker.clone(),
                         custom_size: Some(size),
@@ -524,11 +483,21 @@ pub fn collision_editor_hotkeys_system(
 
     if keyboard.just_pressed(KeyCode::BracketLeft) {
         editor.brush_radius = (editor.brush_radius - 1).max(0);
-        editor.status = format!("Brush size: {} ({}x{} cells)", editor.brush_radius, editor.brush_radius * 2 + 1, editor.brush_radius * 2 + 1);
+        editor.status = format!(
+            "Brush size: {} ({}x{} cells)",
+            editor.brush_radius,
+            editor.brush_radius * 2 + 1,
+            editor.brush_radius * 2 + 1
+        );
     }
     if keyboard.just_pressed(KeyCode::BracketRight) {
         editor.brush_radius = (editor.brush_radius + 1).min(3);
-        editor.status = format!("Brush size: {} ({}x{} cells)", editor.brush_radius, editor.brush_radius * 2 + 1, editor.brush_radius * 2 + 1);
+        editor.status = format!(
+            "Brush size: {} ({}x{} cells)",
+            editor.brush_radius,
+            editor.brush_radius * 2 + 1,
+            editor.brush_radius * 2 + 1
+        );
     }
 
     if keyboard.just_pressed(KeyCode::KeyC) && !ctrl {
@@ -564,8 +533,8 @@ pub fn collision_editor_hotkeys_system(
         if let Some(prop_id) = editor.hover_prop_id.clone() {
             if let Some(prop) = neighborhood.props.iter().find(|prop| prop.prop_id == prop_id) {
                 // Prefer the nearest instance to the cursor as the capture anchor.
-                let nearest = nearest_prop(&neighborhood, editor.hover_col, editor.hover_row)
-                    .unwrap_or(prop);
+                let nearest =
+                    nearest_prop(&neighborhood, editor.hover_col, editor.hover_row).unwrap_or(prop);
                 let offsets = capture_footprint_around(&grid, nearest);
                 let count = offsets.len();
                 templates.set_offsets(nearest.prop_id.clone(), offsets);
@@ -630,10 +599,7 @@ pub fn update_collision_editor_hud_system(
 
     let dirty = if grid.dirty { " *" } else { "" };
     let source = if grid.from_file { "file" } else { "templates" };
-    let hover = editor
-        .hover_prop_id
-        .as_deref()
-        .unwrap_or("(no prop under cursor)");
+    let hover = editor.hover_prop_id.as_deref().unwrap_or("(no prop under cursor)");
     let remembered = templates.footprints.len();
     let brush_cells = editor.brush_radius * 2 + 1;
     let message = format!(
@@ -661,11 +627,7 @@ fn save_collision_file(barrio_id: &str, grid: &CollisionGrid) -> Result<usize, S
     }
     let cells = grid.to_cells();
     let count = cells.len();
-    let payload = CollisionFileData {
-        barrio_id: barrio_id.to_owned(),
-        version: 1,
-        cells,
-    };
+    let payload = CollisionFileData { barrio_id: barrio_id.to_owned(), version: 1, cells };
     let json = serde_json::to_string_pretty(&payload).map_err(|error| error.to_string())?;
     std::fs::write(&path, json + "\n").map_err(|error| error.to_string())?;
     Ok(count)
@@ -677,10 +639,7 @@ fn save_prop_footprints(templates: &PropFootprints) -> Result<usize, String> {
         std::fs::create_dir_all(parent).map_err(|error| error.to_string())?;
     }
     let count = templates.footprints.len();
-    let payload = PropFootprintsFile {
-        version: 1,
-        footprints: templates.footprints.clone(),
-    };
+    let payload = PropFootprintsFile { version: 1, footprints: templates.footprints.clone() };
     let json = serde_json::to_string_pretty(&payload).map_err(|error| error.to_string())?;
     std::fs::write(&path, json + "\n").map_err(|error| error.to_string())?;
     Ok(count)

@@ -22,12 +22,7 @@ pub fn spawn_props_system(
     }
 
     let root = commands
-        .spawn((
-            PropRoot,
-            Name::new("PropRoot"),
-            Transform::default(),
-            Visibility::default(),
-        ))
+        .spawn((PropRoot, Name::new("PropRoot"), Transform::default(), Visibility::default()))
         .id();
 
     let mut spawned = 0_usize;
@@ -44,11 +39,7 @@ pub fn spawn_props_system(
 
         commands.entity(root).with_children(|parent| {
             parent.spawn((
-                MapProp {
-                    prop_id: prop.prop_id.clone(),
-                    col: prop.col,
-                    row: prop.row,
-                },
+                MapProp { prop_id: prop.prop_id.clone(), col: prop.col, row: prop.row },
                 Sprite {
                     image: handle,
                     custom_size: Some(Vec2::new(prop.width_px, prop.height_px)),

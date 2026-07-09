@@ -1,19 +1,27 @@
 # map_validator
 
-Valida `data/maps/*/layout.json` contra tile manifest y scene_hooks.
+Valida `data/maps/*/layout.json` contra tile manifest, scene_hooks, collision y props.
 
-**Status:** stub — Sprint 01  
+**Status:** ✅ Sprint 01 — operational  
 **Owner:** tools_engineer
 
-## Checks (planned)
+## Checks
 
-- Tile IDs exist in manifest
-- Dimensions consistent
-- scene_hooks reference valid POI ids
-- collision.json schema valid (optional use)
+- Tile IDs exist in generated manifest (or PNG on disk)
+- Layout dimensions consistent with ground layer
+- `scene_hooks.json`: barrio_id, spawn points in bounds
+- `collision.json`: barrio_id, cells in bounds (optional file)
+- `props.json`: barrio_id, prop PNGs exist, positions in bounds
 
-## Usage (planned)
+## Usage
 
 ```bash
-cargo run -p map_validator -- data/maps/barrio_tutorial_01/
+cargo run -p map_validator -- data/maps/barrio_tutorial_01
 ```
+
+Also runs as part of `scripts/ci.ps1`.
+
+## Exit codes
+
+- `0` — all checks passed
+- `1` — validation errors (printed to stderr)

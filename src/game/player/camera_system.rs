@@ -4,6 +4,7 @@ use crate::game::player::components::Player;
 use crate::game::player::resources::PlayerConfig;
 use crate::render::camera::components::IsoCamera;
 
+#[allow(clippy::type_complexity)]
 pub fn player_camera_follow_system(
     time: Res<Time>,
     config: Res<PlayerConfig>,

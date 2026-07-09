@@ -1,7 +1,7 @@
 {
   "schema_version": "1.2",
-  "updated_at": "2026-07-06T17:10:00Z",
-  "milestone_active": "M0_Foundation_Runtime",
+  "updated_at": "2026-07-09T16:50:00Z",
+  "milestone_active": "M1_Player_Exploration",
   "permanent_branches": {
     "main": { "purpose": "production stable", "protected": true, "exists": true },
     "develop": { "purpose": "integration", "protected": true, "exists": true },
@@ -9,17 +9,17 @@
   },
   "active_branches": [
     {
-      "branch": "feature/bevy-foundation-runtime",
+      "branch": "feature/inventory",
       "type": "feature",
-      "feature": "foundation-runtime",
+      "feature": "inventory",
       "release": "release/vertical-slice",
-      "milestone": "M0",
-      "sprint": "Sprint_01_Foundation_Runtime",
-      "status": "in_progress",
-      "started": "2026-07-06",
-      "agents": ["build_engineer", "technical_director", "tools_engineer", "world_designer", "qa_director"],
+      "milestone": "M1",
+      "sprint": "Sprint_02",
+      "status": "planned",
+      "started": null,
+      "agents": ["technical_director", "world_designer", "qa_director"],
       "merged_to": null,
-      "demo_criterion": "cargo run → barrio + F3 overlay + runtime message"
+      "demo_criterion": "walk plaza → alley → collect 3 items → inventory UI"
     }
   ],
   "planned_branches": [
@@ -31,18 +31,8 @@
       "milestone": "M1",
       "sprint": "Sprint_02",
       "status": "planned",
+      "note": "Player movement already on develop from M0 branch — may merge into inventory feature",
       "agents": ["technical_director", "world_designer"],
-      "merged_to": null
-    },
-    {
-      "branch": "feature/inventory",
-      "type": "feature",
-      "feature": "inventory",
-      "release": "release/vertical-slice",
-      "milestone": "M1",
-      "sprint": "Sprint_02",
-      "status": "planned",
-      "agents": ["economy_designer", "technical_director"],
       "merged_to": null
     },
     {
@@ -90,7 +80,19 @@
       "merged_to": null
     }
   ],
-  "merged_branches": [],
+  "merged_branches": [
+    {
+      "branch": "feature/bevy-foundation-runtime",
+      "type": "feature",
+      "feature": "foundation-runtime",
+      "release": "release/vertical-slice",
+      "milestone": "M0",
+      "sprint": "Sprint_01_Foundation_Runtime",
+      "merged_to": "develop",
+      "merged_at": "2026-07-09",
+      "demo_criterion": "cargo run → barrio + F3 overlay + runtime message"
+    }
+  ],
   "deprecated_branches": [
     "feature/bevy-scaffold",
     "feature/environment-loader"

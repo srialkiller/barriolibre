@@ -14,11 +14,7 @@ pub struct PlayerConfig {
 
 impl Default for PlayerConfig {
     fn default() -> Self {
-        Self {
-            move_speed: 220.0,
-            camera_lerp: 6.0,
-            camera_zoom: DEFAULT_ZOOM,
-        }
+        Self { move_speed: 220.0, camera_lerp: 6.0, camera_zoom: DEFAULT_ZOOM }
     }
 }
 

@@ -2,13 +2,13 @@
 
 Overlay de depuración: FPS, entities, assets loaded, game state.
 
-**Status:** stub — Sprint 01  
+**Status:** ✅ implemented in `src/debug/` (F3 + F1 gameplay panel)  
 **Owner:** tools_engineer  
-**Trigger in-game:** F3
+**Trigger in-game:** F3 (global), F1 (gameplay metrics)
 
-## Planned panels
+## Panels
 
-- FPS / frame time
-- Current GameState
-- Tiles loaded count
-- Hot reload events (dev)
+- **F3:** FPS, GameState, asset count
+- **F1 (Gameplay):** player position, tile, grid, speed
+
+This crate directory remains a placeholder for a future extracted workspace tool.
