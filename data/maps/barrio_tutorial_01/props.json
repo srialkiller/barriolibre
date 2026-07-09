@@ -111,6 +111,13 @@
       "height_px": 300.0
     },
     {
+      "prop_id": "hydrant_01",
+      "col": 6.0,
+      "row": 6.0,
+      "width_px": 45.72,
+      "height_px": 95.0
+    },
+    {
       "prop_id": "lamp_01",
       "col": 6.0,
       "row": 6.0,
@@ -140,15 +147,8 @@
     },
     {
       "prop_id": "hydrant_01",
-      "col": 3.062,
-      "row": 6.062,
-      "width_px": 45.72,
-      "height_px": 95.0
-    },
-    {
-      "prop_id": "hydrant_01",
-      "col": 19.055,
-      "row": 6.102,
+      "col": 20.016,
+      "row": 6.047,
       "width_px": 45.72,
       "height_px": 95.0
     },
@@ -211,13 +211,6 @@
     {
       "prop_id": "tree_01",
       "col": 13.0,
-      "row": 10.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 18.0,
       "row": 10.0,
       "width_px": 269.53,
       "height_px": 300.0
@@ -335,18 +328,18 @@
       "height_px": 270.0
     },
     {
-      "prop_id": "hydrant_01",
-      "col": 17.0,
-      "row": 17.0,
-      "width_px": 45.72,
-      "height_px": 95.0
-    },
-    {
       "prop_id": "lamp_01",
       "col": 17.0,
       "row": 17.0,
       "width_px": 79.31,
       "height_px": 270.0
+    },
+    {
+      "prop_id": "hydrant_01",
+      "col": 19.141,
+      "row": 17.172,
+      "width_px": 45.72,
+      "height_px": 95.0
     },
     {
       "prop_id": "tree_01",
@@ -372,13 +365,6 @@
     {
       "prop_id": "tree_01",
       "col": 13.0,
-      "row": 18.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 18.0,
       "row": 18.0,
       "width_px": 269.53,
       "height_px": 300.0
@@ -448,8 +434,8 @@
     },
     {
       "prop_id": "tree_01",
-      "col": 22.0,
-      "row": 22.0,
+      "col": 23.062,
+      "row": 23.125,
       "width_px": 269.53,
       "height_px": 300.0
     }

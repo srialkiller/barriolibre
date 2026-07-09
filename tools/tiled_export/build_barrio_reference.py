@@ -43,6 +43,9 @@ PLAZA_MIN, PLAZA_MAX = 9, 14  # inclusive block bounds for the centre plaza
 
 GROUND_FIRSTGID = 1
 PROPS_FIRSTGID = len(CURATED_TUTORIAL_TILES) + 1  # 20
+COLLISION_FIRSTGID = PROPS_FIRSTGID + len(PROP_TILES)  # 29
+
+FOOTPRINTS_PATH = REPO_ROOT / "data" / "collision" / "prop_footprints.json"
 
 GRASS = ["grass_clean_01", "grass_clean_02", "grass_clean_03", "grass_clean_04"]
 
@@ -141,6 +144,58 @@ def build_ground() -> list[list[str]]:
                 else:
                     line.append(grass_variant(row, col))
         grid.append(line)
+    return grid
+
+
+def default_footprint_offsets(prop_id: str) -> list[list[int]]:
+    if prop_id.startswith("house_"):
+        return [[0, 0], [1, 0], [0, 1], [-1, 0], [0, -1]]
+    if prop_id == "fountain_01":
+        return [[0, 0], [1, 0], [0, 1], [1, 1]]
+    if prop_id in {"tree_01", "lamp_01"}:
+        return [[0, 0]]
+    return []
+
+
+def load_footprint_templates() -> dict[str, list[list[int]]]:
+    if not FOOTPRINTS_PATH.exists():
+        return {}
+    data = json.loads(FOOTPRINTS_PATH.read_text(encoding="utf-8"))
+    return data.get("footprints", {})
+
+
+def bake_collision_cells(props: list[dict]) -> list[list[int]]:
+    templates = load_footprint_templates()
+    blocked: set[tuple[int, int]] = set()
+    for prop in props:
+        prop_id = prop["prop_id"]
+        offsets = templates.get(prop_id) or default_footprint_offsets(prop_id)
+        if not offsets:
+            continue
+        anchor_col = int(prop["col"] // 1)
+        anchor_row = int(prop["row"] // 1)
+        for offset in offsets:
+            blocked.add((anchor_col + offset[0], anchor_row + offset[1]))
+    return sorted([[col, row] for col, row in blocked], key=lambda cell: (cell[1], cell[0]))
+
+
+def write_collision_json(cells: list[list[int]]) -> None:
+    payload = {
+        "barrio_id": MAP_ID,
+        "version": 1,
+        "cells": cells,
+        "metadata": {"baked_from_prop_footprints": True},
+    }
+    out = MAP_DIR / "collision.json"
+    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {out} ({len(cells)} blocked cells)")
+
+
+def collision_layer_gids(cells: list[list[int]]) -> list[int]:
+    grid = [0] * (SIZE * SIZE)
+    for col, row in cells:
+        if 0 <= col < SIZE and 0 <= row < SIZE:
+            grid[row * SIZE + col] = COLLISION_FIRSTGID
     return grid
 
 
@@ -265,8 +320,8 @@ def write_props_json(props: list[dict]) -> None:
     print(f"Wrote {out} ({len(entries)} props)")
 
 
-# Player spawn in the central plaza (open grass, south of the fountain focal point).
-SPAWN_COL, SPAWN_ROW = 12, 11
+# Player spawn on open plaza grass, clear of the fountain footprint.
+SPAWN_COL, SPAWN_ROW = 13, 13
 
 
 def write_scene_hooks_json() -> None:
@@ -332,9 +387,10 @@ def prop_object_xml(props: list[dict]) -> tuple[list[str], int]:
     return lines, object_id
 
 
-def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
+def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[list[int]]) -> None:
     encoded_ground = encode_layer_data(ground_gids(ground))
     empty_layer = encode_layer_data([0] * (SIZE * SIZE))
+    encoded_collision = encode_layer_data(collision_layer_gids(collision_cells))
     object_lines, next_object_id = prop_object_xml(props)
     spawn_line, next_object_id = spawn_object_xml(next_object_id)
 
@@ -345,10 +401,11 @@ def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
             'orientation="isometric" renderorder="right-down" '
             f'width="{SIZE}" height="{SIZE}" '
             f'tilewidth="{TW}" tileheight="{TH}" infinite="0" '
-            f'nextlayerid="6" nextobjectid="{next_object_id}">'
+            f'nextlayerid="8" nextobjectid="{next_object_id}">'
         ),
         ' <tileset firstgid="1" source="environment_tutorial.tsx"/>',
         f' <tileset firstgid="{PROPS_FIRSTGID}" source="props_tutorial.tsx"/>',
+        f' <tileset firstgid="{COLLISION_FIRSTGID}" source="collision_tutorial.tsx"/>',
         f' <layer id="1" name="ground" width="{SIZE}" height="{SIZE}" x="0" y="0">',
         f'  <data encoding="base64">{encoded_ground}</data>',
         " </layer>",
@@ -358,12 +415,20 @@ def write_tmx(ground: list[list[str]], props: list[dict]) -> None:
         f' <layer id="3" name="overlay" width="{SIZE}" height="{SIZE}" x="0" y="0">',
         f'  <data encoding="base64">{empty_layer}</data>',
         " </layer>",
+        (
+            f' <layer id="6" name="collision" width="{SIZE}" height="{SIZE}" '
+            f'x="0" y="0" opacity="0.55">'
+        ),
+        f'  <data encoding="base64">{encoded_collision}</data>',
+        " </layer>",
         ' <objectgroup id="4" name="props">',
     ]
     lines.extend(object_lines)
     lines.append(" </objectgroup>")
     lines.append(' <objectgroup id="5" name="spawn">')
     lines.append(spawn_line)
+    lines.append(" </objectgroup>")
+    lines.append(' <objectgroup id="7" name="collision_zones">')
     lines.append(" </objectgroup>")
     lines.append("</map>")
 
@@ -420,10 +485,12 @@ def render_preview(ground: list[list[str]], props: list[dict]) -> None:
 def main() -> int:
     ground = build_ground()
     props = build_props(ground)
+    collision_cells = bake_collision_cells(props)
     write_layout_json(ground)
     write_props_json(props)
     write_scene_hooks_json()
-    write_tmx(ground, props)
+    write_collision_json(collision_cells)
+    write_tmx(ground, props, collision_cells)
     render_preview(ground, props)
     return 0
 

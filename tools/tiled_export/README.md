@@ -29,10 +29,11 @@ data/maps/barrio_tutorial_01/
 ├── barrio_tutorial_01.tmx      ← abrir esto en Tiled
 ├── environment_tutorial.tsx    ← tileset de suelo (19 tiles)
 ├── props_tutorial.tsx            ← tileset de props (9 objetos)
+├── collision_tutorial.tsx        ← tileset marcador rojo (1 tile)
 ├── layout.json                 ← exportado → suelo que renderiza Bevy
 ├── props.json                  ← exportado → casas/árboles/etc. en Bevy
 ├── scene_hooks.json            ← exportado → spawn del jugador (capa `spawn`)
-├── collision.json              ← colisiones manuales (opcional; v1 usa props + bordes)
+├── collision.json              ← exportado → celdas bloqueadas (capa `collision`)
 ```
 
 **Regla:** editá solo el `.tmx` en Tiled. Los `.json` los genera el script de exportación.
@@ -46,9 +47,10 @@ data/maps/barrio_tutorial_01/
    ```
    data/maps/barrio_tutorial_01/barrio_tutorial_01.tmx
    ```
-3. Verificá que en el panel derecho aparezcan **dos tilesets**:
+3. Verificá que en el panel derecho aparezcan **tres tilesets**:
    - `environment_tutorial` — césped, calles, veredas, cebras
    - `props_tutorial` — casas, árboles, fuente, faroles, etc.
+   - `collision_tutorial` — marcador rojo de colisión (solo para editar, no se ve en el juego)
 
 Si Tiled muestra tiles rotos, no movas los `.tsx`: deben quedar junto al `.tmx` con rutas relativas a `assets/environment/`.
 
@@ -141,11 +143,95 @@ El exportador escribe `scene_hooks.json` con `spawn_points[].position` en coorde
 
 ---
 
-## 5. Reglas importantes
+## 5. Capa de tiles `collision` (colisiones del jugador)
+
+Las celdas donde el jugador **no puede caminar** se pintan en la capa de tiles **`collision`**.
+
+### Redimensionar colisiones (capa de objetos)
+
+Los tiles de la capa **`collision`** tienen tamaño fijo (256×128): **W y H aparecen bloqueados** en Atributos porque no son objetos, son celdas de la grilla.
+
+Para **rectángulos redimensionables** (arrastrar esquinas, editar W/H):
+
+1. En **Layers**, seleccioná o creá la capa de objetos **`collision_zones`**
+   - **Layer → Add Layer → Object Layer** → nombre exacto: `collision_zones`
+2. Herramienta **Insert Rectangle** (rectángulo, no Insert Tile)
+3. Dibujá un rectángulo sobre el área que debe bloquear (casa, árbol, etc.)
+4. Herramienta **Select Objects** (flecha) → clic en el rectángulo
+5. En **Atributos → Rectangle**, **W** y **H** ya se pueden editar, o arrastrá las esquinas
+6. El exportador convierte cada rectángulo en las celdas de grilla que cubre
+
+Podés usar **`collision`** (tiles, celda a celda) y **`collision_zones`** (rectángulos) a la vez; se combinan al exportar.
+
+### Paso a paso — tiles (`collision`)
+
+1. Abrí `data/maps/barrio_tutorial_01/barrio_tutorial_01.tmx`
+2. En el panel **Layers** (capas), buscá la capa **`collision`**
+   - Si no existe: **Layer → Add Layer → Tile Layer** → nombrala exactamente `collision`
+3. Seleccioná la capa **`collision`** (debe quedar resaltada)
+4. En **View → Show Tile Object Outlines** (opcional) para ver mejor la grilla
+5. Para ver el mapa mientras pintás:
+   - Dejá `ground` visible
+   - Podés ocultar `markings` / `overlay` (icono del ojo)
+   - La capa `collision` tiene opacidad ~55% para ver debajo
+6. Herramienta **Stamp Brush** (sello / pincel de tiles)
+7. Tileset **`collision_tutorial`** → elegí el tile rojo `collision_blocked_01`
+8. Pintá cada celda donde el jugador debe **chocar**:
+   - Base de casas (5 celdas en cruz suele alcanzar)
+   - Tronco de árboles (1 celda)
+   - Faroles / fuente (1–4 celdas según tamaño)
+   - **No** pintes calles ni veredas transitables
+9. Para borrar: herramienta **Eraser** (goma) sobre la capa `collision`
+10. **Ctrl+S** guardar el `.tmx`
+
+### Exportar colisiones al motor
+
+Desde la raíz del repo:
+
+```powershell
+python tools/tiled_export/export_layout.py data/maps/barrio_tutorial_01/barrio_tutorial_01.tmx
+```
+
+Salida esperada:
+
+```
+Exported .../collision.json (N blocked cells)
+```
+
+### Probar en el juego
+
+```powershell
+cargo run
+```
+
+Enter → Gameplay. El jugador debe chocar con las celdas que pintaste.
+
+### Reglas
 
 | Hacé esto | Evitá esto |
 |-----------|------------|
-| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `props`, `spawn`) |
+| Capa llamada exactamente **`collision`** | Renombrar a `collisions` u otro nombre |
+| Usar tile de **`collision_tutorial`** | Pintar colisiones en la capa `ground` |
+| Exportar después de editar | Editar `collision.json` a mano |
+| Pintar solo donde bloquea el walk | Pintar toda la calle de rojo |
+
+### Punto de partida automático
+
+Si regenerás el mapa de referencia:
+
+```powershell
+python tools/tiled_export/build_barrio_reference.py
+```
+
+Eso crea una capa `collision` inicial desde `data/collision/prop_footprints.json`. Después ajustás a mano en Tiled.
+
+---
+
+## 6. Reglas importantes
+
+| Hacé esto | Evitá esto |
+|-----------|------------|
+| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `collision`, `props`, `spawn`) |
 | Usar tiles de los tilesets del proyecto | Mover o renombrar `.tsx` fuera de la carpeta del mapa |
 | Exportar con el script de Python | Exportar JSON manualmente desde Tiled |
 | **Ctrl+S** después de editar | Borrar propiedades `tile_id` / `prop_id` de los tilesets |
@@ -156,7 +242,7 @@ El exportador escribe `scene_hooks.json` con `spawn_points[].position` en coorde
 
 ---
 
-## 6. Exportar al motor (layout + props + spawn)
+## 7. Exportar al motor (layout + props + spawn + collision)
 
 Desde la raíz del repo:
 
@@ -173,6 +259,7 @@ Size: 24x24
 Ground layer rows: 24
 Exported .../props.json (64 props)
 Exported .../scene_hooks.json (1 spawn points)
+Exported .../collision.json (N blocked cells)
 ```
 
 ### Qué genera cada archivo
@@ -182,6 +269,11 @@ Exported .../scene_hooks.json (1 spawn points)
 | `layout.json` | Capas `ground`, `markings`, `overlay` | Tilemap de suelo |
 | `props.json` | Capa de objetos `props` | Sprites de casas, árboles, etc. |
 | `scene_hooks.json` | Capa de objetos `spawn` | Posición inicial del jugador |
+| `collision.json` | Capa de tiles `collision` | Celdas bloqueadas para el jugador |
+
+### Editor in-game (F2) — opcional
+
+El editor **F2** en el juego sigue disponible para ajustes rápidos. Si `collision.json` tiene celdas (exportado desde Tiled), **ese archivo manda** al cargar el mapa.
 
 ### Opciones del exportador
 
@@ -191,6 +283,9 @@ python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --no-props
 
 # Sin exportar scene_hooks.json
 python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --no-hooks
+
+# Sin exportar collision.json
+python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --no-collision
 
 # Ruta custom de salida
 python tools/tiled_export/export_layout.py data/maps/.../mapa.tmx --output data/maps/.../layout.json --props-output data/maps/.../props.json --hooks-output data/maps/.../scene_hooks.json

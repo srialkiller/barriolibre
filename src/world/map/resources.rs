@@ -73,6 +73,10 @@ pub struct LayoutLayers {
 #[allow(dead_code)]
 pub struct CollisionFile {
     pub barrio_id: String,
+    #[serde(default)]
+    pub version: u32,
+    #[serde(default)]
+    pub cells: Vec<[i32; 2]>,
 }
 
 #[derive(Debug, Deserialize)]

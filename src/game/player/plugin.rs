@@ -8,6 +8,7 @@ use crate::game::player::depth_system::player_depth_system;
 use crate::game::player::movement_system::player_movement_system;
 use crate::game::player::resources::{PlayerAssets, PlayerConfig};
 use crate::game::player::spawn_system::{load_player_assets_system, spawn_player_system};
+use crate::world::collision::resources::CollisionEditorState;
 
 pub struct PlayerPlugin;
 
@@ -29,6 +30,7 @@ impl Plugin for PlayerPlugin {
                 )
                     .chain()
                     .run_if(in_state(GameState::Gameplay))
+                    .run_if(|editor: Res<CollisionEditorState>| !editor.active)
                     .in_set(GameSet::Movement),
             );
     }

@@ -1,4 +1,4 @@
-//! Walkability grid built from map props and borders.
+//! Walkability grid + in-game collision editor (F2).
 
 pub mod plugin;
 pub mod resources;

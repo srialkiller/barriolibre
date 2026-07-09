@@ -2,7 +2,9 @@ use bevy::input::mouse::MouseWheel;
 use bevy::prelude::*;
 
 use super::components::IsoCamera;
+use crate::core::states::GameState;
 use crate::render::isometric::grid_to_world;
+use crate::world::collision::resources::CollisionEditorState;
 use crate::world::map::resources::LoadedNeighborhood;
 
 /// Default orthographic scale: higher = more of the map visible (zoomed out).
@@ -11,8 +13,8 @@ const MIN_ZOOM: f32 = 1.0;
 const MAX_ZOOM: f32 = 9.0;
 const ZOOM_KEY_SPEED: f32 = 2.5;
 const ZOOM_WHEEL_STEP: f32 = 0.35;
-/// Pan speed in world px/sec at scale 1.0; scaled by zoom so it feels constant.
 const PAN_SPEED: f32 = 600.0;
+const EDITOR_PAN_MULTIPLIER: f32 = 2.5;
 
 pub fn setup_default_camera_system(mut commands: Commands) {
     commands.spawn((
@@ -69,8 +71,16 @@ pub fn camera_control_system(
 pub fn camera_pan_system(
     time: Res<Time>,
     keyboard: Res<ButtonInput<KeyCode>>,
+    state: Res<State<GameState>>,
+    editor: Res<CollisionEditorState>,
     mut cameras: Query<(&mut Transform, &OrthographicProjection), With<IsoCamera>>,
 ) {
+    let editor_pan = editor.active;
+    let debug_pan = *state.get() == GameState::Debug;
+    if !editor_pan && !debug_pan {
+        return;
+    }
+
     let Ok((mut transform, projection)) = cameras.get_single_mut() else {
         return;
     };
@@ -89,8 +99,12 @@ pub fn camera_pan_system(
         direction.x += 1.0;
     }
     if direction != Vec2::ZERO {
-        let movement =
-            direction.normalize() * PAN_SPEED * projection.scale * time.delta_secs();
+        let speed = if editor_pan {
+            PAN_SPEED * EDITOR_PAN_MULTIPLIER
+        } else {
+            PAN_SPEED
+        };
+        let movement = direction.normalize() * speed * projection.scale * time.delta_secs();
         transform.translation.x += movement.x;
         transform.translation.y += movement.y;
     }

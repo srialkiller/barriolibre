@@ -1,31 +1,25 @@
-use std::collections::HashMap;
-
 use bevy::prelude::*;
 
 use crate::assets::registry::{AssetRegistry, TileId};
 use crate::render::camera::systems::{grid_to_iso, iso_sort_key};
-use crate::render::isometric::{
-    content_bounds, default_tile_anchor, fit_content_to_cell, tile_display_size,
-};
+use crate::render::isometric::{default_tile_anchor, tile_display_size};
 use crate::world::map::components::{MapRoot, MapTile};
 use crate::world::map::resources::LoadedNeighborhood;
-
-const CONTENT_ALPHA_THRESHOLD: u8 = 8;
 
 pub fn spawn_tilemap_system(
     mut commands: Commands,
     neighborhood: Res<LoadedNeighborhood>,
     registry: Res<AssetRegistry>,
-    images: Res<Assets<Image>>,
     existing: Query<Entity, With<MapRoot>>,
 ) {
     if !existing.is_empty() {
         return;
     }
 
-    let default_size = tile_display_size();
+    // Exact cell size — no content-fit scaling. Upscaling by opaque bounds caused
+    // subpixel seams/flicker on road dashes when the camera lerps.
+    let tile_size = tile_display_size();
     let tile_anchor = default_tile_anchor();
-    let mut fit_cache: HashMap<String, (Vec2, Vec2)> = HashMap::new();
     let root = commands
         .spawn((
             MapRoot,
@@ -50,17 +44,6 @@ pub fn spawn_tilemap_system(
                     Handle::default()
                 });
 
-            let (tile_size, offset) =
-                *fit_cache.entry(tile_id.clone()).or_insert_with(|| {
-                    images
-                        .get(&handle)
-                        .and_then(|image| {
-                            content_bounds(image, CONTENT_ALPHA_THRESHOLD)
-                        })
-                        .map(|(min, max)| fit_content_to_cell(min, max))
-                        .unwrap_or((default_size, Vec2::ZERO))
-                });
-
             commands.entity(root).with_children(|parent| {
                 parent.spawn((
                     MapTile {
@@ -74,11 +57,7 @@ pub fn spawn_tilemap_system(
                         anchor: tile_anchor,
                         ..default()
                     },
-                    Transform::from_xyz(
-                        position.x + offset.x,
-                        position.y + offset.y,
-                        z,
-                    ),
+                    Transform::from_xyz(position.x, position.y, z),
                 ));
             });
         }

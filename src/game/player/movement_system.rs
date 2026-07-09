@@ -5,11 +5,12 @@ use crate::game::player::components::{
 };
 use crate::game::player::resources::{facing_from_input, PlayerConfig};
 use crate::render::isometric::world_to_grid_f;
-use crate::world::collision::CollisionGrid;
+use crate::world::collision::resources::{CollisionEditorState, CollisionGrid};
 
 pub fn player_movement_system(
     time: Res<Time>,
     config: Res<PlayerConfig>,
+    editor: Res<CollisionEditorState>,
     grid: Res<CollisionGrid>,
     keyboard: Res<ButtonInput<KeyCode>>,
     mut query: Query<(
@@ -20,6 +21,9 @@ pub fn player_movement_system(
         &Player,
     )>,
 ) {
+    if editor.active {
+        return;
+    }
     let Ok((mut transform, mut grid_pos, mut velocity, mut animation, _)) = query.get_single_mut()
     else {
         return;
@@ -50,15 +54,17 @@ pub fn player_movement_system(
     velocity.0 = direction * config.move_speed;
     let delta = velocity.0 * time.delta_secs();
     let current = transform.translation.truncate();
+    // ~0.2 cell collision radius so feet can't clip into prop footprints.
+    const HIT_RADIUS_CELLS: f32 = 0.2;
 
     let after_x = current + Vec2::new(delta.x, 0.0);
     let mut next = current;
-    if grid.is_walkable_world(after_x) {
+    if grid.is_walkable_world_radius(after_x, HIT_RADIUS_CELLS) {
         next.x = after_x.x;
     }
 
     let after_y = next + Vec2::new(0.0, delta.y);
-    if grid.is_walkable_world(after_y) {
+    if grid.is_walkable_world_radius(after_y, HIT_RADIUS_CELLS) {
         next.y = after_y.y;
     }
 
