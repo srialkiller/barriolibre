@@ -22,6 +22,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 LAYER_NAMES = ("ground", "markings", "overlay")
 PROPS_LAYER_NAME = "props"
 SPAWN_LAYER_NAME = "spawn"
+NPC_LAYER_NAME = "npcs"
+PICKUP_LAYER_NAME = "pickups"
 COLLISION_LAYER_NAME = "collision"
 COLLISION_ZONES_LAYER_NAME = "collision_zones"
 # Tiled stores flip flags in the top bits of tile/object gids.
@@ -192,38 +194,82 @@ def export_props(
     }
 
 
-def export_spawn(root: ET.Element, barrio_id: str) -> dict | None:
+def object_properties(obj: ET.Element) -> dict[str, str]:
+    properties: dict[str, str] = {}
+    properties_node = obj.find("properties")
+    if properties_node is None:
+        return properties
+    for prop in properties_node.findall("property"):
+        name = prop.attrib.get("name")
+        value = prop.attrib.get("value")
+        if name and value is not None:
+            properties[name] = value
+    return properties
+
+
+def export_scene_hooks(root: ET.Element, barrio_id: str) -> dict | None:
     tile_height = float(root.attrib["tileheight"])
     spawn_points: list[dict] = []
+    npcs: list[dict] = []
+    pickups: list[dict] = []
 
     for group in root.findall("objectgroup"):
-        if group.attrib.get("name") != SPAWN_LAYER_NAME:
-            continue
+        layer_name = group.attrib.get("name")
         for obj in group.findall("object"):
-            spawn_id = obj.attrib.get("name") or f"spawn_{obj.attrib.get('id', '0')}"
             col, row = tiled_object_to_grid(
                 float(obj.attrib["x"]),
                 float(obj.attrib["y"]),
                 tile_height,
             )
-            entry: dict = {
-                "id": spawn_id,
-                "position": [int(round(col)), int(round(row))],
-            }
-            properties = obj.find("properties")
-            if properties is not None:
-                for prop in properties.findall("property"):
-                    if prop.attrib.get("name") == "facing" and prop.attrib.get("value"):
-                        entry["facing"] = prop.attrib["value"]
-            spawn_points.append(entry)
+            object_id = obj.attrib.get("id", "0")
+            object_name = obj.attrib.get("name")
+            position = [int(round(col)), int(round(row))]
+            properties = object_properties(obj)
 
-    if not spawn_points:
+            if layer_name == SPAWN_LAYER_NAME:
+                entry: dict = {
+                    "id": object_name or f"spawn_{object_id}",
+                    "position": position,
+                }
+                if properties.get("facing"):
+                    entry["facing"] = properties["facing"]
+                spawn_points.append(entry)
+            elif layer_name == NPC_LAYER_NAME:
+                npcs.append(
+                    {
+                        "id": object_name or f"npc_{object_id}",
+                        "name": properties.get("display_name", object_name or "Vecino"),
+                        "dialogue": properties.get(
+                            "dialogue", "¡Qué bueno verte explorando el barrio!"
+                        ),
+                        "position": position,
+                    }
+                )
+            elif layer_name == PICKUP_LAYER_NAME:
+                material_id = properties.get("material_id")
+                if not material_id:
+                    raise ValueError(
+                        f"Pickup object id={object_id} requires material_id property"
+                    )
+                pickups.append(
+                    {
+                        "id": object_name or f"pickup_{object_id}",
+                        "material_id": material_id,
+                        "display_name": properties.get("display_name", material_id),
+                        "quantity": int(properties.get("quantity", "1")),
+                        "position": position,
+                    }
+                )
+
+    if not spawn_points and not npcs and not pickups:
         return None
 
     return {
         "barrio_id": barrio_id,
         "version": 1,
         "spawn_points": spawn_points,
+        "npcs": npcs,
+        "pickups": pickups,
         "checkpoints": [],
         "poi_hooks": [],
         "metadata": {"exported_from_tiled": True},
@@ -308,7 +354,7 @@ def export_layout(
     barrio_id: str,
     display_name: str,
     default_tile_id: str,
-) -> tuple[dict, dict | None]:
+) -> tuple[dict, dict | None, dict | None, dict | None]:
     root = ET.parse(map_path).getroot()
     if root.attrib.get("orientation") != "isometric":
         raise ValueError("Map must use isometric orientation")
@@ -348,7 +394,7 @@ def export_layout(
     ):
         props_payload = export_props(root, gid_to_prop_id, barrio_id)
 
-    spawn_payload = export_spawn(root, barrio_id)
+    spawn_payload = export_scene_hooks(root, barrio_id)
     collision_payload = export_collision(root, barrio_id)
 
     return layout, props_payload, spawn_payload, collision_payload

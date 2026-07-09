@@ -56,7 +56,7 @@ pub fn camera_control_system(
     if keyboard.any_pressed([KeyCode::KeyQ, KeyCode::Minus, KeyCode::NumpadSubtract]) {
         zoom_delta += ZOOM_KEY_SPEED * time.delta_secs();
     }
-    if keyboard.any_pressed([KeyCode::KeyE, KeyCode::Equal, KeyCode::NumpadAdd]) {
+    if keyboard.any_pressed([KeyCode::Equal, KeyCode::NumpadAdd]) {
         zoom_delta -= ZOOM_KEY_SPEED * time.delta_secs();
     }
     if zoom_delta != 0.0 {

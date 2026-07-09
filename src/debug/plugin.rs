@@ -3,6 +3,7 @@ use bevy::prelude::*;
 
 use crate::assets::registry::AssetRegistry;
 use crate::core::states::GameState;
+use crate::ui::UiFont;
 use crate::debug::gameplay_overlay::{GameplayDebugRoot, GameplayDebugState, GameplayDebugText};
 use crate::debug::overlay::{DebugOverlayRoot, DebugOverlayState, DebugOverlayText};
 use crate::game::player::components::{GridPosition, PlayerVelocity};
@@ -28,7 +29,7 @@ impl Plugin for DebugPlugin {
     }
 }
 
-fn spawn_debug_overlay_system(mut commands: Commands) {
+fn spawn_debug_overlay_system(mut commands: Commands, ui_font: Res<UiFont>) {
     commands
         .spawn((
             DebugOverlayRoot,
@@ -46,13 +47,13 @@ fn spawn_debug_overlay_system(mut commands: Commands) {
             parent.spawn((
                 DebugOverlayText,
                 Text::new("Debug Overlay"),
-                TextFont { font_size: 16.0, ..default() },
+                ui_font.sized(16.0),
                 TextColor(Color::srgb(0.9, 0.95, 1.0)),
             ));
         });
 }
 
-fn spawn_gameplay_debug_system(mut commands: Commands) {
+fn spawn_gameplay_debug_system(mut commands: Commands, ui_font: Res<UiFont>) {
     commands
         .spawn((
             GameplayDebugRoot,
@@ -70,7 +71,7 @@ fn spawn_gameplay_debug_system(mut commands: Commands) {
             parent.spawn((
                 GameplayDebugText,
                 Text::new("Gameplay Debug"),
-                TextFont { font_size: 16.0, ..default() },
+                ui_font.sized(16.0),
                 TextColor(Color::srgb(0.85, 1.0, 0.85)),
             ));
         });

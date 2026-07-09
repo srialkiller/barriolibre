@@ -63,8 +63,12 @@ pub fn load_map_during_loading_system(
     if hooks_path.exists() {
         if let Ok(text) = std::fs::read_to_string(&hooks_path) {
             if let Ok(hooks) = serde_json::from_str::<SceneHooksFile>(&text) {
-                neighborhood.spawn_position =
-                    hooks.spawn_points.first().map(|spawn| spawn.position);
+                if let Some(spawn) = hooks.spawn_points.first() {
+                    neighborhood.spawn_position = Some(spawn.position);
+                    neighborhood.spawn_facing.clone_from(&spawn.facing);
+                }
+                neighborhood.npc_spawns = hooks.npcs;
+                neighborhood.pickup_spawns = hooks.pickups;
                 neighborhood.hooks_loaded = true;
             }
         }

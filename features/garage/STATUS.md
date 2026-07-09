@@ -2,16 +2,21 @@
 
 | Field | Value |
 |---|---|
-| **Branch** | `feature/garage` |
+| **Branch** | `feature/quest` (unlock gate Sprint 03) |
 | **Release** | `release/vertical-slice` |
-| **Lifecycle** | `planned` |
+| **Lifecycle** | `in_progress` |
 | **Sprint** | Sprint_03 |
-| **Registry** | `production/branches/registry.json` |
 
-**Current:** `planned`
+**Current:** desbloqueo por evento implementado; UI de taller y fabricación pendientes.
 
-## Approvals
+## Implementado (Sprint 03)
 
-- [ ] POL-003 QA
-- [ ] POL-005 cargo check
-- [ ] POL-007 Studio Director integration
+- [x] `GaragePlugin` mínimo con `GarageAccess` resource
+- [x] Escucha `GarageUnlocked` tras completar misión tutorial
+- [x] Banner temporal de desbloqueo en gameplay
+
+## Pendiente
+
+- [ ] POI trigger en mapa
+- [ ] UI de taller / slots de piezas
+- [ ] Integración con crafting y vehículos

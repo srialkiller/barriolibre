@@ -11,8 +11,61 @@
       "facing": "south"
     }
   ],
+  "npcs": [
+    {
+      "id": "pedro_vecino",
+      "name": "Pedro",
+      "dialogue": "¡Ey, compa! Si tenés un rato, tengo una idea para el barrio.",
+      "position": [
+        11,
+        13
+      ]
+    }
+  ],
+  "pickups": [
+    {
+      "id": "pickup_carton",
+      "material_id": "cardboard",
+      "display_name": "Cartón limpio",
+      "quantity": 1,
+      "position": [
+        16,
+        12
+      ]
+    },
+    {
+      "id": "pickup_alambre",
+      "material_id": "wire",
+      "display_name": "Alambre",
+      "quantity": 1,
+      "position": [
+        17,
+        13
+      ]
+    },
+    {
+      "id": "pickup_chapitas",
+      "material_id": "bottle_caps",
+      "display_name": "Chapitas",
+      "quantity": 1,
+      "position": [
+        15,
+        14
+      ]
+    }
+  ],
   "checkpoints": [],
-  "poi_hooks": [],
+  "poi_hooks": [
+    {
+      "id": "poi_garage",
+      "kind": "garage",
+      "label": "Garaje",
+      "position": [
+        18,
+        10
+      ]
+    }
+  ],
   "metadata": {
     "exported_from_tiled": true
   }

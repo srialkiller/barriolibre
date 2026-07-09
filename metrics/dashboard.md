@@ -1,7 +1,7 @@
 # Project Dashboard
 
-**Generated:** 2026-07-09T17:09:26.135211+00:00  
-**Phase:** `vertical_slice`  
+**Generated:** 2026-07-09T17:25:58.268189+00:00
+**Phase:** `vertical_slice`
 **Scan:** `python scripts/studio_scan.py`
 
 ## Studio Health
@@ -11,7 +11,7 @@
 | Documentación | 🟢 | 16 docs |
 | Arte | 🟢 | 295 env PNGs |
 | Runtime | 🟢 | Foundation Runtime Sprint 01 |
-| Gameplay | 🔴 | No playable loop yet |
+| Gameplay | 🟡 | Exploration loop in QA |
 | Herramientas | 🟡 | 7 tool dirs |
 | QA | 🟡 | Env QA formal pending |
 | Producción | 🟢 | Environment pack done |
@@ -22,7 +22,7 @@
 | Metric | Value |
 |---|---|
 | Bevy project | ✅ |
-| Rust files | 63 |
+| Rust files | 70 |
 | Playable maps | 6 |
 | Environment PNGs | 295 |
 | Tiles generated | 187/155 |
@@ -53,5 +53,5 @@
 | events | planned | 6 |
 | foundation-runtime | complete | 0 |
 | garage | planned | 6 |
-| inventory | planned | 6 |
+| inventory | qa | 1 |
 | race | planned | 6 |

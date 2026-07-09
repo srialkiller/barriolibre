@@ -18,6 +18,12 @@ impl Default for PlayerConfig {
     }
 }
 
+#[derive(Resource, Debug, Default)]
+pub struct PlayerInteractionState {
+    pub active_npc_id: Option<String>,
+    pub dialogue_open: bool,
+}
+
 #[derive(Resource, Debug)]
 pub struct PlayerAssets {
     pub loaded: bool,

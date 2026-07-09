@@ -7,15 +7,11 @@ Ver [ECONOMY_GUIDE §11](../../docs/systems/ECONOMY_GUIDE.md).
 ```rust
 #[derive(Component)]
 pub struct Collectible {
-    pub item_kind: ItemKind,
+    pub spawn_id: String,
+    pub material_id: MaterialId,
+    pub display_name: String,
     pub quantity: u32,
 }
-
-#[derive(Component)]
-pub struct InventoryOwner;  // marker on player entity
-
-#[derive(Component)]
-pub struct PickupPending;   // anti double-pickup frame
 ```
 
 ## Resources
@@ -24,26 +20,18 @@ pub struct PickupPending;   // anti double-pickup frame
 #[derive(Resource)]
 pub struct PlayerInventory {
     pub materials: HashMap<MaterialId, u32>,
-    pub parts: Vec<PartInstance>,
-    pub blueprints: HashSet<BlueprintId>,
 }
-
-#[derive(Resource)]
-pub struct ItemDefs;  // from data/economy/material_defs.json
 ```
 
 ## Events
 
 ```rust
 #[derive(Event)]
-pub struct PickupItemRequest {
-    pub collector: Entity,
-    pub collectible: Entity,
-}
-
-#[derive(Event)]
-pub struct InventoryChanged {
-    pub owner: Entity,
+pub struct PickupCollected {
+    pub material_id: MaterialId,
+    pub display_name: String,
+    pub amount: u32,
+    pub new_total: u32,
 }
 ```
 
@@ -51,16 +39,17 @@ pub struct InventoryChanged {
 
 | System | Trigger | Responsibility |
 |---|---|---|
-| `pickup_system` | `PickupItemRequest` | Transfer to PlayerInventory |
-| `collectible_highlight_system` | Proximity to player | Visual feedback |
-| `inventory_ui_system` | UI open | Render stacks |
-| `inventory_persist_system` | Save event | Serialize state |
+| `spawn_collectibles_system` | `OnEnter(Gameplay)` | Crear pickups desde scene hooks |
+| `collect_nearby_pickup_system` | Tecla `E` | Transferir a PlayerInventory y despawn |
+| `update_pickup_prompt_system` | Proximidad | Mostrar prompt de recolección |
+| `toggle_inventory_ui_system` | Tecla `I` | Abrir/cerrar panel |
+| `sync_inventory_ui_system` | Resource changed | Renderizar stacks |
 
 ## Game state
 
-Pickup activo en `GameState::Exploring` — ver [GAMEPLAY_GUIDE §7](../../docs/game/GAMEPLAY_GUIDE.md)
+Pickup activo en `GameState::Gameplay`.
 
 ## Data files
 
-- `data/economy/material_defs.json`
-- `data/world/collectible_spawns_tutorial.json`
+- `data/maps/barrio_tutorial_01/scene_hooks.json`
+- Fuente editable: Object Layer `pickups` en `barrio_tutorial_01.tmx`

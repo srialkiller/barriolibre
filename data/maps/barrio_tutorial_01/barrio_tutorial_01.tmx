@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="isometric" renderorder="right-down" width="24" height="24" tilewidth="256" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="74">
+<map version="1.10" tiledversion="1.12.2" orientation="isometric" renderorder="right-down" width="24" height="24" tilewidth="256" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="78">
  <tileset firstgid="1" source="environment_tutorial.tsx"/>
  <tileset firstgid="20" source="props_tutorial.tsx"/>
  <tileset firstgid="29" source="collision_tutorial.tsx"/>
@@ -91,6 +91,37 @@
   <object id="65" name="tutorial_spawn" x="1728" y="1728">
    <properties>
     <property name="facing" value="south"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="npcs">
+  <object id="74" name="pedro_vecino" x="1472" y="1728">
+   <properties>
+    <property name="dialogue" value="¡Ey, compa! Si tenés un rato, tengo una idea para el barrio."/>
+    <property name="display_name" value="Pedro"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="pickups">
+  <object id="75" name="pickup_carton" x="2112" y="1600">
+   <properties>
+    <property name="display_name" value="Cartón limpio"/>
+    <property name="material_id" value="cardboard"/>
+    <property name="quantity" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="76" name="pickup_alambre" x="2240" y="1728">
+   <properties>
+    <property name="display_name" value="Alambre"/>
+    <property name="material_id" value="wire"/>
+    <property name="quantity" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="77" name="pickup_chapitas" x="1984" y="1856">
+   <properties>
+    <property name="display_name" value="Chapitas"/>
+    <property name="material_id" value="bottle_caps"/>
+    <property name="quantity" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

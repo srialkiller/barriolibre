@@ -322,6 +322,37 @@ def write_props_json(props: list[dict]) -> None:
 
 # Player spawn on open plaza grass, clear of the fountain footprint.
 SPAWN_COL, SPAWN_ROW = 13, 13
+NPC_SPAWNS = [
+    {
+        "id": "pedro_vecino",
+        "name": "Pedro",
+        "dialogue": "¡Ey, compa! Si tenés un rato, tengo una idea para el barrio.",
+        "position": [11, 13],
+    }
+]
+PICKUP_SPAWNS = [
+    {
+        "id": "pickup_carton",
+        "material_id": "cardboard",
+        "display_name": "Cartón limpio",
+        "quantity": 1,
+        "position": [16, 12],
+    },
+    {
+        "id": "pickup_alambre",
+        "material_id": "wire",
+        "display_name": "Alambre",
+        "quantity": 1,
+        "position": [17, 13],
+    },
+    {
+        "id": "pickup_chapitas",
+        "material_id": "bottle_caps",
+        "display_name": "Chapitas",
+        "quantity": 1,
+        "position": [15, 14],
+    },
+]
 
 
 def write_scene_hooks_json() -> None:
@@ -335,6 +366,8 @@ def write_scene_hooks_json() -> None:
                 "facing": "south",
             }
         ],
+        "npcs": NPC_SPAWNS,
+        "pickups": PICKUP_SPAWNS,
         "checkpoints": [],
         "poi_hooks": [
             {
@@ -362,6 +395,40 @@ def spawn_object_xml(object_id: int) -> tuple[str, int]:
         f'<properties><property name="facing" value="south"/></properties></object>'
     )
     return line, object_id + 1
+
+
+def exploration_object_xml(object_id: int) -> tuple[list[str], list[str], int]:
+    npc_lines: list[str] = []
+    pickup_lines: list[str] = []
+
+    for npc in NPC_SPAWNS:
+        col, row = npc["position"]
+        x = (col + 0.5) * TH
+        y = (row + 0.5) * TH
+        npc_lines.append(
+            f'  <object id="{object_id}" name="{npc["id"]}" x="{x:.2f}" y="{y:.2f}">'
+            "<properties>"
+            f'<property name="dialogue" value="{npc["dialogue"]}"/>'
+            f'<property name="display_name" value="{npc["name"]}"/>'
+            "</properties></object>"
+        )
+        object_id += 1
+
+    for pickup in PICKUP_SPAWNS:
+        col, row = pickup["position"]
+        x = (col + 0.5) * TH
+        y = (row + 0.5) * TH
+        pickup_lines.append(
+            f'  <object id="{object_id}" name="{pickup["id"]}" x="{x:.2f}" y="{y:.2f}">'
+            "<properties>"
+            f'<property name="display_name" value="{pickup["display_name"]}"/>'
+            f'<property name="material_id" value="{pickup["material_id"]}"/>'
+            f'<property name="quantity" type="int" value="{pickup["quantity"]}"/>'
+            "</properties></object>"
+        )
+        object_id += 1
+
+    return npc_lines, pickup_lines, object_id
 
 
 def ground_gids(ground: list[list[str]]) -> list[int]:
@@ -393,6 +460,7 @@ def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[
     encoded_collision = encode_layer_data(collision_layer_gids(collision_cells))
     object_lines, next_object_id = prop_object_xml(props)
     spawn_line, next_object_id = spawn_object_xml(next_object_id)
+    npc_lines, pickup_lines, next_object_id = exploration_object_xml(next_object_id)
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -401,7 +469,7 @@ def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[
             'orientation="isometric" renderorder="right-down" '
             f'width="{SIZE}" height="{SIZE}" '
             f'tilewidth="{TW}" tileheight="{TH}" infinite="0" '
-            f'nextlayerid="8" nextobjectid="{next_object_id}">'
+            f'nextlayerid="10" nextobjectid="{next_object_id}">'
         ),
         ' <tileset firstgid="1" source="environment_tutorial.tsx"/>',
         f' <tileset firstgid="{PROPS_FIRSTGID}" source="props_tutorial.tsx"/>',
@@ -427,6 +495,12 @@ def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[
     lines.append(" </objectgroup>")
     lines.append(' <objectgroup id="5" name="spawn">')
     lines.append(spawn_line)
+    lines.append(" </objectgroup>")
+    lines.append(' <objectgroup id="8" name="npcs">')
+    lines.extend(npc_lines)
+    lines.append(" </objectgroup>")
+    lines.append(' <objectgroup id="9" name="pickups">')
+    lines.extend(pickup_lines)
     lines.append(" </objectgroup>")
     lines.append(' <objectgroup id="7" name="collision_zones">')
     lines.append(" </objectgroup>")

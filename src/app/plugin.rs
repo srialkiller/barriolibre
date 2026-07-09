@@ -4,11 +4,15 @@ use crate::assets::AssetPlugin;
 use crate::core::config::load_game_config;
 use crate::core::CorePlugin;
 use crate::debug::DebugPlugin;
+use crate::game::garage::GaragePlugin;
+use crate::game::inventory::InventoryPlugin;
 use crate::game::player::PlayerPlugin;
+use crate::game::quest::QuestPlugin;
 use crate::render::camera::CameraPlugin;
 use crate::render::props::PropPlugin;
 use crate::render::sprites::SpritePlugin;
 use crate::ui::menus::MenuPlugin;
+use crate::ui::UiPlugin;
 use crate::world::collision::CollisionPlugin;
 use crate::world::map::MapPlugin;
 
@@ -43,12 +47,16 @@ impl Plugin for AppPlugin {
             )
             .add_plugins(CorePlugin)
             .add_plugins(AssetPlugin)
+            .add_plugins(UiPlugin)
             .add_plugins(MapPlugin)
             .add_plugins(CollisionPlugin)
             .add_plugins(CameraPlugin)
             .add_plugins(SpritePlugin)
             .add_plugins(PropPlugin)
+            .add_plugins(QuestPlugin)
             .add_plugins(PlayerPlugin)
+            .add_plugins(InventoryPlugin)
+            .add_plugins(GaragePlugin)
             .add_plugins(MenuPlugin)
             .add_plugins(DebugPlugin);
     }

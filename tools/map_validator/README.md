@@ -9,7 +9,8 @@ Valida `data/maps/*/layout.json` contra tile manifest, scene_hooks, collision y 
 
 - Tile IDs exist in generated manifest (or PNG on disk)
 - Layout dimensions consistent with ground layer
-- `scene_hooks.json`: barrio_id, spawn points in bounds
+- `scene_hooks.json`: barrio_id, spawn/NPC/pickup positions in bounds
+- NPCs require name + dialogue; pickups require material ID, display name and quantity
 - `collision.json`: barrio_id, cells in bounds (optional file)
 - `props.json`: barrio_id, prop PNGs exist, positions in bounds
 

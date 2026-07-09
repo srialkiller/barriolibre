@@ -1,83 +1,60 @@
-# Sprint 03 — Craft + Garage + Carrera
+# Sprint 03 — Primer flujo jugable
 
-**Generated:** 2026-07-06 by Studio Director  
+**Generated:** 2026-07-09 by Studio Director  
 **Phase:** vertical_slice  
 **Depends on:** Sprint 02 complete  
-**Goal:** **MVP loop cerrado** — craft → garage → race → reward.
+**Goal:** Tutorial completo — Pedro → materiales → misión → garaje desbloqueado.
 
 ---
 
-## Prerequisites
+## Scope (este sprint)
 
-- [ ] Sprint 02 exit criteria met
-- [ ] Inventario funcional con materiales
+| In | Out |
+|---|---|
+| QuestPlugin MVP | Crafting |
+| Objetivos por eventos | Vehículos |
+| Diálogo por fases | Carreras |
+| HUD objetivo activo | Economía |
+| Garaje desbloqueado (sin fabricar) | Guardado avanzado |
 
 ---
 
 ## Tasks
 
-| ID | Task | Agent | Feature | Deps | Done |
-|---|---|---|---|---|---|
-| S3-001 | `recipe_table.json` + 1 receta wheel | economy_designer | crafting | S2-* | [ ] |
-| S3-002 | Craft system + UI taller básica | technical_director | crafting | S3-001 | [ ] |
-| S3-003 | `parts_catalog.json` + default starter build | vehicle_designer | garage | S3-001 | [ ] |
-| S3-004 | VehicleAssembly + stats system | technical_director | garage | S3-003 | [ ] |
-| S3-005 | Garage POI trigger + install UI | technical_director | garage | S3-004, S2-002 | [ ] |
-| S3-006 | Circuito cancha metadata + checkpoints | race_designer | race | S2-002 | [ ] |
-| S3-007 | Race state: countdown, lap, finish | technical_director | race | S3-006, S3-004 | [ ] |
-| S3-008 | Premios chapitas post-carrera | technical_director | economy | S3-007 | [ ] |
-| S3-009 | QA MVP full loop | qa_director | — | S3-008 | [ ] |
-| S3-010 | Creative Director MVP playtest review | creative_director | — | S3-009 | [ ] |
+| ID | Task | Agent | Feature | Done |
+|---|---|---|---|---|
+| S3-Q-001 | Manifest `tutorial_first_cart.json` | gameplay_programmer | quest | [x] |
+| S3-Q-002 | `QuestPlugin` + stages + HUD | gameplay_programmer | quest | [x] |
+| S3-Q-003 | `NpcInteracted` en PlayerPlugin | gameplay_programmer | player | [x] |
+| S3-Q-004 | `ItemCollected` en InventoryPlugin | gameplay_programmer | inventory | [x] |
+| S3-Q-005 | Pedro + pickups reubicados en mapa | world_designer | map | [x] |
+| S3-Q-006 | `GaragePlugin` unlock gate | technical_director | garage | [x] |
+| S3-Q-007 | QA flujo completo | qa_engineer | quest | [ ] |
 
 ---
 
-## Agent chain
+## Historia del jugador
 
-```
-1. @agents/economy_designer.md — S3-001
-2. @agents/vehicle_designer.md — S3-003
-3. @agents/race_designer.md — S3-006
-   Output: data/races/barrio_tutorial_cancha_01.json
-
-4. @agents/technical_director.md — S3-002, S3-004, S3-005, S3-007, S3-008
-
-5. @agents/qa_director.md — S3-009 (MVP.md exit criteria)
-
-6. @agents/creative_director.md — S3-010 (pilares)
-```
+1. Aparece en el barrio
+2. Habla con Pedro
+3. Pedro pide materiales para el primer carrito
+4. Recoge cartón, alambre y chapitas
+5. Inventario refleja progreso
+6. Vuelve con Pedro → misión completa
+7. Garaje desbloqueado (sin fabricar aún)
 
 ---
 
-## Placeholder policy
+## Criterios de aceptación
 
-Vehicle visuals = **colored sprites** hasta Vehicle Parts Pack. Documentado en features/garage/assets.md.
-
----
-
-## Sprint exit = MVP DONE
-
-- [ ] All MVP.md exit criteria ✅
-- [ ] roadmap/MVP.md checkboxes complete
-- [ ] `production/vertical_slice/` → ready for playtest
-- [ ] Studio Director recommends: Sprint 04 = polish OR alpha prep
+- [ ] Flujo completable sin reiniciar
+- [ ] Estados de misión correctos
+- [ ] Eventos desacoplan NPC, inventario y misiones
+- [x] `cargo run`, `cargo clippy`, tests pasan
+- [x] Documentación y `STATUS.md` actualizados
 
 ---
 
-## Post-MVP decision point
+## Post-Sprint 03 (futuro)
 
-| Option | Sprint 04 focus |
-|---|---|
-| A | Polish MVP + environment QA + 1 rival NPC |
-| B | Alpha prep — progression tier medium |
-| C | Brand workshop (ADR-005) — **solo post-playtest positivo** |
-
-Studio Director recomienda **Option A** primero.
-
----
-
-## Next: Sprint 04 generation
-
-```
-@agents/studio_director.md Generar Sprint 04
-```
-(Ejecutar solo después de completar Sprint 03)
+Craft + garage UI + carrera permanecen en backlog MVP original (`S3-001`…`S3-010`).

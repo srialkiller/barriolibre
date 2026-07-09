@@ -1,0 +1,22 @@
+{
+  "quest_id": "tutorial_first_cart",
+  "title": "El primer carrito",
+  "giver_npc_id": "pedro_vecino",
+  "required_materials": [
+    { "material_id": "cardboard", "quantity": 1 },
+    { "material_id": "wire", "quantity": 1 },
+    { "material_id": "bottle_caps", "quantity": 1 }
+  ],
+  "dialogue": {
+    "intro": "¡Ey, compa! Necesito cartón, alambre y chapitas para armar el primer carrito del barrio. ¿Me ayudás?",
+    "accepted": "Dale, buscá los materiales cerca de la plaza y volvé cuando los tengas.",
+    "in_progress": "Todavía faltan materiales. Revisá la calle y el callejón.",
+    "ready_to_return": "¡Trajiste todo! Con esto armamos el carrito.",
+    "completed": "Gracias, compa. El garaje ya es tuyo — pronto vamos a poder fabricar ahí."
+  },
+  "objectives": {
+    "talk_intro": "Hablá con Pedro",
+    "collect": "Recogé: cartón, alambre y chapitas",
+    "return": "Volvé con Pedro"
+  }
+}

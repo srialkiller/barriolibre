@@ -192,17 +192,45 @@ fn validate_scene_hooks(
     if let Some(layout) = layout {
         let [width, height] = layout.size;
         for spawn in &hooks.spawn_points {
-            if spawn.id.is_empty() {
-                errors.push("spawn_point with empty id".to_string());
-            }
-            let [col, row] = spawn.position;
-            if col < 0 || row < 0 || col as usize >= width || row as usize >= height {
-                errors.push(format!(
-                    "spawn '{}' position [{col},{row}] outside map {width}x{height}",
-                    spawn.id
-                ));
+            validate_hook_position("spawn", &spawn.id, spawn.position, width, height, errors);
+            if let Some(facing) = &spawn.facing {
+                if !matches!(facing.as_str(), "north" | "east" | "south" | "west") {
+                    errors.push(format!("spawn '{}' has invalid facing '{facing}'", spawn.id));
+                }
             }
         }
+        for npc in &hooks.npcs {
+            validate_hook_position("npc", &npc.id, npc.position, width, height, errors);
+            if npc.name.is_empty() || npc.dialogue.is_empty() {
+                errors.push(format!("npc '{}' requires name and dialogue", npc.id));
+            }
+        }
+        for pickup in &hooks.pickups {
+            validate_hook_position("pickup", &pickup.id, pickup.position, width, height, errors);
+            if pickup.material_id.is_empty() || pickup.display_name.is_empty() {
+                errors
+                    .push(format!("pickup '{}' requires material_id and display_name", pickup.id));
+            }
+            if pickup.quantity == 0 {
+                errors.push(format!("pickup '{}' quantity must be greater than zero", pickup.id));
+            }
+        }
+    }
+}
+
+fn validate_hook_position(
+    kind: &str,
+    id: &str,
+    [col, row]: [i32; 2],
+    width: usize,
+    height: usize,
+    errors: &mut Vec<String>,
+) {
+    if id.is_empty() {
+        errors.push(format!("{kind} with empty id"));
+    }
+    if col < 0 || row < 0 || col as usize >= width || row as usize >= height {
+        errors.push(format!("{kind} '{id}' position [{col},{row}] outside map {width}x{height}"));
     }
 }
 
@@ -312,11 +340,34 @@ struct LayoutLayers {
 struct SceneHooksFile {
     barrio_id: String,
     spawn_points: Vec<SpawnPoint>,
+    #[serde(default)]
+    npcs: Vec<NpcSpawn>,
+    #[serde(default)]
+    pickups: Vec<PickupSpawn>,
 }
 
 #[derive(Debug, Deserialize)]
 struct SpawnPoint {
     id: String,
+    position: [i32; 2],
+    #[serde(default)]
+    facing: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct NpcSpawn {
+    id: String,
+    name: String,
+    dialogue: String,
+    position: [i32; 2],
+}
+
+#[derive(Debug, Deserialize)]
+struct PickupSpawn {
+    id: String,
+    material_id: String,
+    display_name: String,
+    quantity: u32,
     position: [i32; 2],
 }
 

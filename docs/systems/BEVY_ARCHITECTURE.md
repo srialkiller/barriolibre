@@ -171,10 +171,11 @@ agents: economy_designer + technical_director
 | `SpritePlugin` | `render/sprites/` | 01 | — |
 | `PropPlugin` | `render/props/` | 01 | — |
 | `PlayerPlugin` | `game/player/` | 02 | `PlayerConfig`, `PlayerAssets` |
+| `QuestPlugin` | `game/quest/` | 03 | `TutorialQuestState`, `NpcDialogueOverrides` |
 | `DebugPlugin` | `debug/` | 01 | `DebugOverlayState`, `GameplayDebugState` |
 | `InventoryPlugin` | `game/inventory/` | 02 | `PlayerInventory` |
 | `VehiclePlugin` | `game/vehicle/` | 03 | `PartsCatalog` |
-| `GaragePlugin` | `game/garage/` | 03 | — |
+| `GaragePlugin` | `game/garage/` | 03 | `GarageAccess` |
 | `RacePlugin` | `game/race/` | 03 | `ActiveRace` |
 | `MenuPlugin` | `ui/menus/` | 01 stub | — |
 | `SavePlugin` | `save/` | 04 | `SaveManager` |
@@ -500,7 +501,7 @@ Bloqueado si: InventoryPlugin o VehiclePlugin no merged
 
 ## 12. Schedule y plugins de arranque
 
-### Orden de registro en AppPlugin (Sprint 01)
+### Orden de registro en AppPlugin (Sprint 03)
 
 ```rust
 app
@@ -508,13 +509,16 @@ app
     .add_plugins(CorePlugin)
     .add_plugins(AssetPlugin)
     .add_plugins(MapPlugin)
+    .add_plugins(CollisionPlugin)
     .add_plugins(CameraPlugin)
     .add_plugins(SpritePlugin)
-    .add_plugins(MenuPlugin)      // stub
+    .add_plugins(PropPlugin)
+    .add_plugins(QuestPlugin)
+    .add_plugins(PlayerPlugin)
+    .add_plugins(InventoryPlugin)
+    .add_plugins(GaragePlugin)
+    .add_plugins(MenuPlugin)
     .add_plugins(DebugPlugin)
-    // Sprint 02+
-    // .add_plugins(PlayerPlugin)
-    // .add_plugins(InventoryPlugin)
     ;
 ```
 

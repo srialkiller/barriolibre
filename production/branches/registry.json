@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2",
-  "updated_at": "2026-07-09T16:50:00Z",
+  "updated_at": "2026-07-09T17:25:00Z",
   "milestone_active": "M1_Player_Exploration",
   "permanent_branches": {
     "main": { "purpose": "production stable", "protected": true, "exists": true },
@@ -9,14 +9,27 @@
   },
   "active_branches": [
     {
+      "branch": "feature/quest",
+      "type": "feature",
+      "feature": "quest",
+      "release": "release/vertical-slice",
+      "milestone": "M1",
+      "sprint": "Sprint_03",
+      "status": "QA",
+      "started": "2026-07-09",
+      "agents": ["gameplay_programmer", "technical_director", "world_designer", "qa_engineer"],
+      "merged_to": null,
+      "demo_criterion": "Pedro quest → collect 3 materials → garage unlocked"
+    },
+    {
       "branch": "feature/inventory",
       "type": "feature",
       "feature": "inventory",
       "release": "release/vertical-slice",
       "milestone": "M1",
       "sprint": "Sprint_02",
-      "status": "planned",
-      "started": null,
+      "status": "QA",
+      "started": "2026-07-09",
       "agents": ["technical_director", "world_designer", "qa_director"],
       "merged_to": null,
       "demo_criterion": "walk plaza → alley → collect 3 items → inventory UI"

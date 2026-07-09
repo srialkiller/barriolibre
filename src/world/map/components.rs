@@ -21,3 +21,10 @@ pub struct MapProp {
     pub col: f32,
     pub row: f32,
 }
+
+#[derive(Component, Debug)]
+pub struct NeighborhoodNpc {
+    pub npc_id: String,
+    pub display_name: String,
+    pub dialogue: String,
+}

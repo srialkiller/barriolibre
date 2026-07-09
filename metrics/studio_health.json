@@ -12,8 +12,8 @@
     "note": "Foundation Runtime Sprint 01"
   },
   "gameplay": {
-    "status": "red",
-    "note": "No playable loop yet"
+    "status": "yellow",
+    "note": "Exploration loop in QA"
   },
   "herramientas": {
     "status": "yellow",

@@ -7,6 +7,7 @@ use tracing::{info, warn};
 
 use crate::render::camera::components::IsoCamera;
 use crate::render::isometric::{grid_to_world, tile_display_size, world_to_grid_f};
+use crate::ui::UiFont;
 use crate::world::collision::resources::{
     CollisionBrushPreview, CollisionEditorHudRoot, CollisionEditorHudText, CollisionEditorState,
     CollisionFileData, CollisionGrid, CollisionOverlayAssets, CollisionOverlayCell,
@@ -83,11 +84,7 @@ fn mark_offsets(
     }
 }
 
-fn nearest_prop(
-    neighborhood: &LoadedNeighborhood,
-    col: i32,
-    row: i32,
-) -> Option<&PropInstance> {
+fn nearest_prop(neighborhood: &LoadedNeighborhood, col: i32, row: i32) -> Option<&PropInstance> {
     neighborhood
         .props
         .iter()
@@ -230,7 +227,7 @@ pub fn setup_collision_overlay_assets_system(
     assets.marker = images.add(image);
 }
 
-pub fn spawn_collision_editor_hud_system(mut commands: Commands) {
+pub fn spawn_collision_editor_hud_system(mut commands: Commands, ui_font: Res<UiFont>) {
     commands
         .spawn((
             CollisionEditorHudRoot,
@@ -248,7 +245,7 @@ pub fn spawn_collision_editor_hud_system(mut commands: Commands) {
             parent.spawn((
                 CollisionEditorHudText,
                 Text::new("Collision Editor"),
-                TextFont { font_size: 14.0, ..default() },
+                ui_font.sized(14.0),
                 TextColor(Color::srgb(1.0, 0.85, 0.4)),
             ));
         });

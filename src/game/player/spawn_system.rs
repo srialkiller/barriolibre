@@ -70,6 +70,7 @@ pub fn spawn_player_system(
         .unwrap_or((12.0, 11.0));
 
     let world = grid_to_world_f(spawn_col, spawn_row);
+    let spawn_facing = facing_from_hook(neighborhood.spawn_facing.as_deref());
     let display_height = assets.definitions.display_height_px;
     let aspect = assets.definitions.cell_size[0] as f32 / assets.definitions.cell_size[1] as f32;
     let display_width = display_height * aspect;
@@ -80,7 +81,7 @@ pub fn spawn_player_system(
         PlayerVelocity::default(),
         PlayerAnimation {
             state: AnimState::Idle,
-            facing: Facing::South,
+            facing: spawn_facing,
             frame_index: 0,
             timer: Timer::from_seconds(
                 1.0 / assets.definitions.idle.fps.max(1.0),
@@ -92,7 +93,7 @@ pub fn spawn_player_system(
             image: assets.texture.clone(),
             texture_atlas: Some(TextureAtlas {
                 layout: assets.layout.clone(),
-                index: assets.definitions.atlas_index(AnimState::Idle, Facing::South, 0),
+                index: assets.definitions.atlas_index(AnimState::Idle, spawn_facing, 0),
             }),
             custom_size: Some(Vec2::new(display_width, display_height)),
             anchor: Anchor::BottomCenter,
@@ -104,4 +105,13 @@ pub fn spawn_player_system(
     ));
 
     tracing::info!(col = spawn_col, row = spawn_row, zoom = config.camera_zoom, "Player spawned");
+}
+
+fn facing_from_hook(facing: Option<&str>) -> Facing {
+    match facing {
+        Some("north") => Facing::North,
+        Some("east") => Facing::East,
+        Some("west") => Facing::West,
+        _ => Facing::South,
+    }
 }

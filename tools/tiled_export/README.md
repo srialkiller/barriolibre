@@ -32,7 +32,7 @@ data/maps/barrio_tutorial_01/
 ├── collision_tutorial.tsx        ← tileset marcador rojo (1 tile)
 ├── layout.json                 ← exportado → suelo que renderiza Bevy
 ├── props.json                  ← exportado → casas/árboles/etc. en Bevy
-├── scene_hooks.json            ← exportado → spawn del jugador (capa `spawn`)
+├── scene_hooks.json            ← spawn + NPCs + pickups desde Object Layers
 ├── collision.json              ← exportado → celdas bloqueadas (capa `collision`)
 ```
 
@@ -141,6 +141,18 @@ El punto de aparición del jugador va en la capa de objetos **`spawn`**.
 
 El exportador escribe `scene_hooks.json` con `spawn_points[].position` en coordenadas de grilla.
 
+### Capas `npcs` y `pickups` — Sprint 02
+
+Ambas usan **Object Layers** con objetos tipo punto:
+
+- `npcs`: nombre = ID estable; propiedades `display_name` y `dialogue`.
+- `pickups`: nombre = ID estable; propiedades `material_id`, `display_name`
+  y `quantity` (entero mayor que cero).
+
+El exportador convierte sus coordenadas a grilla y genera `npcs[]` y
+`pickups[]` dentro de `scene_hooks.json`. El runtime instancia esas entidades
+al entrar en `GameState::Gameplay`; no deben hardcodearse posiciones en Rust.
+
 ---
 
 ## 5. Capa de tiles `collision` (colisiones del jugador)
@@ -231,7 +243,7 @@ Eso crea una capa `collision` inicial desde `data/collision/prop_footprints.json
 
 | Hacé esto | Evitá esto |
 |-----------|------------|
-| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `collision`, `props`, `spawn`) |
+| Guardar como `barrio_tutorial_01.tmx` en su carpeta | Renombrar capas (`ground`, `markings`, `overlay`, `collision`, `props`, `spawn`, `npcs`, `pickups`) |
 | Usar tiles de los tilesets del proyecto | Mover o renombrar `.tsx` fuera de la carpeta del mapa |
 | Exportar con el script de Python | Exportar JSON manualmente desde Tiled |
 | **Ctrl+S** después de editar | Borrar propiedades `tile_id` / `prop_id` de los tilesets |
@@ -268,7 +280,7 @@ Exported .../collision.json (N blocked cells)
 |---------|-----------------|-------------|
 | `layout.json` | Capas `ground`, `markings`, `overlay` | Tilemap de suelo |
 | `props.json` | Capa de objetos `props` | Sprites de casas, árboles, etc. |
-| `scene_hooks.json` | Capa de objetos `spawn` | Posición inicial del jugador |
+| `scene_hooks.json` | Capas `spawn`, `npcs`, `pickups` | Entidades del exploration loop |
 | `collision.json` | Capa de tiles `collision` | Celdas bloqueadas para el jugador |
 
 ### Editor in-game (F2) — opcional

@@ -115,6 +115,13 @@ def main() -> None:
 
     bevy_exists = (ROOT / "Cargo.toml").exists()
     tools_count = sum(1 for p in (ROOT / "tools").iterdir() if p.is_dir()) if (ROOT / "tools").exists() else 0
+    feature_state = scan_features()
+    inventory_lifecycle = feature_state.get("inventory", {}).get("lifecycle", "planned")
+    has_exploration_loop = inventory_lifecycle in {"qa", "ready", "merged", "complete"}
+    gameplay_status = "yellow" if has_exploration_loop else "red"
+    gameplay_note = (
+        "Exploration loop in QA" if has_exploration_loop else "No playable loop yet"
+    )
 
     studio_health = {
         "documentacion": {"status": "green", "note": f"{count_files(ROOT / 'docs', '*.md')} docs"},
@@ -123,7 +130,7 @@ def main() -> None:
             "status": "green" if bevy_exists and maps > 0 else ("yellow" if bevy_exists else "red"),
             "note": "Foundation Runtime Sprint 01",
         },
-        "gameplay": {"status": "red", "note": "No playable loop yet"},
+        "gameplay": {"status": gameplay_status, "note": gameplay_note},
         "herramientas": {"status": "yellow" if tools_count >= 6 else "red", "note": f"{tools_count} tool dirs"},
         "qa": {"status": "yellow", "note": "Env QA formal pending"},
         "produccion": {"status": "green" if tiles.get("complete") else "yellow", "note": "Environment pack done"},
@@ -158,7 +165,7 @@ def main() -> None:
             "pois_defined": 11,
             "circuits": 0,
         },
-        "features": scan_features(),
+        "features": feature_state,
         "branches": branches,
         "studio_health": studio_health,
         "blockers": blockers,
@@ -183,8 +190,8 @@ def main() -> None:
 
     dashboard = f"""# Project Dashboard
 
-**Generated:** {state["generated_at"]}  
-**Phase:** `{state["phase"]}`  
+**Generated:** {state["generated_at"]}
+**Phase:** `{state["phase"]}`
 **Scan:** `python scripts/studio_scan.py`
 
 ## Studio Health

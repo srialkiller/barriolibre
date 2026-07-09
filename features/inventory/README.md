@@ -1,8 +1,8 @@
 # Feature: Inventory / Inventario
 
-**Status:** spec  
-**Phase:** vertical_slice  
-**Owner:** `economy_designer` + `technical_director`  
+**Status:** QA
+**Phase:** vertical_slice
+**Owner:** `economy_designer` + `technical_director`
 **Docs:** [ECONOMY_GUIDE §2–4](../../docs/systems/ECONOMY_GUIDE.md), [GAMEPLAY_GUIDE §3](../../docs/game/GAMEPLAY_GUIDE.md)
 
 ## Resumen
@@ -11,17 +11,31 @@ Almacén del jugador: **materiales**, **chapitas**, **piezas** y **blueprints**.
 
 ## MVP scope
 
-- [ ] Resource `PlayerInventory` con slots lógicos
-- [ ] Pickup mundo → inventario (materiales comunes)
-- [ ] UI panel inventario (tabs: materiales / piezas)
-- [ ] Add/remove atómico para craft y garage
-- [ ] Persistencia en save
+- [x] Resource `PlayerInventory` con stacks por `MaterialId`
+- [x] Pickup mundo → inventario (tres materiales comunes)
+- [x] UI mínima de materiales y cantidades
+- [x] Integración data-driven con Object Layers de Tiled
+- [x] NPC básico para validar interacción de exploración
 
 ## Out of scope (v1)
 
 - Stack limits avanzados / peso inventario
 - Intercambio entre jugadores
 - Ordenar/filtrar avanzado
+- Crafting, garage, vehículos, carreras y guardado avanzado
+
+## Controles Sprint 02
+
+- `WASD` / flechas — movimiento
+- `E` — hablar o recoger el elemento cercano
+- `I` — abrir/cerrar inventario
+- `F3` — overlay técnico
+
+## Datos del mapa
+
+`scene_hooks.json` se genera desde las Object Layers `spawn`, `npcs` y
+`pickups` de `barrio_tutorial_01.tmx`. Rust consume esos hooks mediante
+`LoadedNeighborhood`; posiciones y contenido no están hardcodeados.
 
 ## Dependencias
 

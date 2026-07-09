@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-09T17:09:26.135211+00:00",
+  "generated_at": "2026-07-09T17:25:58.268189+00:00",
   "phase": "vertical_slice",
   "brand_adr": "proposed",
   "bevy_project": true,
@@ -15,7 +15,7 @@
     "qa_rejected": 0
   },
   "code": {
-    "rust_files": 63,
+    "rust_files": 70,
     "maps": 6
   },
   "world": {
@@ -65,9 +65,9 @@
       "open_tasks": 6
     },
     "inventory": {
-      "status": "spec",
-      "lifecycle": "planned",
-      "open_tasks": 6
+      "status": "qa",
+      "lifecycle": "qa",
+      "open_tasks": 1
     },
     "race": {
       "status": "spec",
@@ -94,8 +94,8 @@
       "note": "Foundation Runtime Sprint 01"
     },
     "gameplay": {
-      "status": "red",
-      "note": "No playable loop yet"
+      "status": "yellow",
+      "note": "Exploration loop in QA"
     },
     "herramientas": {
       "status": "yellow",

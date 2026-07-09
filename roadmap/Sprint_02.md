@@ -1,16 +1,18 @@
-# Sprint 02 — Mapa + Micro Loop
+# Sprint 02 — Exploration Loop
 
-**Generated:** 2026-07-06 by Studio Director  
-**Phase:** vertical_slice  
-**Depends on:** Sprint 01 complete  
+**Generated:** 2026-07-06 by Studio Director
+**Phase:** vertical_slice
+**Depends on:** Sprint 01 complete
 **Goal:** Explorar barrio mini, recoger materiales, inventario funcional.
+**Branch:** `feature/inventory`
+**Status:** 🟡 QA
 
 ---
 
 ## Prerequisites
 
-- [ ] Sprint 01 exit criteria met
-- [ ] `bevy_project: true`
+- [x] Sprint 01 exit criteria met
+- [x] `bevy_project: true`
 
 ---
 
@@ -18,14 +20,15 @@
 
 | ID | Task | Agent | Feature | Deps | Done |
 |---|---|---|---|---|---|
-| S2-001 | Layout mapa tutorial 32×32 (JSON) | world_designer | race | S1-* | [ ] |
-| S2-002 | POIs: plaza, callejón, taller, cancha | world_designer | race | S2-001 | [ ] |
-| S2-003 | Tilemap renderer desde manifest | technical_director | — | S2-001, S1-004 | [ ] |
-| S2-004 | Player movement isométrico | technical_director | — | S1-005 | [ ] |
-| S2-005 | `PlayerInventory` Resource + UI mínima | technical_director | inventory | S1-007 | [ ] |
-| S2-006 | Pickup entities + collect system | technical_director | inventory | S2-005 | [ ] |
-| S2-007 | 3 spawn points materiales (callejón) | world_designer | economy | S2-002 | [ ] |
-| S2-008 | QA: movement + pickup acceptance | qa_director | inventory | S2-006 | [ ] |
+| S2-001 | Spawn desde Object Layer de Tiled | world_designer | player | S1-* | [x] |
+| S2-002 | Integrar NPC y pickups como scene hooks | world_designer | inventory | S2-001 | [x] |
+| S2-003 | Tilemap renderer desde manifest | technical_director | — | S1-004 | [x] |
+| S2-004 | Player movement, cámara y colisión | technical_director | player | S1-005 | [x] |
+| S2-005 | `PlayerInventory` Resource + UI mínima | technical_director | inventory | S1-007 | [x] |
+| S2-006 | Pickup entities + collect system | technical_director | inventory | S2-005 | [x] |
+| S2-007 | NPC básico + diálogo | technical_director | player | S2-002 | [x] |
+| S2-008 | QA automatizado: clippy, tests, validator, startup | qa_director | inventory | S2-006 | [x] |
+| S2-009 | Playtest manual del exploration loop | qa_director | inventory | S2-008 | [ ] |
 
 ---
 
@@ -55,10 +58,11 @@
 
 ## Sprint exit
 
-- [ ] Jugador camina plaza → callejón → recoge 3 items
-- [ ] Inventario muestra materiales
-- [ ] Mapa usa tiles environment pack
-- [ ] features/inventory/tasks.md items checked
+- [ ] Jugador habla con Tomás y recoge 3 materiales en playtest
+- [ ] Inventario muestra Cartón limpio, Alambre y Chapitas
+- [x] Spawn, NPC y pickups provienen de Object Layers de Tiled
+- [x] Mapa usa tiles environment pack
+- [x] Implementación y QA automatizado completos
 
 ---
 
