@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
-"""Re-texture the isometric ground tiles with richer surfaces and subtle volume.
+"""Re-texture isometric ground tiles as proper 3-face iso blocks.
 
-Each tile stays a 256x128 diamond and keeps its ORIGINAL geometry:
-- the diamond alpha (anti-aliased edges) is preserved, so tiles still line up;
-- road markings (bright pixels) and sidewalk seams (dark pixels) are re-imprinted
-  from the original, so the street network reads exactly the same;
-- only the base surface is swapped for a detailed painterly texture, plus a soft
-  edge bevel (ambient-occlusion groove) that gives each tile a raised-slab feel.
+Reference geometry (scrabling-style):
+  * top face  — chevron bounded by diagonals (left-mid, bottom) and (right-mid, bottom)
+  * left side — bottom-left wedge (solid darker colour)
+  * right side — bottom-right wedge (solid darkest colour)
 
-Textures come from GenerateImage output (gen_tex_grass/asphalt/concrete.png) in
-the Cursor project assets folder. IDs/paths are unchanged, so the runtime picks
-up the new art with no code changes.
+The previous version split at a horizontal line (ny<=0), which is NOT how iso
+blocks look — it left a flat band at the sides and the wrong proportions.
 
 Usage:
     python tools/tiled_export/regen_tiles.py --all
-    python tools/tiled_export/regen_tiles.py grass_clean_02 road_cross_01
 """
 
 from __future__ import annotations
@@ -24,7 +20,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate_tileset import CURATED_TUTORIAL_TILES, category_for_tile_id, tile_path  # noqa: E402
@@ -34,16 +30,20 @@ GEN_DIR = (
 )
 
 TW, TH = 256, 128
-BEVEL_PX = 6          # width of the dark edge groove
-BEVEL_FACTOR = 0.78   # how much to darken that groove
-MARK_LUM = 122        # >= this luminance in a road tile == painted marking
+MARK_LUM = 122
 
-# per-grass-variant (brightness, (r,g,b) tint, roll offset) for natural variety
 GRASS_VARIANTS = {
     "grass_clean_01": (1.00, (1.00, 1.00, 1.00), (0, 0)),
-    "grass_clean_02": (0.94, (0.98, 1.00, 0.95), (90, 40)),
-    "grass_clean_03": (1.06, (1.02, 1.00, 0.93), (40, 150)),
-    "grass_clean_04": (0.90, (0.95, 1.00, 0.98), (170, 110)),
+    "grass_clean_02": (0.96, (0.98, 1.00, 0.96), (90, 40)),
+    "grass_clean_03": (1.04, (1.02, 1.00, 0.94), (40, 150)),
+    "grass_clean_04": (0.92, (0.96, 1.00, 0.98), (170, 110)),
+}
+
+# Solid side-face colours per category (left, right) — no texture bleed.
+SIDE = {
+    "terrain": (np.array([58, 98, 42], dtype=np.float32), np.array([42, 72, 32], dtype=np.float32)),
+    "sidewalks": (np.array([152, 148, 140], dtype=np.float32), np.array([122, 118, 110], dtype=np.float32)),
+    "roads": (np.array([52, 54, 60], dtype=np.float32), np.array([36, 38, 42], dtype=np.float32)),
 }
 
 
@@ -54,7 +54,6 @@ def load_texture(name: str) -> np.ndarray:
 
 
 def window(tex: np.ndarray, roll: tuple[int, int]) -> np.ndarray:
-    """256x256 texture -> a 128x256 window, wrapped by the given roll offset."""
     ox, oy = roll
     rolled = np.roll(np.roll(tex, oy, axis=0), ox, axis=1)
     return rolled[64:192, 0:256, :].copy()
@@ -64,22 +63,55 @@ def luminance(rgb: np.ndarray) -> np.ndarray:
     return rgb[..., 0] * 0.299 + rgb[..., 1] * 0.587 + rgb[..., 2] * 0.114
 
 
-def edge_ring(mask: np.ndarray, px: int) -> np.ndarray:
-    m = Image.fromarray((mask * 255).astype("uint8"))
-    eroded = np.asarray(m.filter(ImageFilter.MinFilter(px * 2 + 1))) > 128
-    return mask & (~eroded)
+def iso_block_faces(h: int, w: int, mask: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Split diamond into top / left-side / right-side using iso diagonals.
+
+    Diagonals run from left-mid (0, h/2) and right-mid (w, h/2) to bottom (w/2, h).
+    """
+    cx, cy = w / 2, h / 2
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+
+    # y boundary of top face at each x (V-shaped bottom edge of top face).
+    slope = (h - cy) / cx  # 0.5 for 256x128
+    boundary = np.where(xx <= cx, cy + slope * xx, cy + slope * (w - xx))
+
+    in_d = mask
+    top = in_d & (yy < boundary - 0.5)
+    bottom = in_d & ~top
+    left = bottom & (xx <= cx)
+    right = bottom & (xx > cx)
+    return top, left, right
 
 
-def apply_bevel(base: np.ndarray, mask: np.ndarray) -> None:
-    ring = edge_ring(mask, BEVEL_PX)
-    base[ring] *= BEVEL_FACTOR
+def light_top(base: np.ndarray, top: np.ndarray, xx: np.ndarray, yy: np.ndarray, cx: float, cy: float) -> None:
+    """NW highlight on the top face only."""
+    nx = (xx - cx) / cx
+    ny = (yy - cy) / cy
+    light = 0.80 + 0.20 * np.clip((-nx - ny + 1.2) / 2.2, 0.0, 1.0)
+    for ch in range(3):
+        c = base[..., ch]
+        c[top] *= light[top]
+        base[..., ch] = c
+
+
+def paint_solid_sides(
+    base: np.ndarray,
+    left: np.ndarray,
+    right: np.ndarray,
+    left_rgb: np.ndarray,
+    right_rgb: np.ndarray,
+) -> None:
+    """Side faces are flat colour — no grass/asphalt texture on the walls."""
+    base[left] = left_rgb
+    base[right] = right_rgb
 
 
 def regen(tile_id: str) -> None:
     src = tile_path(tile_id)
     if not src.exists():
-        print(f"  ! {tile_id}: not found at {src}")
+        print(f"  ! {tile_id}: not found")
         return
+
     orig = Image.open(src).convert("RGBA")
     if orig.size != (TW, TH):
         orig = orig.resize((TW, TH), Image.Resampling.LANCZOS)
@@ -88,31 +120,33 @@ def regen(tile_id: str) -> None:
     mask = alpha > 8
 
     category = category_for_tile_id(tile_id)
+    yy, xx = np.mgrid[0:TH, 0:TW].astype(np.float32)
+    cx, cy = TW / 2, TH / 2
+    top, left, right = iso_block_faces(TH, TW, mask)
 
     if category == "terrain":
         bright, tint, roll = GRASS_VARIANTS.get(tile_id, (1.0, (1, 1, 1), (0, 0)))
-        base = window(GRASS_TEX, roll)
-        base *= bright
-        base *= np.array(tint, dtype=np.float32)
-        apply_bevel(base, mask)
+        base = window(GRASS_TEX, roll) * bright * np.array(tint, dtype=np.float32)
+        light_top(base, top, xx, yy, cx, cy)
+        paint_solid_sides(base, left, right, *SIDE["terrain"])
     elif category == "sidewalks":
         base = window(CONCRETE_TEX, (0, 0))
-        apply_bevel(base, mask)
-        # re-imprint slab seams: darken base by the original's relative luminance
+        light_top(base, top, xx, yy, cx, cy)
+        paint_solid_sides(base, left, right, *SIDE["sidewalks"])
         lum = luminance(orig_rgb)
         ref = np.percentile(lum[mask], 88) if mask.any() else 255.0
-        factor = np.clip(0.55 + 0.45 * (lum / max(ref, 1.0)), 0.45, 1.05)
-        base *= factor[..., None]
-    else:  # roads / markings / everything asphalt-based
+        seam = np.clip(0.55 + 0.45 * (lum / max(ref, 1.0)), 0.45, 1.05)
+        base[top] *= seam[top, None]
+    else:
         base = window(ASPHALT_TEX, (0, 0))
-        apply_bevel(base, mask)
+        light_top(base, top, xx, yy, cx, cy)
+        paint_solid_sides(base, left, right, *SIDE["roads"])
         lum = luminance(orig_rgb)
         mark = mask & (lum >= MARK_LUM)
         base[mark] = orig_rgb[mark]
 
-    base = np.clip(base, 0, 255).astype("uint8")
-    out = np.dstack([base, alpha])
-    Image.fromarray(out, mode="RGBA").save(src)
+    out = np.clip(base, 0, 255).astype("uint8")
+    Image.fromarray(np.dstack([out, alpha]), mode="RGBA").save(src)
     print(f"  ok {tile_id} [{category}]")
 
 

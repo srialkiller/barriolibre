@@ -59,17 +59,9 @@ nítido, estilo pixel-art pintado tipo tileset isométrico de calidad) para darl
 
 ## Arte de tiles de suelo (textura y volumen)
 
-Los 19 tiles isométricos (pasto, calzada, veredas, cebras) se **re-texturizaron**
-in-place con superficies detalladas (pasto pintado, asfalto desgastado, concreto)
-y un **bevel de borde suave** que le da a cada loseta un relieve de "slab" — sin
-cambiar dimensiones (256x128), geometría ni conectividad de la red vial.
-
-- `tools/tiled_export/regen_tiles.py` conserva el alfa original (bordes del diamante
-  con antialias, así los tiles siguen calzando) y **re-imprime** las marcas viales
-  (píxeles claros) y las juntas de vereda (píxeles oscuros) del tile original, de
-  modo que el mapa se lee exactamente igual; solo cambia la superficie base.
-- Texturas base generadas con IA sobre fondo lleno (`gen_tex_grass/asphalt/concrete`)
-  y aplicadas por categoría (`terrain` / `sidewalks` / `roads`).
+Los 19 tiles isométricos se re-texturizan con **caras iso** (cara superior +
+laterales inferior-izq / inferior-der), luz NW y sin el bevel perimetral que
+generaba la grilla visible entre celdas. Script: `regen_tiles.py`.
 
 ## Flujo de gameplay (guiado por el escenario)
 
