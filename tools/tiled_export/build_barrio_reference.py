@@ -1,15 +1,29 @@
 #!/usr/bin/env python3
-"""Author a barrio that resembles the reference image, end to end.
+"""Author *barrio_tutorial_01* — a compact, readable tutorial neighbourhood.
 
-Deterministic map generator. Lays out a 3x3 block grid with WIDE 2-tile
-avenues, crosswalks around the central plaza, diagonal plaza paths, and a
-dense dressing of houses/trees/street furniture at proportional sizes.
+Design goals (see ``data/maps/barrio_tutorial_01/README_MEJORAS.md``):
 
-Outputs:
-  - layout.json  : ground layer (what Bevy renders today)
-  - props.json   : prop instances (prop_id, cell, display size) for the engine
-  - <map>.tmx    : ground + prop objects for hand editing in Tiled
-  - _preview_barrio.png : QC composite
+* Small, memorable barrio that teaches by layout, not by pop-ups.
+* Clean 2x2 avenue grid framing a central plaza (the visual anchor).
+* Full sidewalks (``veredas``) lining every avenue, plus pedestrian
+  crossings (``pasos peatonales``) at the four plaza entrances.
+* 8 house plots (one per surrounding block), each with a small garden and
+  street furniture, every house reachable from a sidewalk.
+* Named landmarks: Tienda (N), Casa de Pedro (S), Garaje bloqueado (E).
+* A natural exploration loop: spawn -> Pedro -> gather 3 materials around
+  the plaza -> return to Pedro -> the Garaje unlocks.
+
+This script only *authors* the ``.tmx`` (the source of truth) plus a QC
+preview. The canonical JSON files are produced by ``export_layout.py`` from
+that ``.tmx`` so the map stays 100% compatible with the Tiled pipeline and
+``map_validator``.
+
+Hard runtime contracts respected (do NOT change without updating Rust):
+* spawn at grid ``[13, 13]`` (``src/world/map/resources.rs`` test).
+* first NPC id ``pedro_vecino`` and exactly 3 pickups, none at spawn.
+* pickup materials ``cardboard`` / ``wire`` / ``bottle_caps`` — the
+  ``tutorial_first_cart`` quest requires exactly those three.
+* only tiles/props that exist on disk are used (no new art).
 """
 
 from __future__ import annotations
@@ -26,6 +40,7 @@ from generate_tileset import (  # noqa: E402
     PROP_TILES,
     encode_layer_data,
     prop_path,
+    write_props_tileset,
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -36,26 +51,29 @@ ENV = REPO_ROOT / "assets" / "environment"
 SIZE = 24
 TW, TH = 256, 128
 
-# Wide 2-tile avenues split the map into a 3x3 block grid; centre block = plaza.
-ROAD_ROWS = {7, 8, 15, 16}
-ROAD_COLS = {7, 8, 15, 16}
-PLAZA_MIN, PLAZA_MAX = 9, 14  # inclusive block bounds for the centre plaza
+# --- Street network ----------------------------------------------------------
+# Two 2-wide horizontal avenues and two 2-wide vertical avenues form a clean
+# 2x2 grid. Their crossings are the intersections; the middle block is the
+# plaza. Everything on grass/sidewalk/road is walkable; only prop footprints
+# block, so the player can never get stuck.
+AVENUE_ROWS = {7, 8, 15, 16}
+AVENUE_COLS = {7, 8, 15, 16}
+PLAZA_MIN, PLAZA_MAX = 9, 14  # inclusive plaza block bounds
 
 GROUND_FIRSTGID = 1
 PROPS_FIRSTGID = len(CURATED_TUTORIAL_TILES) + 1  # 20
 COLLISION_FIRSTGID = PROPS_FIRSTGID + len(PROP_TILES)  # 29
 
-FOOTPRINTS_PATH = REPO_ROOT / "data" / "collision" / "prop_footprints.json"
-
 GRASS = ["grass_clean_01", "grass_clean_02", "grass_clean_03", "grass_clean_04"]
 
-# Proportional sizing: scale each prop so its on-screen HEIGHT matches a
-# real-world size relative to the 128px tile diamond.
+# Proportional on-screen height per prop (px), relative to the 128px tile.
 PROP_TARGET_HEIGHT = {
     "house_red_01": 320,
     "house_blue_01": 320,
     "house_yellow_01": 320,
     "house_wood_01": 320,
+    "garage_01": 300,
+    "shop_01": 345,
     "tree_01": 300,
     "fountain_01": 200,
     "lamp_01": 270,
@@ -79,28 +97,19 @@ def display_size(prop_id: str) -> tuple[float, float]:
     return native_w * scale, native_h * scale
 
 
-def is_road(row: int, col: int) -> bool:
-    return row in ROAD_ROWS or col in ROAD_COLS
+# --- Ground classification ---------------------------------------------------
+
+
+def is_avenue(row: int, col: int) -> bool:
+    return row in AVENUE_ROWS or col in AVENUE_COLS
 
 
 def in_plaza(row: int, col: int) -> bool:
     return PLAZA_MIN <= row <= PLAZA_MAX and PLAZA_MIN <= col <= PLAZA_MAX
 
 
-def plaza_ring_crosswalks() -> dict[tuple[int, int], str]:
-    """Crosswalks on the avenue cells that border the central plaza."""
-    overrides: dict[tuple[int, int], str] = {}
-    for c in range(PLAZA_MIN, PLAZA_MAX + 1):
-        overrides[(PLAZA_MIN - 1, c)] = "road_crosswalk_h_01"
-        overrides[(PLAZA_MAX + 1, c)] = "road_crosswalk_h_01"
-    for r in range(PLAZA_MIN, PLAZA_MAX + 1):
-        overrides[(r, PLAZA_MIN - 1)] = "road_crosswalk_v_01"
-        overrides[(r, PLAZA_MAX + 1)] = "road_crosswalk_v_01"
-    return overrides
-
-
 def plaza_diagonal(row: int, col: int) -> bool:
-    """Diagonal 'X' pedestrian paths inside the plaza block."""
+    """The 'X' pedestrian paths crossing the plaza block."""
     if not in_plaza(row, col):
         return False
     local_r = row - PLAZA_MIN
@@ -109,86 +118,192 @@ def plaza_diagonal(row: int, col: int) -> bool:
     return local_r == local_c or local_r == (span - local_c)
 
 
+def crosswalk_tile(row: int, col: int) -> str | None:
+    """Zebra crossings on the avenue cells facing the four plaza entrances."""
+    mid_cols = {11, 12}
+    mid_rows = {11, 12}
+    # North / South entrances: cross the horizontal avenues.
+    if row in AVENUE_ROWS and col in mid_cols:
+        return "road_crosswalk_h_01"
+    # West / East entrances: cross the vertical avenues.
+    if col in AVENUE_COLS and row in mid_rows:
+        return "road_crosswalk_v_01"
+    return None
+
+
+def _hash2(a: int, b: int) -> int:
+    h = (a * 73856093) ^ (b * 19349663)
+    return (h ^ (h >> 13)) & 0x7FFFFFFF
+
+
 def grass_variant(row: int, col: int) -> str:
-    return GRASS[(col * 3 + row * 7) % len(GRASS)]
+    """Patch-based grass so nearby cells share a variant (organic gardens)."""
+    base = _hash2(row // 2, col // 2) % len(GRASS)
+    if _hash2(row, col) % 7 == 0:
+        base = (base + 1) % len(GRASS)
+    return GRASS[base]
+
+
+def touches_avenue(row: int, col: int) -> bool:
+    for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+        nr, nc = row + dr, col + dc
+        if 0 <= nr < SIZE and 0 <= nc < SIZE and is_avenue(nr, nc) and not in_plaza(nr, nc):
+            return True
+    return False
 
 
 def build_ground() -> list[list[str]]:
-    crosswalks = plaza_ring_crosswalks()
     grid: list[list[str]] = []
     for row in range(SIZE):
         line: list[str] = []
         for col in range(SIZE):
-            if is_road(row, col):
-                if (row, col) in crosswalks:
-                    line.append(crosswalks[(row, col)])
-                elif row in ROAD_ROWS and col in ROAD_COLS:
-                    line.append("road_cross_01")
-                elif col in ROAD_COLS:
-                    line.append("road_straight_v_01")
-                else:
-                    line.append("road_straight_h_01")
+            if in_plaza(row, col):
+                line.append("sidewalk_straight_01" if plaza_diagonal(row, col) else grass_variant(row, col))
+            elif is_avenue(row, col):
+                line.append(crosswalk_tile(row, col) or "road_plain_01")
+            elif touches_avenue(row, col):
+                line.append("sidewalk_straight_01")  # full sidewalks lining streets
             else:
-                neighbours = [
-                    (row - 1, col),
-                    (row + 1, col),
-                    (row, col - 1),
-                    (row, col + 1),
-                ]
-                touches_road = any(
-                    0 <= nr < SIZE and 0 <= nc < SIZE and is_road(nr, nc)
-                    for nr, nc in neighbours
-                )
-                if touches_road or plaza_diagonal(row, col):
-                    line.append("sidewalk_straight_01")
-                else:
-                    line.append(grass_variant(row, col))
+                line.append(grass_variant(row, col))
         grid.append(line)
     return grid
 
 
-def default_footprint_offsets(prop_id: str) -> list[list[int]]:
-    if prop_id.startswith("house_"):
-        return [[0, 0], [1, 0], [0, 1], [-1, 0], [0, -1]]
-    if prop_id == "fountain_01":
-        return [[0, 0], [1, 0], [0, 1], [1, 1]]
-    if prop_id in {"tree_01", "lamp_01"}:
-        return [[0, 0]]
-    return []
+def is_grass(ground: list[list[str]], row: int, col: int) -> bool:
+    return 0 <= row < SIZE and 0 <= col < SIZE and ground[row][col].startswith("grass")
 
 
-def load_footprint_templates() -> dict[str, list[list[int]]]:
-    if not FOOTPRINTS_PATH.exists():
-        return {}
-    data = json.loads(FOOTPRINTS_PATH.read_text(encoding="utf-8"))
-    return data.get("footprints", {})
+def is_sidewalk(ground: list[list[str]], row: int, col: int) -> bool:
+    return 0 <= row < SIZE and 0 <= col < SIZE and ground[row][col] == "sidewalk_straight_01"
 
 
-def bake_collision_cells(props: list[dict]) -> list[list[int]]:
-    templates = load_footprint_templates()
+# --- Props -------------------------------------------------------------------
+# Each surrounding block gets one building (front toward the plaza), a small
+# garden of trees and one piece of street furniture on the facing sidewalk.
+# Landmarks (Tienda / Garaje) use their own dedicated building sprites.
+BLOCK_PLOTS = [
+    # name / role,      building,          anchor(col,row), trees (in-block grass),        accent (facing sidewalk)
+    ("tienda",          "shop_01",         (11, 3),  [(10, 1), (13, 1), (10, 5)],   ("bench_01", 10, 6)),
+    ("casa_pedro",      "house_wood_01",   (11, 20), [(10, 22), (13, 22), (10, 19)], ("bench_01", 10, 17)),
+    ("garaje",          "garage_01",       (20, 11), [(22, 10), (22, 13), (18, 12)], ("hydrant_01", 17, 11)),
+    ("casa_oeste",      "house_blue_01",   (3, 11),  [(1, 10), (3, 13), (5, 11)],    ("lamp_01", 6, 10)),
+    ("casa_noroeste",   "house_blue_01",   (3, 3),   [(1, 1), (5, 1), (1, 5)],       ("lamp_01", 6, 6)),
+    ("casa_noreste",    "house_yellow_01", (20, 3),  [(18, 1), (22, 1), (22, 5)],    ("hydrant_01", 17, 6)),
+    ("casa_suroeste",   "house_wood_01",   (3, 20),  [(1, 18), (1, 22), (5, 22)],    ("lamp_01", 6, 18)),
+    ("casa_sureste",    "house_red_01",    (20, 20), [(22, 18), (22, 22), (18, 22)], ("hydrant_01", 17, 18)),
+]
+
+# Plaza dressing (kept clear of spawn [13,13], Pedro [12,13] and the fountain).
+FOUNTAIN = (11, 11)  # (col, row) plaza centrepiece
+PLAZA_BENCHES = [(11, 9), (9, 11), (13, 11), (11, 14)]  # (col, row)
+PLAZA_LAMPS = [(9, 9), (14, 9), (9, 14), (14, 14)]
+PLAZA_TREES = [(14, 10), (10, 14), (13, 9)]
+
+
+def build_props(ground: list[list[str]]) -> list[dict]:
+    props: list[dict] = []
+    occupied: set[tuple[int, int]] = set()
+
+    def add(prop_id: str, col: int, row: int, *, want_grass=False, want_sidewalk=False) -> None:
+        cell = (col, row)
+        if cell in occupied:
+            print(f"  ! skip {prop_id} at {cell}: cell already used")
+            return
+        if want_grass and not is_grass(ground, row, col):
+            print(f"  ! skip {prop_id} at {cell}: not grass ({ground[row][col]})")
+            return
+        if want_sidewalk and not is_sidewalk(ground, row, col):
+            print(f"  ! skip {prop_id} at {cell}: not sidewalk ({ground[row][col]})")
+            return
+        occupied.add(cell)
+        props.append({"prop_id": prop_id, "col": col, "row": row})
+
+    # Reserve gameplay cells so no prop lands on them.
+    for reserved in ((13, 13), (12, 13), (12, 6), (6, 12), (12, 17)):
+        occupied.add(reserved)
+
+    for _name, house, (hc, hr), trees, accent in BLOCK_PLOTS:
+        add(house, hc, hr, want_grass=True)
+        for tc, tr in trees:
+            add("tree_01", tc, tr, want_grass=True)
+        acc_id, ac, ar = accent
+        add(acc_id, ac, ar, want_sidewalk=True)
+
+    # Plaza.
+    add("fountain_01", *FOUNTAIN)
+    for bc, br in PLAZA_BENCHES:
+        add("bench_01", bc, br)
+    for lc, lr in PLAZA_LAMPS:
+        add("lamp_01", lc, lr)
+    for tc, tr in PLAZA_TREES:
+        add("tree_01", tc, tr, want_grass=True)
+
+    return props
+
+
+# --- Collision ---------------------------------------------------------------
+# Sub-tile zones drive fine collision; houses/fountain also get full-tile
+# cells baked into the collision layer so buildings are solid.
+PROP_ZONE_SIZE = {
+    "tree_01": 0.35,
+    "lamp_01": 0.18,
+    "hydrant_01": 0.15,
+    "bench_01": 0.5,
+}
+HOUSE_ZONE_HALF = 1.5   # buildings block ~3x3 around their anchor
+FOUNTAIN_ZONE = 1.2
+
+# Solid buildings that block a full 3x3 footprint (houses + landmarks).
+BUILDING_PROPS = {"garage_01", "shop_01"}
+
+
+def is_building(prop_id: str) -> bool:
+    return prop_id.startswith("house_") or prop_id in BUILDING_PROPS
+
+
+def build_collision_zones(props: list[dict]) -> list[dict]:
+    zones: list[dict] = []
+    for prop in props:
+        pid, col, row = prop["prop_id"], prop["col"], prop["row"]
+        if pid in PROP_ZONE_SIZE:
+            s = PROP_ZONE_SIZE[pid]
+            zones.append({
+                "col": round(col + 0.5 - s / 2, 4),
+                "row": round(row + 0.5 - s / 2, 4),
+                "width": round(s, 4),
+                "height": round(s, 4),
+            })
+        elif is_building(pid):
+            zones.append({
+                "col": round(col + 0.5 - HOUSE_ZONE_HALF, 4),
+                "row": round(row + 0.5 - HOUSE_ZONE_HALF, 4),
+                "width": round(HOUSE_ZONE_HALF * 2, 4),
+                "height": round(HOUSE_ZONE_HALF * 2, 4),
+            })
+        elif pid == "fountain_01":
+            zones.append({
+                "col": round(col + 0.5 - FOUNTAIN_ZONE / 2, 4),
+                "row": round(row + 0.5 - FOUNTAIN_ZONE / 2, 4),
+                "width": round(FOUNTAIN_ZONE, 4),
+                "height": round(FOUNTAIN_ZONE, 4),
+            })
+    return zones
+
+
+def build_collision_cells(props: list[dict]) -> list[list[int]]:
+    """Full-tile blocked cells for solid buildings and the fountain base."""
     blocked: set[tuple[int, int]] = set()
     for prop in props:
-        prop_id = prop["prop_id"]
-        offsets = templates.get(prop_id) or default_footprint_offsets(prop_id)
-        if not offsets:
-            continue
-        anchor_col = int(prop["col"] // 1)
-        anchor_row = int(prop["row"] // 1)
-        for offset in offsets:
-            blocked.add((anchor_col + offset[0], anchor_row + offset[1]))
-    return sorted([[col, row] for col, row in blocked], key=lambda cell: (cell[1], cell[0]))
-
-
-def write_collision_json(cells: list[list[int]]) -> None:
-    payload = {
-        "barrio_id": MAP_ID,
-        "version": 1,
-        "cells": cells,
-        "metadata": {"baked_from_prop_footprints": True},
-    }
-    out = MAP_DIR / "collision.json"
-    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {out} ({len(cells)} blocked cells)")
+        pid, col, row = prop["prop_id"], prop["col"], prop["row"]
+        if is_building(pid):
+            for dr in (-1, 0, 1):
+                for dc in (-1, 0, 1):
+                    c, r = col + dc, row + dr
+                    if 0 <= c < SIZE and 0 <= r < SIZE:
+                        blocked.add((c, r))
+        elif pid == "fountain_01":
+            blocked.add((col, row))
+    return sorted(([c, r] for c, r in blocked), key=lambda cell: (cell[1], cell[0]))
 
 
 def collision_layer_gids(cells: list[list[int]]) -> list[int]:
@@ -199,236 +314,28 @@ def collision_layer_gids(cells: list[list[int]]) -> list[int]:
     return grid
 
 
-def is_grass(ground: list[list[str]], row: int, col: int) -> bool:
-    return (
-        0 <= row < SIZE
-        and 0 <= col < SIZE
-        and ground[row][col].startswith("grass")
-    )
-
-
-# Block ranges (inclusive) for the 3x3 grid; centre is the plaza.
-BLOCK_RANGES = [(0, 6), (PLAZA_MIN, PLAZA_MAX), (17, 23)]
-HOUSE_CYCLE = [
-    "house_red_01",
-    "house_blue_01",
-    "house_yellow_01",
-    "house_wood_01",
-]
-
-
-def build_props(ground: list[list[str]]) -> list[dict]:
-    props: list[dict] = []
-
-    def add(prop_id: str, col: float, row: float) -> None:
-        props.append({"prop_id": prop_id, "col": col, "row": row})
-
-    house_index = 0
-    for br in BLOCK_RANGES:
-        for bc in BLOCK_RANGES:
-            r0, r1 = br
-            c0, c1 = bc
-            if (r0, r1) == (PLAZA_MIN, PLAZA_MAX) and (c0, c1) == (PLAZA_MIN, PLAZA_MAX):
-                continue  # plaza handled separately
-            cr = (r0 + r1) // 2
-            cc = (c0 + c1) // 2
-            house_id = HOUSE_CYCLE[house_index % len(HOUSE_CYCLE)]
-            house_index += 1
-            add(house_id, cc, cr)
-
-            tree_spots = [
-                (r0 + 1, c0 + 1),
-                (r0 + 1, c1 - 1),
-                (r1 - 1, c0 + 1),
-                (r1 - 1, c1 - 1),
-                (cr, c0 + 1),
-                (cr, c1 - 1),
-            ]
-            added = 0
-            for rr, ccc in tree_spots:
-                if added >= 4:
-                    break
-                if is_grass(ground, rr, ccc) and (rr, ccc) != (cr, cc):
-                    add("tree_01", ccc, rr)
-                    added += 1
-
-    # Central plaza: fountain focal point, furniture behind it, diagonal X paths.
-    mid = (PLAZA_MIN + PLAZA_MAX) / 2.0  # 11.5
-    add("fountain_01", mid, mid)
-    add("tree_01", PLAZA_MIN + 1, PLAZA_MIN + 1)
-    add("tree_01", PLAZA_MAX - 1, PLAZA_MIN + 1)
-    add("bench_01", PLAZA_MIN + 1, mid)
-    add("bench_01", mid, PLAZA_MIN + 1)
-    for rr, ccc in [
-        (PLAZA_MIN, PLAZA_MIN),
-        (PLAZA_MIN, PLAZA_MAX),
-        (PLAZA_MAX, PLAZA_MIN),
-        (PLAZA_MAX, PLAZA_MAX),
-    ]:
-        add("lamp_01", ccc, rr)
-
-    # Street furniture: lamps at outer block corners nearest the avenues.
-    lamp_spots = [
-        (6, 6), (6, 17), (17, 6), (17, 17),
-        (6, 9), (6, 14), (17, 9), (17, 14),
-        (9, 6), (14, 6), (9, 17), (14, 17),
-    ]
-    for rr, ccc in lamp_spots:
-        if ground[rr][ccc] == "sidewalk_straight_01":
-            add("lamp_01", ccc, rr)
-    for rr, ccc in [(6, 6), (17, 17), (6, 17)]:
-        if ground[rr][ccc] == "sidewalk_straight_01":
-            add("hydrant_01", ccc, rr)
-
-    return props
-
-
-def write_layout_json(ground: list[list[str]]) -> None:
-    layout = {
-        "barrio_id": MAP_ID,
-        "display_name": "Barrio Tutorial",
-        "size": [SIZE, SIZE],
-        "tile_size_pixels": [TW, TH],
-        "projection": "isometric_2_1",
-        "layers": {"ground": ground, "markings": [], "overlay": []},
-    }
-    out = MAP_DIR / "layout.json"
-    out.write_text(json.dumps(layout, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {out}")
-
-
-def write_props_json(props: list[dict]) -> None:
-    entries = []
-    for prop in props:
-        width, height = display_size(prop["prop_id"])
-        entries.append(
-            {
-                "prop_id": prop["prop_id"],
-                "col": round(prop["col"], 3),
-                "row": round(prop["row"], 3),
-                "width_px": round(width, 2),
-                "height_px": round(height, 2),
-            }
-        )
-    payload = {
-        "barrio_id": MAP_ID,
-        "tile_size_pixels": [TW, TH],
-        "props": entries,
-    }
-    out = MAP_DIR / "props.json"
-    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {out} ({len(entries)} props)")
-
-
-# Player spawn on open plaza grass, clear of the fountain footprint.
+# --- Scene hooks -------------------------------------------------------------
 SPAWN_COL, SPAWN_ROW = 13, 13
 NPC_SPAWNS = [
     {
         "id": "pedro_vecino",
         "name": "Pedro",
-        "dialogue": "¡Ey, compa! Si tenés un rato, tengo una idea para el barrio.",
-        "position": [11, 13],
+        "dialogue": "¡Ey, compa! Necesito unas cosas para armar el primer carrito. ¿Me das una mano?",
+        "position": [12, 13],
     }
 ]
+# material_id values MUST stay cardboard/wire/bottle_caps (tutorial_first_cart quest).
 PICKUP_SPAWNS = [
-    {
-        "id": "pickup_carton",
-        "material_id": "cardboard",
-        "display_name": "Cartón limpio",
-        "quantity": 1,
-        "position": [16, 12],
-    },
-    {
-        "id": "pickup_alambre",
-        "material_id": "wire",
-        "display_name": "Alambre",
-        "quantity": 1,
-        "position": [17, 13],
-    },
-    {
-        "id": "pickup_chapitas",
-        "material_id": "bottle_caps",
-        "display_name": "Chapitas",
-        "quantity": 1,
-        "position": [15, 14],
-    },
+    {"id": "pickup_carton", "material_id": "cardboard", "display_name": "Cartón limpio",
+     "quantity": 1, "position": [12, 6]},
+    {"id": "pickup_alambre", "material_id": "wire", "display_name": "Alambre",
+     "quantity": 1, "position": [6, 12]},
+    {"id": "pickup_chapitas", "material_id": "bottle_caps", "display_name": "Chapitas",
+     "quantity": 1, "position": [12, 17]},
 ]
 
 
-def write_scene_hooks_json() -> None:
-    payload = {
-        "barrio_id": MAP_ID,
-        "version": 1,
-        "spawn_points": [
-            {
-                "id": "tutorial_spawn",
-                "position": [SPAWN_COL, SPAWN_ROW],
-                "facing": "south",
-            }
-        ],
-        "npcs": NPC_SPAWNS,
-        "pickups": PICKUP_SPAWNS,
-        "checkpoints": [],
-        "poi_hooks": [
-            {
-                "id": "plaza_central",
-                "position": [11, 11],
-                "poi_type": "plaza",
-            }
-        ],
-        "metadata": {
-            "tutorial": True,
-            "description": "Primer barrio del Foundation Runtime",
-        },
-    }
-    out = MAP_DIR / "scene_hooks.json"
-    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {out}")
-
-
-def spawn_object_xml(object_id: int) -> tuple[str, int]:
-    x = (SPAWN_COL + 0.5) * TH
-    y = (SPAWN_ROW + 0.5) * TH
-    line = (
-        f'  <object id="{object_id}" name="tutorial_spawn" '
-        f'x="{x:.2f}" y="{y:.2f}" width="0" height="0">'
-        f'<properties><property name="facing" value="south"/></properties></object>'
-    )
-    return line, object_id + 1
-
-
-def exploration_object_xml(object_id: int) -> tuple[list[str], list[str], int]:
-    npc_lines: list[str] = []
-    pickup_lines: list[str] = []
-
-    for npc in NPC_SPAWNS:
-        col, row = npc["position"]
-        x = (col + 0.5) * TH
-        y = (row + 0.5) * TH
-        npc_lines.append(
-            f'  <object id="{object_id}" name="{npc["id"]}" x="{x:.2f}" y="{y:.2f}">'
-            "<properties>"
-            f'<property name="dialogue" value="{npc["dialogue"]}"/>'
-            f'<property name="display_name" value="{npc["name"]}"/>'
-            "</properties></object>"
-        )
-        object_id += 1
-
-    for pickup in PICKUP_SPAWNS:
-        col, row = pickup["position"]
-        x = (col + 0.5) * TH
-        y = (row + 0.5) * TH
-        pickup_lines.append(
-            f'  <object id="{object_id}" name="{pickup["id"]}" x="{x:.2f}" y="{y:.2f}">'
-            "<properties>"
-            f'<property name="display_name" value="{pickup["display_name"]}"/>'
-            f'<property name="material_id" value="{pickup["material_id"]}"/>'
-            f'<property name="quantity" type="int" value="{pickup["quantity"]}"/>'
-            "</properties></object>"
-        )
-        object_id += 1
-
-    return npc_lines, pickup_lines, object_id
+# --- TMX authoring -----------------------------------------------------------
 
 
 def ground_gids(ground: list[list[str]]) -> list[int]:
@@ -438,9 +345,11 @@ def ground_gids(ground: list[list[str]]) -> list[int]:
 
 def prop_object_xml(props: list[dict]) -> tuple[list[str], int]:
     prop_index = {pid: i for i, pid in enumerate(PROP_TILES)}
+    # Back-to-front so nearer props occlude farther ones in Tiled too.
+    ordered = sorted(props, key=lambda p: (p["row"] + p["col"], p["row"]))
     lines: list[str] = []
     object_id = 1
-    for prop in props:
+    for prop in ordered:
         prop_id = prop["prop_id"]
         gid = PROPS_FIRSTGID + prop_index[prop_id]
         width, height = display_size(prop_id)
@@ -454,22 +363,65 @@ def prop_object_xml(props: list[dict]) -> tuple[list[str], int]:
     return lines, object_id
 
 
-def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[list[int]]) -> None:
+def point_object_xml(object_id: int, name: str, col: int, row: int, props: dict[str, object]) -> str:
+    x = (col + 0.5) * TH
+    y = (row + 0.5) * TH
+    prop_lines = []
+    for key, value in props.items():
+        if isinstance(value, int):
+            prop_lines.append(f'<property name="{key}" type="int" value="{value}"/>')
+        else:
+            prop_lines.append(f'<property name="{key}" value="{value}"/>')
+    inner = f"<properties>{''.join(prop_lines)}</properties>" if prop_lines else ""
+    return f'  <object id="{object_id}" name="{name}" x="{x:.2f}" y="{y:.2f}">{inner}</object>'
+
+
+def zone_object_xml(object_id: int, zone: dict) -> str:
+    x = zone["col"] * TH
+    y = zone["row"] * TH
+    w = zone["width"] * TH
+    h = zone["height"] * TH
+    return f'  <object id="{object_id}" x="{x:.2f}" y="{y:.2f}" width="{w:.2f}" height="{h:.2f}"/>'
+
+
+def write_tmx(ground, props, collision_cells, collision_zones) -> None:
     encoded_ground = encode_layer_data(ground_gids(ground))
     empty_layer = encode_layer_data([0] * (SIZE * SIZE))
     encoded_collision = encode_layer_data(collision_layer_gids(collision_cells))
-    object_lines, next_object_id = prop_object_xml(props)
-    spawn_line, next_object_id = spawn_object_xml(next_object_id)
-    npc_lines, pickup_lines, next_object_id = exploration_object_xml(next_object_id)
+    object_lines, next_id = prop_object_xml(props)
+
+    spawn_line = point_object_xml(next_id, "tutorial_spawn", SPAWN_COL, SPAWN_ROW, {"facing": "south"})
+    next_id += 1
+
+    npc_lines = []
+    for npc in NPC_SPAWNS:
+        col, row = npc["position"]
+        npc_lines.append(point_object_xml(next_id, npc["id"], col, row,
+                                          {"display_name": npc["name"], "dialogue": npc["dialogue"]}))
+        next_id += 1
+
+    pickup_lines = []
+    for pickup in PICKUP_SPAWNS:
+        col, row = pickup["position"]
+        pickup_lines.append(point_object_xml(next_id, pickup["id"], col, row, {
+            "display_name": pickup["display_name"],
+            "material_id": pickup["material_id"],
+            "quantity": pickup["quantity"],
+        }))
+        next_id += 1
+
+    zone_lines = []
+    for zone in collision_zones:
+        zone_lines.append(zone_object_xml(next_id, zone))
+        next_id += 1
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         (
             '<map version="1.10" tiledversion="1.10.2" '
             'orientation="isometric" renderorder="right-down" '
-            f'width="{SIZE}" height="{SIZE}" '
-            f'tilewidth="{TW}" tileheight="{TH}" infinite="0" '
-            f'nextlayerid="10" nextobjectid="{next_object_id}">'
+            f'width="{SIZE}" height="{SIZE}" tilewidth="{TW}" tileheight="{TH}" '
+            f'infinite="0" nextlayerid="10" nextobjectid="{next_id}">'
         ),
         ' <tileset firstgid="1" source="environment_tutorial.tsx"/>',
         f' <tileset firstgid="{PROPS_FIRSTGID}" source="props_tutorial.tsx"/>',
@@ -483,32 +435,33 @@ def write_tmx(ground: list[list[str]], props: list[dict], collision_cells: list[
         f' <layer id="3" name="overlay" width="{SIZE}" height="{SIZE}" x="0" y="0">',
         f'  <data encoding="base64">{empty_layer}</data>',
         " </layer>",
-        (
-            f' <layer id="6" name="collision" width="{SIZE}" height="{SIZE}" '
-            f'x="0" y="0" opacity="0.55">'
-        ),
+        f' <layer id="6" name="collision" width="{SIZE}" height="{SIZE}" x="0" y="0" opacity="0.55">',
         f'  <data encoding="base64">{encoded_collision}</data>',
         " </layer>",
         ' <objectgroup id="4" name="props">',
+        *object_lines,
+        " </objectgroup>",
+        ' <objectgroup id="5" name="spawn">',
+        spawn_line,
+        " </objectgroup>",
+        ' <objectgroup id="8" name="npcs">',
+        *npc_lines,
+        " </objectgroup>",
+        ' <objectgroup id="9" name="pickups">',
+        *pickup_lines,
+        " </objectgroup>",
+        ' <objectgroup id="7" name="collision_zones">',
+        *zone_lines,
+        " </objectgroup>",
+        "</map>",
     ]
-    lines.extend(object_lines)
-    lines.append(" </objectgroup>")
-    lines.append(' <objectgroup id="5" name="spawn">')
-    lines.append(spawn_line)
-    lines.append(" </objectgroup>")
-    lines.append(' <objectgroup id="8" name="npcs">')
-    lines.extend(npc_lines)
-    lines.append(" </objectgroup>")
-    lines.append(' <objectgroup id="9" name="pickups">')
-    lines.extend(pickup_lines)
-    lines.append(" </objectgroup>")
-    lines.append(' <objectgroup id="7" name="collision_zones">')
-    lines.append(" </objectgroup>")
-    lines.append("</map>")
 
     out = MAP_DIR / f"{MAP_ID}.tmx"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Wrote {out} ({len(props)} props)")
+    print(f"Wrote {out} ({len(props)} props, {len(collision_zones)} zones)")
+
+
+# --- QC preview --------------------------------------------------------------
 
 
 def category(tile_id: str) -> str:
@@ -521,7 +474,7 @@ def category(tile_id: str) -> str:
 
 def render_preview(ground: list[list[str]], props: list[dict]) -> None:
     side_margin = 64
-    top_margin = 820
+    top_margin = 420
     bottom_margin = 96
     canvas_w = (SIZE + SIZE) * (TW // 2) + side_margin * 2
     canvas_h = (SIZE + SIZE) * (TH // 2) + top_margin + bottom_margin
@@ -559,13 +512,16 @@ def render_preview(ground: list[list[str]], props: list[dict]) -> None:
 def main() -> int:
     ground = build_ground()
     props = build_props(ground)
-    collision_cells = bake_collision_cells(props)
-    write_layout_json(ground)
-    write_props_json(props)
-    write_scene_hooks_json()
-    write_collision_json(collision_cells)
-    write_tmx(ground, props, collision_cells)
+    collision_cells = build_collision_cells(props)
+    collision_zones = build_collision_zones(props)
+    # Keep the props tileset in sync with PROP_TILES (picks up new buildings).
+    write_props_tileset(MAP_DIR / "props_tutorial.tsx", PROP_TILES)
+    write_tmx(ground, props, collision_cells, collision_zones)
     render_preview(ground, props)
+    print(
+        "Now run: python tools/tiled_export/export_layout.py "
+        f"data/maps/{MAP_ID}/{MAP_ID}.tmx"
+    )
     return 0
 
 

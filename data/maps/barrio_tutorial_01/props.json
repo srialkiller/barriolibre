@@ -9,434 +9,364 @@
       "prop_id": "tree_01",
       "col": 1.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 5.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 10.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 13.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 18.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 22.0,
       "row": 1.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "house_red_01",
+      "prop_id": "house_blue_01",
       "col": 3.0,
       "row": 3.0,
-      "width_px": 334.64,
+      "width_px": 328.34,
       "height_px": 320.0
     },
     {
-      "prop_id": "house_blue_01",
+      "prop_id": "shop_01",
       "col": 11.0,
       "row": 3.0,
-      "width_px": 373.04,
-      "height_px": 320.0
+      "width_px": 351.17,
+      "height_px": 345.0
     },
     {
       "prop_id": "house_yellow_01",
       "col": 20.0,
       "row": 3.0,
-      "width_px": 339.07,
+      "width_px": 320.0,
       "height_px": 320.0
     },
     {
       "prop_id": "tree_01",
       "col": 1.0,
       "row": 5.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 5.0,
-      "row": 5.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 10.0,
       "row": 5.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 13.0,
-      "row": 5.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 18.0,
-      "row": 5.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 22.0,
       "row": 5.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "hydrant_01",
+      "prop_id": "lamp_01",
       "col": 6.0,
       "row": 6.0,
-      "width_px": 45.72,
+      "width_px": 66.45,
+      "height_px": 270.0
+    },
+    {
+      "prop_id": "bench_01",
+      "col": 10.0,
+      "row": 6.0,
+      "width_px": 95.94,
       "height_px": 95.0
     },
     {
-      "prop_id": "lamp_01",
-      "col": 6.0,
-      "row": 6.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 9.0,
-      "row": 6.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 14.0,
-      "row": 6.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
+      "prop_id": "hydrant_01",
       "col": 17.0,
       "row": 6.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "hydrant_01",
-      "col": 20.016,
-      "row": 6.047,
-      "width_px": 45.72,
+      "width_px": 47.5,
       "height_px": 95.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 6.0,
-      "row": 9.0,
-      "width_px": 79.31,
-      "height_px": 270.0
     },
     {
       "prop_id": "lamp_01",
       "col": 9.0,
       "row": 9.0,
-      "width_px": 79.31,
+      "width_px": 66.45,
       "height_px": 270.0
+    },
+    {
+      "prop_id": "bench_01",
+      "col": 11.0,
+      "row": 9.0,
+      "width_px": 95.94,
+      "height_px": 95.0
+    },
+    {
+      "prop_id": "tree_01",
+      "col": 13.0,
+      "row": 9.0,
+      "width_px": 264.84,
+      "height_px": 300.0
     },
     {
       "prop_id": "lamp_01",
       "col": 14.0,
       "row": 9.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 17.0,
-      "row": 9.0,
-      "width_px": 79.31,
+      "width_px": 66.45,
       "height_px": 270.0
     },
     {
       "prop_id": "tree_01",
       "col": 1.0,
       "row": 10.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "tree_01",
-      "col": 5.0,
+      "prop_id": "lamp_01",
+      "col": 6.0,
       "row": 10.0,
-      "width_px": 269.53,
-      "height_px": 300.0
+      "width_px": 66.45,
+      "height_px": 270.0
     },
     {
       "prop_id": "tree_01",
-      "col": 10.0,
+      "col": 14.0,
       "row": 10.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "bench_01",
-      "col": 11.5,
-      "row": 10.0,
-      "width_px": 94.85,
-      "height_px": 95.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 13.0,
-      "row": 10.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 22.0,
       "row": 10.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "house_wood_01",
+      "prop_id": "house_blue_01",
       "col": 3.0,
       "row": 11.0,
-      "width_px": 348.89,
+      "width_px": 328.34,
       "height_px": 320.0
     },
     {
-      "prop_id": "house_red_01",
-      "col": 20.0,
+      "prop_id": "tree_01",
+      "col": 5.0,
       "row": 11.0,
-      "width_px": 334.64,
-      "height_px": 320.0
+      "width_px": 264.84,
+      "height_px": 300.0
     },
     {
       "prop_id": "bench_01",
-      "col": 10.0,
-      "row": 11.5,
-      "width_px": 94.85,
+      "col": 9.0,
+      "row": 11.0,
+      "width_px": 95.94,
       "height_px": 95.0
     },
     {
       "prop_id": "fountain_01",
-      "col": 11.5,
-      "row": 11.5,
-      "width_px": 226.95,
+      "col": 11.0,
+      "row": 11.0,
+      "width_px": 188.28,
       "height_px": 200.0
     },
     {
-      "prop_id": "tree_01",
-      "col": 1.0,
-      "row": 13.0,
-      "width_px": 269.53,
-      "height_px": 300.0
+      "prop_id": "bench_01",
+      "col": 13.0,
+      "row": 11.0,
+      "width_px": 95.94,
+      "height_px": 95.0
     },
     {
-      "prop_id": "tree_01",
-      "col": 5.0,
-      "row": 13.0,
-      "width_px": 269.53,
+      "prop_id": "hydrant_01",
+      "col": 17.0,
+      "row": 11.0,
+      "width_px": 47.5,
+      "height_px": 95.0
+    },
+    {
+      "prop_id": "garage_01",
+      "col": 20.0,
+      "row": 11.0,
+      "width_px": 304.76,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 18.0,
+      "row": 12.0,
+      "width_px": 264.84,
+      "height_px": 300.0
+    },
+    {
+      "prop_id": "tree_01",
+      "col": 3.0,
       "row": 13.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 22.0,
       "row": 13.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "lamp_01",
-      "col": 6.0,
+      "col": 9.0,
       "row": 14.0,
-      "width_px": 79.31,
+      "width_px": 66.45,
       "height_px": 270.0
     },
     {
-      "prop_id": "lamp_01",
-      "col": 9.0,
+      "prop_id": "tree_01",
+      "col": 10.0,
       "row": 14.0,
-      "width_px": 79.31,
-      "height_px": 270.0
+      "width_px": 264.84,
+      "height_px": 300.0
+    },
+    {
+      "prop_id": "bench_01",
+      "col": 11.0,
+      "row": 14.0,
+      "width_px": 95.94,
+      "height_px": 95.0
     },
     {
       "prop_id": "lamp_01",
       "col": 14.0,
       "row": 14.0,
-      "width_px": 79.31,
+      "width_px": 66.45,
       "height_px": 270.0
     },
     {
-      "prop_id": "lamp_01",
-      "col": 17.0,
-      "row": 14.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 6.0,
+      "prop_id": "bench_01",
+      "col": 10.0,
       "row": 17.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 9.0,
-      "row": 17.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 14.0,
-      "row": 17.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "lamp_01",
-      "col": 17.0,
-      "row": 17.0,
-      "width_px": 79.31,
-      "height_px": 270.0
-    },
-    {
-      "prop_id": "hydrant_01",
-      "col": 19.141,
-      "row": 17.172,
-      "width_px": 45.72,
+      "width_px": 95.94,
       "height_px": 95.0
     },
     {
       "prop_id": "tree_01",
       "col": 1.0,
       "row": 18.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "tree_01",
-      "col": 5.0,
+      "prop_id": "lamp_01",
+      "col": 6.0,
       "row": 18.0,
-      "width_px": 269.53,
-      "height_px": 300.0
+      "width_px": 66.45,
+      "height_px": 270.0
     },
     {
-      "prop_id": "tree_01",
-      "col": 10.0,
+      "prop_id": "hydrant_01",
+      "col": 17.0,
       "row": 18.0,
-      "width_px": 269.53,
-      "height_px": 300.0
-    },
-    {
-      "prop_id": "tree_01",
-      "col": 13.0,
-      "row": 18.0,
-      "width_px": 269.53,
-      "height_px": 300.0
+      "width_px": 47.5,
+      "height_px": 95.0
     },
     {
       "prop_id": "tree_01",
       "col": 22.0,
       "row": 18.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
-      "prop_id": "house_blue_01",
-      "col": 3.0,
-      "row": 20.0,
-      "width_px": 373.04,
-      "height_px": 320.0
+      "prop_id": "tree_01",
+      "col": 10.0,
+      "row": 19.0,
+      "width_px": 264.84,
+      "height_px": 300.0
     },
     {
-      "prop_id": "house_yellow_01",
-      "col": 11.0,
+      "prop_id": "house_wood_01",
+      "col": 3.0,
       "row": 20.0,
-      "width_px": 339.07,
+      "width_px": 325.73,
       "height_px": 320.0
     },
     {
       "prop_id": "house_wood_01",
+      "col": 11.0,
+      "row": 20.0,
+      "width_px": 325.73,
+      "height_px": 320.0
+    },
+    {
+      "prop_id": "house_red_01",
       "col": 20.0,
       "row": 20.0,
-      "width_px": 348.89,
+      "width_px": 327.68,
       "height_px": 320.0
     },
     {
       "prop_id": "tree_01",
       "col": 1.0,
       "row": 22.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 5.0,
       "row": 22.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 10.0,
       "row": 22.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 13.0,
       "row": 22.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
       "col": 18.0,
       "row": 22.0,
-      "width_px": 269.53,
+      "width_px": 264.84,
       "height_px": 300.0
     },
     {
       "prop_id": "tree_01",
-      "col": 23.062,
-      "row": 23.125,
-      "width_px": 269.53,
+      "col": 22.0,
+      "row": 22.0,
+      "width_px": 264.84,
       "height_px": 300.0
     }
   ]

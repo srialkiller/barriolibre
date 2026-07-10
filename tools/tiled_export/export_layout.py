@@ -312,6 +312,37 @@ def collision_cells_from_zones(
     return blocked
 
 
+def zones_from_tiled(
+    root: ET.Element,
+    tile_height: float,
+) -> list[dict]:
+    """Export collision_zones rectangles as raw sub-tile rects in grid coords.
+
+    Each Tiled object (x, y, width, height in pixels) is converted to grid
+    coordinates: col = x / tile_height, row = y / tile_height,
+    width = w / tile_height, height = h / tile_height.
+    """
+    zones: list[dict] = []
+    for group in root.findall("objectgroup"):
+        if group.attrib.get("name") != COLLISION_ZONES_LAYER_NAME:
+            continue
+        for obj in group.findall("object"):
+            width = float(obj.attrib.get("width", 0))
+            height = float(obj.attrib.get("height", 0))
+            if width <= 0.0 or height <= 0.0:
+                continue
+            rect_x = float(obj.attrib["x"])
+            rect_y = float(obj.attrib["y"])
+            col = rect_x / tile_height
+            row = rect_y / tile_height
+            w = width / tile_height
+            h = height / tile_height
+            zones.append(
+                {"col": round(col, 4), "row": round(row, 4), "width": round(w, 4), "height": round(h, 4)}
+            )
+    return zones
+
+
 def export_collision(root: ET.Element, barrio_id: str) -> dict | None:
     map_width = int(root.attrib["width"])
     map_height = int(root.attrib["height"])
@@ -341,10 +372,12 @@ def export_collision(root: ET.Element, barrio_id: str) -> dict | None:
         return None
 
     cells = sorted([[col, row] for col, row in blocked], key=lambda cell: (cell[1], cell[0]))
+    zones = zones_from_tiled(root, tile_height)
     return {
         "barrio_id": barrio_id,
         "version": 1,
         "cells": cells,
+        "zones": zones,
         "metadata": {"exported_from_tiled": True},
     }
 

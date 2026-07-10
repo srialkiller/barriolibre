@@ -11,7 +11,7 @@ use crate::ui::UiFont;
 use crate::world::collision::resources::{
     CollisionBrushPreview, CollisionEditorHudRoot, CollisionEditorHudText, CollisionEditorState,
     CollisionFileData, CollisionGrid, CollisionOverlayAssets, CollisionOverlayCell,
-    CollisionOverlayRoot, PropFootprints, PropFootprintsFile,
+    CollisionOverlayRoot, CollisionZoneRect, PropFootprints, PropFootprintsFile,
 };
 use crate::world::map::resources::{LoadedNeighborhood, PropInstance};
 
@@ -124,14 +124,14 @@ fn capture_footprint_around(grid: &CollisionGrid, prop: &PropInstance) -> Vec<[i
     offsets
 }
 
-fn load_manual_cells(barrio_id: &str) -> Option<Vec<[i32; 2]>> {
+fn load_manual_cells(barrio_id: &str) -> Option<(Vec<[i32; 2]>, Vec<CollisionZoneRect>)> {
     let path = collision_path(barrio_id);
     let text = std::fs::read_to_string(&path).ok()?;
     let file: CollisionFileData = serde_json::from_str(&text).ok()?;
-    if file.cells.is_empty() {
+    if file.cells.is_empty() && file.zones.is_empty() {
         None
     } else {
-        Some(file.cells)
+        Some((file.cells, file.zones))
     }
 }
 
@@ -195,19 +195,22 @@ pub fn build_collision_grid_system(
     let width = neighborhood.width;
     let height = neighborhood.height;
 
-    let (blocked, from_file) = if let Some(cells) = load_manual_cells(&neighborhood.barrio_id) {
+    let (blocked, zones, from_file) = if let Some((cells, zones)) =
+        load_manual_cells(&neighborhood.barrio_id)
+    {
         let mut blocked = vec![vec![false; width]; height];
         apply_cells(&mut blocked, width, height, &cells);
-        (blocked, true)
+        (blocked, zones, true)
     } else {
-        (bake_from_templates(&neighborhood, &templates), false)
+        (bake_from_templates(&neighborhood, &templates), Vec::new(), false)
     };
 
     let blocked_cells = blocked.iter().flatten().filter(|cell| **cell).count();
+    let zone_count = zones.len();
 
-    *grid = CollisionGrid { width, height, blocked, from_file, dirty: false };
+    *grid = CollisionGrid { width, height, blocked, zones, from_file, dirty: false };
 
-    info!(width, height, blocked_cells, from_file, "Collision grid built");
+    info!(width, height, blocked_cells, zone_count, from_file, "Collision grid built");
 }
 
 pub fn setup_collision_overlay_assets_system(
@@ -624,7 +627,12 @@ fn save_collision_file(barrio_id: &str, grid: &CollisionGrid) -> Result<usize, S
     }
     let cells = grid.to_cells();
     let count = cells.len();
-    let payload = CollisionFileData { barrio_id: barrio_id.to_owned(), version: 1, cells };
+    let payload = CollisionFileData {
+        barrio_id: barrio_id.to_owned(),
+        version: 1,
+        cells,
+        zones: grid.zones.clone(),
+    };
     let json = serde_json::to_string_pretty(&payload).map_err(|error| error.to_string())?;
     std::fs::write(&path, json + "\n").map_err(|error| error.to_string())?;
     Ok(count)

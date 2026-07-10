@@ -206,6 +206,8 @@ PROP_TILES = [
     "bench_01",
     "fountain_01",
     "hydrant_01",
+    "garage_01",
+    "shop_01",
 ]
 
 

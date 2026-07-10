@@ -4,19 +4,39 @@ use std::collections::HashMap;
 
 use crate::render::isometric::world_to_grid_f;
 
+/// Sub-tile collision rectangle in grid coordinates (col, row are fractional;
+/// width/height are in cells). A point (pc, pr) is blocked if it falls inside
+/// any zone: col <= pc < col+width AND row <= pr < row+height.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CollisionZoneRect {
+    pub col: f32,
+    pub row: f32,
+    pub width: f32,
+    pub height: f32,
+}
+
 /// Tile walkability for player movement (row-major `[row][col]`).
 #[derive(Resource, Debug, Clone)]
 pub struct CollisionGrid {
     pub width: usize,
     pub height: usize,
     pub blocked: Vec<Vec<bool>>,
+    /// Sub-tile rectangles for fine-grained prop collisions (trees, lamps, etc.)
+    pub zones: Vec<CollisionZoneRect>,
     pub from_file: bool,
     pub dirty: bool,
 }
 
 impl Default for CollisionGrid {
     fn default() -> Self {
-        Self { width: 0, height: 0, blocked: Vec::new(), from_file: false, dirty: false }
+        Self {
+            width: 0,
+            height: 0,
+            blocked: Vec::new(),
+            zones: Vec::new(),
+            from_file: false,
+            dirty: false,
+        }
     }
 }
 
@@ -29,7 +49,10 @@ impl CollisionGrid {
     }
 
     pub fn is_walkable_f(&self, col: f32, row: f32) -> bool {
-        self.is_walkable_cell(col.floor() as i32, row.floor() as i32)
+        if !self.is_walkable_cell(col.floor() as i32, row.floor() as i32) {
+            return false;
+        }
+        self.zones.iter().all(|z| !point_in_zone(col, row, z))
     }
 
     pub fn is_walkable_world_radius(&self, world: Vec2, radius_cells: f32) -> bool {
@@ -41,7 +64,7 @@ impl CollisionGrid {
             (col, row + radius_cells),
             (col, row - radius_cells),
         ];
-        samples.iter().all(|(sample_col, sample_row)| self.is_walkable_f(*sample_col, *sample_row))
+        samples.iter().all(|(sc, sr)| self.is_walkable_f(*sc, *sr))
     }
 
     pub fn set_blocked(&mut self, col: i32, row: i32, blocked: bool) -> bool {
@@ -117,6 +140,13 @@ impl Default for CollisionEditorState {
     }
 }
 
+pub fn point_in_zone(col: f32, row: f32, zone: &CollisionZoneRect) -> bool {
+    col >= zone.col
+        && col < zone.col + zone.width
+        && row >= zone.row
+        && row < zone.row + zone.height
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CollisionFileData {
     pub barrio_id: String,
@@ -124,6 +154,8 @@ pub struct CollisionFileData {
     pub version: u32,
     #[serde(default)]
     pub cells: Vec<[i32; 2]>,
+    #[serde(default)]
+    pub zones: Vec<CollisionZoneRect>,
 }
 
 fn default_collision_version() -> u32 {
